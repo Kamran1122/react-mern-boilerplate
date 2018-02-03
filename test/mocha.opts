@@ -1,0 +1,4 @@
+./server/http/
+--file ./test/test-setup.js
+--recursive
+-R min
