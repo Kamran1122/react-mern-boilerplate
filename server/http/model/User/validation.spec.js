@@ -41,4 +41,13 @@ describe('validation', () => {
     expect(() => validation.zipCode('00927')).to.not.throw('Field is invalid');
     expect(() => validation.zipCode(00927)).to.throw('Field is invalid');
   });
+  it('city', () => {
+    expect(() => validation.city('')).to.throw('Field is required');
+  });
+  it('state', () => {
+    expect(() => validation.city('')).to.throw('Field is required');
+  });
+  it('country', () => {
+    expect(() => validation.city('')).to.throw('Field is required');
+  });
 });

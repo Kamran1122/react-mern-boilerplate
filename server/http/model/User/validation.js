@@ -86,28 +86,16 @@ const zipCode = zip => {
   isZip(zip);
 };
 
-const birthday = () => {
-  return true;
+const city = userCity => {
+  required(userCity);
 };
 
-const city = () => {
-  return true;
+const state = userState => {
+  required(userState);
 };
 
-const state = () => {
-  return true;
-};
-
-const country = () => {
-  return true;
-};
-
-const created = () => {
-  return true;
-};
-
-const updated = () => {
-  return true;
+const country = userCountry => {
+  required(userCountry);
 };
 
 module.exports = {
@@ -118,4 +106,7 @@ module.exports = {
   lastName,
   isPhone,
   zipCode,
+  city,
+  state,
+  country,
 };

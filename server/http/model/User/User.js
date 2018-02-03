@@ -39,12 +39,15 @@ const UserSchema = Schema({
   },
   city: {
     type: String,
+    validate: { validator: validation.city }
   },
   state: {
     type: String,
+    validate: { validator: validation.state }
   },
   country: {
     type: String,
+    validate: { validator: validation.country }
   },
   created: {
     type: Date,
