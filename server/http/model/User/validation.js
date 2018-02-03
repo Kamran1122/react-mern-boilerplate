@@ -50,7 +50,6 @@ const isPhone = prop => {
 };
 
 const isZip = zip => {
-  console.log('isZip running');
   if (!/^\d{5}(?:[-\s]\d{4})?$/.test(zip)) {
     throw new Error('Field is invalid');
   }
@@ -91,14 +90,6 @@ const birthday = () => {
   return true;
 };
 
-const phone = () => {
-  return true;
-};
-
-const number = () => {
-  return true;
-};
-
 const city = () => {
   return true;
 };
@@ -126,5 +117,5 @@ module.exports = {
   firstName,
   lastName,
   isPhone,
-  isZip,
+  zipCode,
 };

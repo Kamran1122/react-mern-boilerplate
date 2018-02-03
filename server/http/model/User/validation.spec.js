@@ -38,7 +38,7 @@ describe('validation', () => {
     expect(() => validation.isPhone('+17877878787')).to.not.throw(Error);
   });
   it('zip', () => {
-    expect(() => validation.isZip('00927')).to.not.throw('Field is invalid');
-    expect(() => validation.isZip(00927)).to.throw('Field is invalid');
+    expect(() => validation.zipCode('00927')).to.not.throw('Field is invalid');
+    expect(() => validation.zipCode(00927)).to.throw('Field is invalid');
   });
 });

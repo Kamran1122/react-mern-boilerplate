@@ -35,7 +35,7 @@ const UserSchema = Schema({
   },
   zipCode: {
     type: String,
-    validate: { validator: validation.isZip }
+    validate: { validator: validation.zipCode }
   },
   city: {
     type: String,
