@@ -1,53 +1,96 @@
-const validation = require('./validation');
-const createChars = (qty, start = 0) => {
-  let chars = [];
-  for (let i = start; i < qty; i++) {
-    chars.push('i');
-  }
+const User = require('./User');
+const { createUser, createChars, validate } = require('./utils');
+const validateUser = validate(User);
 
-  return chars.join('');
-};
+describe('email', () => {
+  it('required', (done) => {
+    validateUser(createUser({ email: '' }), 'email', 'Field is required', done);
+  });
+  it('minLength', (done) => {
+    validateUser(createUser({ email: '1' }), 'email', 'Field must have more than 4 characters', done);
+  });
+  it('maxLength', (done) => {
+    validateUser(createUser({ email: createChars(41) }), 'email', 'Field must have less than 40 characters', done);
+  });
+  it('isEmail', (done) => {
+    validateUser(createUser({ email: 'lala@gmai' }), 'email', 'Field is invalid', done);
+  });
+});
 
-describe('validation', () => {
-  it('email', () => {
-    expect(() => validation.email('')).to.throw('Field is required');
-    expect(() => validation.email('1')).to.throw('Field must have more than 4 characters');
-    expect(() => validation.email(createChars(41))).to.throw('Field must have less than 40 characters');
-    expect(() => validation.email('myemailemail.com')).to.throw('Field is invalid');
+describe('password', () => {
+  it('required', (done) => {
+    validateUser(createUser({ password: '' }), 'password', 'Field is required', done);
   });
-  it('password', () => {
-    expect(() => validation.password('')).to.throw('Field is required');
-    expect(() => validation.password('1')).to.throw('Field must have more than 4 characters');
-    expect(() => validation.password(createChars(41))).to.throw('Field must have less than 40 characters');
+  it('minLength', (done) => {
+    validateUser(createUser({ password: '1' }), 'password', 'Field must have more than 4 characters', done);
   });
-  it('username', () => {
-    expect(() => validation.username('')).to.throw('Field is required');
-    expect(() => validation.username('1')).to.throw('Field must have more than 4 characters');
-    expect(() => validation.username(createChars(41))).to.throw('Field must have less than 40 characters');
+  it('maxLength', (done) => {
+    validateUser(createUser({ password: createChars(41) }), 'password', 'Field must have less than 40 characters', done);
   });
-  it('firstName', () => {
-    expect(() => validation.firstName('')).to.throw('Field is required');
+});
+
+describe('username', () => {
+  it('required', (done) => {
+    validateUser(createUser({ username: '' }), 'username', 'Field is required', done);
   });
-  it('lastName', () => {
-    expect(() => validation.lastName('')).to.throw('Field is required');
+  it('minLength', (done) => {
+    validateUser(createUser({ username: '1' }), 'username', 'Field must have more than 4 characters', done);
   });
-  it('phone', () => {
-    expect(() => validation.isPhone('+00787-763-3541')).to.throw('Invalid country calling code');
-    expect(() => validation.isPhone('')).to.throw('The string supplied did not seem to be a phone number');
-    expect(() => validation.isPhone('7877878787')).to.throw('Invalid country calling code');
-    expect(() => validation.isPhone('+17877878787')).to.not.throw(Error);
+  it('maxLength', (done) => {
+    validateUser(createUser({ username: createChars(41) }), 'username', 'Field must have less than 40 characters', done);
   });
-  it('zip', () => {
-    expect(() => validation.zipCode('00927')).to.not.throw('Field is invalid');
-    expect(() => validation.zipCode(00927)).to.throw('Field is invalid');
+});
+
+describe('firstName', () => {
+  it('required', (done) => {
+    validateUser(createUser({ firstName: '' }), 'firstName', 'Field is required', done);
   });
-  it('city', () => {
-    expect(() => validation.city('')).to.throw('Field is required');
+});
+
+describe('lastName', () => {
+  it('required', (done) => {
+    validateUser(createUser({ lastName: '' }), 'lastName', 'Field is required', done);
   });
-  it('state', () => {
-    expect(() => validation.city('')).to.throw('Field is required');
+});
+
+describe('phone', () => {
+  it('isPhone', (done) => {
+    validateUser(createUser({ phone: '+00787-763-3541' }), 'phone', 'Error: Invalid country calling code', done);
   });
-  it('country', () => {
-    expect(() => validation.city('')).to.throw('Field is required');
+  it('isPhone', (done) => {
+    validateUser(createUser({ phone: '' }), 'phone', 'Error: The string supplied did not seem to be a phone number', done);
+  });
+  it('isPhone', (done) => {
+    validateUser(createUser({ phone: '7877878787' }), 'phone', 'Error: Invalid country calling code', done);
+  });
+  it('isPhone', (done) => {
+    validateUser(createUser({ phone: '+17877878787' }), 'phone', true, done);
+  });
+});
+
+describe('zip', () => {
+  it('required', done => {
+    validateUser(createUser({ zipCode: 00927 }), 'zipCode', 'Field is invalid', done);
+  });
+  it('required', done => {
+    validateUser(createUser({ zipCode: '00927' }), 'zipCode', true, done);
+  });
+});
+
+describe('city', () => {
+  it('required', done => {
+    validateUser(createUser({ city: '' }), 'city', 'Field is required', done);
+  });
+});
+
+describe('state', () => {
+  it('required', done => {
+    validateUser(createUser({ city: '' }), 'city', 'Field is required', done);
+  });
+});
+
+describe('country', () => {
+  it('country', done => {
+    validateUser(createUser({ country: '' }), 'country', 'Field is required', done);
   });
 });

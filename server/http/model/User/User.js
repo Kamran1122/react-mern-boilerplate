@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const uniqueValidator = require('mongoose-unique-validator');
 const validation = require('./validation');
 
 const UserSchema = Schema({
@@ -12,11 +13,13 @@ const UserSchema = Schema({
     type: String,
     validate: { validator: validation.email },
     unique: true,
+    index: true,
+    // required handled by validation
   },
   password: {
     type: String,
     validate: { validator: validation.password },
-    required: true,
+    // required handled by validation
   },
   firstName: {
     type: String,
@@ -49,15 +52,9 @@ const UserSchema = Schema({
     type: String,
     validate: { validator: validation.country }
   },
-  created: {
-    type: Date,
-    default: Date.now(),
-  },
-  updated: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+}, { timestamps: true });
+
+UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
 const User = mongoose.model('user', UserSchema);
 

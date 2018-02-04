@@ -1,13 +1,12 @@
-// Require `PhoneNumberFormat`.
-const PNF = require('google-libphonenumber').PhoneNumberFormat;
-// Get an instance of `PhoneNumberUtil`.
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
+// Reusable validators
 const required = prop => {
   if (!prop) {
     throw new Error('Field is required');
   }
 };
+
 
 const minLength = (qty, prop) => {
   if (prop.length < qty) {
@@ -39,7 +38,7 @@ const isEmail = prop => {
   }
 };
 
-const isPhone = prop => {
+function isPhone(prop) {
   try {
     const number = phoneUtil.parseAndKeepRawInput(prop);
     phoneUtil.isValidNumber(number);
@@ -47,56 +46,59 @@ const isPhone = prop => {
   } catch (err) {
     throw new Error(err);
   }
-};
+}
 
-const isZip = zip => {
+function isZip(zip) {
   if (!/^\d{5}(?:[-\s]\d{4})?$/.test(zip)) {
     throw new Error('Field is invalid');
   }
-};
+}
 
-const email = email => {
+// Validate properties for the User Model
+// All of these properties have access to the model properties via `this`
+
+function email(email) {
   required(email);
   minLength(4, email);
   maxLength(40, email);
   isEmail(email);
-};
+}
 
-const username = name => {
+function username(name) {
   required(name);
   minLength(4, name);
   maxLength(40, name);
-};
+}
 
-const password = pwd => {
+function password(pwd) {
   required(pwd);
   minLength(4, pwd);
   maxLength(40, pwd);
-};
+}
 
-const firstName = name => {
+function firstName(name) {
   required(name);
-};
+}
 
-const lastName = name => {
+function lastName(name) {
   required(name);
-};
+}
 
-const zipCode = zip => {
+function zipCode(zip) {
   isZip(zip);
-};
+}
 
-const city = userCity => {
+function city(userCity) {
   required(userCity);
-};
+}
 
-const state = userState => {
+function state(userState) {
   required(userState);
-};
+}
 
-const country = userCountry => {
+function country(userCountry) {
   required(userCountry);
-};
+}
 
 module.exports = {
   username,
