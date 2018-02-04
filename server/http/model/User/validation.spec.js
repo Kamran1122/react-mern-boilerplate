@@ -1,137 +1,203 @@
-const User = require('./User');
-const { createUser, createChars, validate } = require('./utils');
-const validateUser = validate(User);
+const User = require('./index');
+const { createUser, createChars } = require('./utils');
 
 describe('email', () => {
   it('unique', (done) => {
     new User({ email: 'webdeveloperpr@gmail.com', password: '12345' })
       .save()
       .then(() => {
-        validateUser(createUser({ email: 'webdeveloperpr@gmail.com' }), 'email', 'webdeveloperpr@gmail.com is already taken.', done);
-      });
+        new User({ email: 'webdeveloperpr@gmail.com', password: '12345' })
+          .save()
+          .then(() => {
+            done();
+          }).catch(err => {
+          expect(err.errors.email.message).to.equal('webdeveloperpr@gmail.com is already taken.');
+          done();
+        });
+      })
   });
   it('minLength', (done) => {
-    validateUser(createUser({ email: '1' }), 'email', 'Field must have more than 4 characters', done);
+    new User({ email: '1' })
+      .save()
+      .catch(err => {
+        expect(err.errors.email.message).to.equal('Field must have more than 4 characters.');
+        done();
+      });
   });
   it('maxLength', (done) => {
-    validateUser(createUser({ email: createChars(41) }), 'email', 'Field must have less than 40 characters', done);
+    new User({ email: createChars(41) })
+      .save()
+      .catch(err => {
+        expect(err.errors.email.message).to.equal('Field must have less than 40 characters.');
+        done();
+      });
   });
   it('isEmail', (done) => {
-    validateUser(createUser({ email: 'lala@gmai' }), 'email', 'Field is invalid', done);
+    new User({ email: 'lala@gmai' })
+      .save()
+      .catch(err => {
+        expect(err.errors.email.message).to.equal('Invalid email.');
+        done();
+      });
   });
 });
 
 describe('password', () => {
-  it('required', (done) => {
-    validateUser(createUser({ password: '' }), 'password', 'Field is required', done);
-  });
   it('minLength', (done) => {
-    validateUser(createUser({ password: '1' }), 'password', 'Field must have more than 4 characters', done);
+    new User({ password: '1' })
+      .save()
+      .catch(err => {
+        expect(err.errors.password.message).to.equal('Field must have more than 4 characters.');
+        done();
+      });
   });
   it('maxLength', (done) => {
-    validateUser(createUser({ password: createChars(41) }), 'password', 'Field must have less than 40 characters', done);
+    new User({ password: createChars(41) })
+      .save()
+      .catch(err => {
+        expect(err.errors.password.message).to.equal('Field must have less than 40 characters.');
+        done();
+      });
   });
 });
 
 describe('username', () => {
   it('unique', (done) => {
-    new User({ email: 'webdeveloperpr@gmail.com', password: '12345', username: 'luis' })
+    new User({ email: 'webdeveloperpr@gmail.com', password: '12345' })
       .save()
       .then(() => {
-        validateUser(createUser({ email: 'webdeveloperpr@gmail.com', username: 'luis' }), 'username', 'luis is already taken.', done);
-      });
-  });
-  it('required', (done) => {
-    validateUser(createUser({ username: '' }), 'username', 'Field is required', done);
+        new User({ email: 'webdeveloperpr@gmail.com', password: '12345' })
+          .save()
+          .then(() => {
+            done();
+          }).catch(err => {
+          expect(err.errors.email.message).to.equal('webdeveloperpr@gmail.com is already taken.');
+          done();
+        });
+      })
   });
   it('minLength', (done) => {
-    validateUser(createUser({ username: '1' }), 'username', 'Field must have more than 4 characters', done);
+    new User({ username: '1' })
+      .save()
+      .catch(err => {
+        expect(err.errors.username.message).to.equal('Field must have more than 4 characters.');
+        done();
+      });
   });
   it('maxLength', (done) => {
-    validateUser(createUser({ username: createChars(41) }), 'username', 'Field must have less than 40 characters', done);
-  });
-});
-
-describe('firstName', () => {
-  it('required', (done) => {
-    validateUser(createUser({ firstName: '' }), 'firstName', 'Field is required', done);
-  });
-});
-
-describe('lastName', () => {
-  it('required', (done) => {
-    validateUser(createUser({ lastName: '' }), 'lastName', 'Field is required', done);
+    new User({ username: createChars(41) })
+      .save()
+      .catch(err => {
+        expect(err.errors.username.message).to.equal('Field must have less than 40 characters.');
+        done();
+      });
   });
 });
 
 describe('phone', () => {
   it('isPhone', (done) => {
-    validateUser(createUser({ phone: '+00787-763-3541' }), 'phone', 'Error: Invalid country calling code', done);
+    new User(createUser({ phone: '+00787-763-3541' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.phone.message).to.equal('Invalid phone');
+        done();
+      });
   });
   it('isPhone', (done) => {
-    validateUser(createUser({ phone: '' }), 'phone', 'Error: The string supplied did not seem to be a phone number', done);
+    new User(createUser({ phone: '' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.phone.message).to.equal('Invalid phone');
+        done();
+      });
   });
   it('isPhone', (done) => {
-    validateUser(createUser({ phone: '7877878787' }), 'phone', 'Error: Invalid country calling code', done);
+    new User(createUser({ phone: '7877878787' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.phone.message).to.equal('Invalid phone');
+        done();
+      });
   });
   it('isPhone', (done) => {
-    validateUser(createUser({ phone: '+17877878787' }), 'phone', true, done);
+    new User(createUser({ phone: '+17877878787' }))
+      .save()
+      .then((user) => {
+        expect(user.phone).to.equal('+17877878787');
+        done();
+      });
   });
 });
 
 describe('zip', () => {
   it('required', done => {
-    validateUser(createUser({ zipCode: 00927 }), 'zipCode', 'Field is invalid', done);
+    new User(createUser({ zipCode: 00927 }))
+      .save()
+      .catch(err => {
+        expect(err.errors.zipCode.message).to.equal('Invalid field');
+        done();
+      });
   });
   it('required', done => {
-    validateUser(createUser({ zipCode: '00927' }), 'zipCode', true, done);
-  });
-});
-
-describe('city', () => {
-  it('required', done => {
-    validateUser(createUser({ city: '' }), 'city', 'Field is required', done);
+    new User(createUser({ zipCode: '00927' }))
+      .save()
+      .then(user => {
+        expect(user.zipCode).to.equal('00927');
+        done();
+      });
   });
 });
 
 describe('state', () => {
-  it('required', done => {
-    validateUser(createUser({
-      country: 'US',
-      state: ''
-    }), 'state', 'Field is required', done);
+  it('stateInCountry', done => {
+    new User(createUser({ country: 'US', state: 'Puerto Rico' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.state.message).to.equal('Invalid state.');
+        done();
+      });
   });
   it('stateInCountry', done => {
-    validateUser(createUser({
-      country: 'US',
-      state: 'Puerto Rico'
-    }), 'state', 'Invalid state', done);
+    new User(createUser({ country: 'US', state: 'Florida' }))
+      .save()
+      .then(user => {
+        expect(user.state).to.equal('Florida');
+        done();
+      })
   });
   it('stateInCountry', done => {
-    validateUser(createUser({ country: 'US', state: 'Florida' }), 'state', true, done);
+    new User(createUser({ country: '', state: 'Florida' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.state.message).to.equal('Invalid state.');
+        done();
+      });
   });
   it('stateInCountry', done => {
-    validateUser(createUser({
-      country: '',
-      state: 'Florida'
-    }), 'state', 'Invalid state', done);
-  });
-  it('stateInCountry', done => {
-    validateUser(createUser({ country: 'CA', state: 'Nunavut' }), 'state', true, done);
+    new User(createUser({ country: 'CA', state: 'Nunavut' }))
+      .save()
+      .then(user => {
+        expect(user.state).to.equal('Nunavut');
+        done();
+      });
   });
 });
 
 describe('country', () => {
   it('country', done => {
-    validateUser(createUser({ country: '' }), 'country', 'Field is required', done);
+    new User(createUser({ country: '' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.country.message).to.equal('Invalid country.');
+        done();
+      });
   });
   it('country', done => {
-    validateUser(createUser({ country: 'US' }), 'country', true, done);
-  });
-  it('country', done => {
-    validateUser(createUser({ country: 'US' }), 'country', true, done);
-  });
-  it('country', done => {
-    validateUser(createUser({ country: 'asdf' }), 'country', 'Invalid Country', done);
+    new User(createUser({ country: 'wer' }))
+      .save()
+      .catch(err => {
+        expect(err.errors.country.message).to.equal('Invalid country.');
+        done();
+      });
   });
 });

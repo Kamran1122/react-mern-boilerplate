@@ -1,23 +1,20 @@
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 const countryJs = require('countryjs');
 
-// Reusable validators
-const required = prop => {
-  if (!prop) {
-    throw new Error('Field is required');
-  }
-};
-
 const minLength = (qty, prop) => {
   if (prop.length < qty) {
-    throw new Error('Field must have more than 4 characters');
+    return false;
   }
+
+  return true;
 };
 
 const maxLength = (qty, prop) => {
   if (prop.length > qty) {
-    throw new Error('Field must have less than 40 characters');
+    return false;
   }
+
+  return true;
 };
 
 const min = (qty, prop) => {
@@ -34,96 +31,116 @@ const max = (qty, prop) => {
 
 const isEmail = prop => {
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(prop)) {
-    throw new Error('Field is invalid');
+    return false;
   }
+  return true;
 };
 
 function isPhone(prop) {
   try {
     const number = phoneUtil.parseAndKeepRawInput(prop);
     phoneUtil.isValidNumber(number);
-
+    return true;
   } catch (err) {
-    throw new Error(err);
+    return false;
   }
 }
 
 function isZip(zip) {
   if (!/^\d{5}(?:[-\s]\d{4})?$/.test(zip)) {
-    throw new Error('Field is invalid');
+    return false;
   }
+  return true;
 }
 
 const isCountry = userCountry => {
   const countryExists = countryJs.name(userCountry);
   if (!countryExists) {
-    throw new Error('Invalid Country');
+    return false
   }
+  return true;
 };
 
 const stateInCountry = (state, country) => {
   const states = countryJs.states(country);
   const found = !!states.find(x => x === state);
-  if (!found) throw Error('Invalid state');
+  if (!found) {
+    return false;
+  }
+  return true;
 };
 
 // Validate properties for the User Model
 // All of these properties have access to the model properties via `this`
 
-function email(email) {
-  required(email);
-  minLength(4, email);
-  maxLength(40, email);
-  isEmail(email);
-}
+const phone = [
+  {
+    validator: isPhone,
+    msg: 'Invalid phone'
+  },
+];
 
-function username(name) {
-  required(name);
-  minLength(4, name);
-  maxLength(40, name);
-}
+const email = [
+  {
+    validator: email => minLength(4, email),
+    msg: 'Field must have more than 4 characters.'
+  },
+  {
+    validator: email => maxLength(40, email),
+    msg: 'Field must have less than 40 characters.'
+  },
+  { validator: isEmail, msg: 'Invalid email.' },
+];
 
-function password(pwd) {
-  required(pwd);
-  minLength(4, pwd);
-  maxLength(40, pwd);
-}
+const username = [
+  {
+    validator: pwd => minLength(4, pwd),
+    msg: 'Field must have more than 4 characters.'
+  },
+  {
+    validator: pwd => maxLength(40, pwd),
+    msg: 'Field must have less than 40 characters.'
+  },
+];
 
-function firstName(name) {
-  required(name);
-}
+const password = [
+  {
+    validator: pwd => minLength(4, pwd),
+    msg: 'Field must have more than 4 characters.'
+  },
+  {
+    validator: pwd => maxLength(40, pwd),
+    msg: 'Field must have less than 40 characters.'
+  },
+];
 
-function lastName(name) {
-  required(name);
-}
+const zipCode = [
+  {
+    validator: isZip,
+    msg: 'Invalid field'
+  }
+];
 
-function zipCode(zip) {
-  isZip(zip);
-}
+const state = [
+  {
+    validator: function (userState) {
+      return stateInCountry(userState, this.country)
+    },
+    msg: 'Invalid state.',
+  }
+];
 
-function city(userCity) {
-  required(userCity);
-}
-
-function state(userState) {
-  required(userState);
-  stateInCountry(userState, this.country);
-}
-
-function country(userCountry) {
-  required(userCountry);
-  isCountry(userCountry);
-}
+const country = [{
+  validator: isCountry,
+  msg: 'Invalid country.'
+}];
 
 module.exports = {
   username,
   email,
   password,
-  firstName,
-  lastName,
-  isPhone,
+  phone,
   zipCode,
-  city,
   state,
   country,
 };

@@ -6,55 +6,59 @@ const validation = require('./validation');
 const UserSchema = Schema({
   username: {
     type: String,
-    validate: { validator: validation.username },
+    validate: validation.username,
     unique: true,
   },
   email: {
     type: String,
-    validate: { validator: validation.email },
+    required: [true, 'Field is required'],
+    validate: validation.email,
     unique: true,
     index: true,
-    // required handled by validation
   },
   password: {
     type: String,
-    validate: { validator: validation.password },
-    // required handled by validation
+    required: [true, 'Field is required'],
+    validate: validation.password,
   },
   firstName: {
     type: String,
-    validate: { validator: validation.firstName },
   },
   lastName: {
     type: String,
-    validate: { validator: validation.lastName },
   },
-  dob: {
+  birthday: {
     type: Date,
   },
   phone: {
     type: String,
-    validate: { validator: validation.isPhone }
+    validate: validation.phone,
   },
   zipCode: {
     type: String,
-    validate: { validator: validation.zipCode }
+    validate: validation.zipCode,
   },
   city: {
     type: String,
-    validate: { validator: validation.city }
   },
   state: {
     type: String,
-    validate: { validator: validation.state }
+    validate: validation.state,
   },
   country: {
     type: String,
-    validate: { validator: validation.country }
+    validate: validation.country,
   },
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
+
+UserSchema
+  .virtual('age')
+  .get(function () {
+    const now = new Date();
+    return now.getFullYear() - this.birthday.getFullYear();
+  });
 
 const User = mongoose.model('user', UserSchema);
 

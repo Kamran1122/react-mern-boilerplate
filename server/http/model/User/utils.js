@@ -6,8 +6,7 @@ const createUser = (props = {}) => ({
   password: '123456',
   firstName: 'Luis',
   lastName: 'Betancourt',
-  age: 29,
-  birthday: Date(1989, 1, 26),
+  birthday: new Date('1989-01-26'), // test the format
   phone: '+17873737373',
   zip: 00927,
   city: 'Hallandale',
@@ -15,21 +14,6 @@ const createUser = (props = {}) => ({
   country: 'US',
   ...props,
 });
-
-const validate = Model => (props = {}, prop = '', message = 'Field is required', done) => {
-  const model = new Model();
-  Object.keys(props).forEach(x => model[x] = props[x]);
-  model.validate(function (err) {
-    if (err) {
-      expect(err.errors[prop].message).to.equal(message);
-      return done();
-    }
-    // is valid
-    expect(message).to.equal(true);
-    return done();
-  });
-};
-
 
 const createChars = (qty, start = 0) => {
   let chars = [];
@@ -43,5 +27,4 @@ const createChars = (qty, start = 0) => {
 module.exports = {
   createUser,
   createChars,
-  validate
 };
