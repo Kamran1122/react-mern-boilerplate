@@ -1,4 +1,5 @@
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+const countryJs = require('countryjs');
 
 // Reusable validators
 const required = prop => {
@@ -6,7 +7,6 @@ const required = prop => {
     throw new Error('Field is required');
   }
 };
-
 
 const minLength = (qty, prop) => {
   if (prop.length < qty) {
@@ -54,6 +54,19 @@ function isZip(zip) {
   }
 }
 
+const isCountry = userCountry => {
+  const countryExists = countryJs.name(userCountry);
+  if (!countryExists) {
+    throw new Error('Invalid Country');
+  }
+};
+
+const stateInCountry = (state, country) => {
+  const states = countryJs.states(country);
+  const found = !!states.find(x => x === state);
+  if (!found) throw Error('Invalid state');
+};
+
 // Validate properties for the User Model
 // All of these properties have access to the model properties via `this`
 
@@ -94,10 +107,12 @@ function city(userCity) {
 
 function state(userState) {
   required(userState);
+  stateInCountry(userState, this.country);
 }
 
 function country(userCountry) {
   required(userCountry);
+  isCountry(userCountry);
 }
 
 module.exports = {

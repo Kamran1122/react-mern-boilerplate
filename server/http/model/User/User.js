@@ -54,7 +54,7 @@ const UserSchema = Schema({
   },
 }, { timestamps: true });
 
-UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
+UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
 
 const User = mongoose.model('user', UserSchema);
 

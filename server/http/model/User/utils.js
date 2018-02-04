@@ -10,8 +10,8 @@ const createUser = (props = {}) => ({
   birthday: Date(1989, 1, 26),
   phone: '+17873737373',
   zip: 00927,
-  city: 'San Juan',
-  state: 'PR',
+  city: 'Hallandale',
+  state: 'Florida',
   country: 'US',
   ...props,
 });

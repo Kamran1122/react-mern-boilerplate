@@ -3,8 +3,12 @@ const { createUser, createChars, validate } = require('./utils');
 const validateUser = validate(User);
 
 describe('email', () => {
-  it('required', (done) => {
-    validateUser(createUser({ email: '' }), 'email', 'Field is required', done);
+  it('unique', (done) => {
+    new User({ email: 'webdeveloperpr@gmail.com', password: '12345' })
+      .save()
+      .then(() => {
+        validateUser(createUser({ email: 'webdeveloperpr@gmail.com' }), 'email', 'webdeveloperpr@gmail.com is already taken.', done);
+      });
   });
   it('minLength', (done) => {
     validateUser(createUser({ email: '1' }), 'email', 'Field must have more than 4 characters', done);
@@ -30,6 +34,13 @@ describe('password', () => {
 });
 
 describe('username', () => {
+  it('unique', (done) => {
+    new User({ email: 'webdeveloperpr@gmail.com', password: '12345', username: 'luis' })
+      .save()
+      .then(() => {
+        validateUser(createUser({ email: 'webdeveloperpr@gmail.com', username: 'luis' }), 'username', 'luis is already taken.', done);
+      });
+  });
   it('required', (done) => {
     validateUser(createUser({ username: '' }), 'username', 'Field is required', done);
   });
@@ -85,12 +96,42 @@ describe('city', () => {
 
 describe('state', () => {
   it('required', done => {
-    validateUser(createUser({ city: '' }), 'city', 'Field is required', done);
+    validateUser(createUser({
+      country: 'US',
+      state: ''
+    }), 'state', 'Field is required', done);
+  });
+  it('stateInCountry', done => {
+    validateUser(createUser({
+      country: 'US',
+      state: 'Puerto Rico'
+    }), 'state', 'Invalid state', done);
+  });
+  it('stateInCountry', done => {
+    validateUser(createUser({ country: 'US', state: 'Florida' }), 'state', true, done);
+  });
+  it('stateInCountry', done => {
+    validateUser(createUser({
+      country: '',
+      state: 'Florida'
+    }), 'state', 'Invalid state', done);
+  });
+  it('stateInCountry', done => {
+    validateUser(createUser({ country: 'CA', state: 'Nunavut' }), 'state', true, done);
   });
 });
 
 describe('country', () => {
   it('country', done => {
     validateUser(createUser({ country: '' }), 'country', 'Field is required', done);
+  });
+  it('country', done => {
+    validateUser(createUser({ country: 'US' }), 'country', true, done);
+  });
+  it('country', done => {
+    validateUser(createUser({ country: 'US' }), 'country', true, done);
+  });
+  it('country', done => {
+    validateUser(createUser({ country: 'asdf' }), 'country', 'Invalid Country', done);
   });
 });
