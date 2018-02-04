@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
-// noinspection JSAnnotator
+
+const JWT_TOKEN_SECRET_KEY = process.env.JWT_TOKEN_SECRET_KEY;
 
 // Creates a valid user
 const createUser = (props = {}) => ({
@@ -8,7 +9,7 @@ const createUser = (props = {}) => ({
   password: '123456',
   firstName: 'Luis',
   lastName: 'Betancourt',
-  birthday: new Date('1989-01-26'), // test the format
+  birthday: new Date('1989-01-26'),
   phone: '+17873737373',
   zip: '00927',
   city: 'Hallandale',
@@ -37,11 +38,14 @@ function hashPassword() {
 
 const createToken = id => {
   const options = {
-    expiresIn: 60 * 60, // 60sec * 60min = 1hr
-    jwtid: id,
+    expiresIn: Math.floor(Date.now() / 1000) + (60 * 60),
   };
 
-  return jwt.sign({ id }, 'secret_code', options);
+  return jwt.sign({ id }, JWT_TOKEN_SECRET_KEY, options);
+};
+
+const decodeToken = token => {
+  return jwt.decode(token, JWT_TOKEN_SECRET_KEY);
 };
 
 module.exports = {
@@ -49,4 +53,5 @@ module.exports = {
   createChars,
   hashPassword,
   createToken,
+  decodeToken,
 };

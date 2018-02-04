@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const uniqueValidator = require('mongoose-unique-validator');
 const validation = require('./validation');
-const { hashPassword } = require('./utils');
+const uniqueValidator = require('mongoose-unique-validator');
+const { hashPassword, createToken, decodeToken } = require('./utils');
 
 const UserSchema = Schema({
   username: {
@@ -65,17 +65,29 @@ const UserSchema = Schema({
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
 
+// Middleware
 UserSchema.pre('save', function () {
-  // hash the password
   hashPassword.call(this);
 });
 
+// Virtual properties
 UserSchema
   .virtual('age')
   .get(function () {
     const now = new Date();
     return now.getFullYear() - this.birthday.getFullYear();
   });
+
+UserSchema
+  .virtual('token')
+  .get(function () {
+    return createToken(this._id);
+  });
+
+// Model methods
+UserSchema.methods.decodeToken = function () {
+  return decodeToken(this.token);
+};
 
 const User = mongoose.model('user', UserSchema);
 

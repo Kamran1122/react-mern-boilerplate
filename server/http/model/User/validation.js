@@ -38,7 +38,9 @@ const email = [
     validator: email => maxLength(40, email),
     msg: 'Field must have less than 40 characters.'
   },
-  { validator: isEmail, msg: 'Invalid email.' },
+  { validator: isEmail,
+    msg: 'Invalid email.'
+  },
 ];
 
 const username = [

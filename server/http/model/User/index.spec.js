@@ -34,4 +34,16 @@ describe('User virtual properties', () => {
           })
       })
   });
+
+  it.only('should have a token property', done => {
+    const user1 = createUser();
+    new User(user1)
+      .save()
+      .then(user => {
+        const token = user.token;
+        const { id } = user.decodeToken(token);
+        expect(user._id.toString()).to.equal(id);
+        done();
+      })
+  });
 });

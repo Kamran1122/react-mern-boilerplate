@@ -1,4 +1,5 @@
 const User = require('../model/User');
+
 const register = (req, res) => {
   new User(req.body)
     .save()
