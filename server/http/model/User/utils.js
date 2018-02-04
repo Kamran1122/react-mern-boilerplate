@@ -54,4 +54,5 @@ module.exports = {
   hashPassword,
   createToken,
   decodeToken,
+  JWT_TOKEN_SECRET_KEY,
 };

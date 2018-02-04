@@ -78,15 +78,14 @@ UserSchema
     return now.getFullYear() - this.birthday.getFullYear();
   });
 
-UserSchema
-  .virtual('token')
-  .get(function () {
-    return createToken(this._id);
-  });
 
 // Model methods
-UserSchema.methods.decodeToken = function () {
-  return decodeToken(this.token);
+UserSchema.methods.createToken = function () {
+  return createToken(this._id.toString());
+};
+
+UserSchema.methods.decodeToken = function (token) {
+  return decodeToken(token);
 };
 
 const User = mongoose.model('user', UserSchema);
