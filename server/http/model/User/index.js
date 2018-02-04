@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 const validation = require('./validation');
+const { hashPassword } = require('./utils');
 
 const UserSchema = Schema({
   username: {
@@ -63,6 +64,11 @@ const UserSchema = Schema({
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
+
+UserSchema.pre('save', function () {
+  // hash the password
+  hashPassword.call(this);
+});
 
 UserSchema
   .virtual('age')

@@ -1,42 +1,12 @@
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 const countryJs = require('countryjs');
 
-const minLength = (qty, prop) => {
-  if (prop.length < qty) {
-    return false;
-  }
-
-  return true;
-};
-
-const maxLength = (qty, prop) => {
-  if (prop.length > qty) {
-    return false;
-  }
-
-  return true;
-};
-
-const min = (qty, prop) => {
-  if (prop < qty) {
-    throw new Error(`Field be more than ${qty}`);
-  }
-};
-
-const max = (qty, prop) => {
-  if (prop > qty) {
-    throw new Error(`Field be less than ${qty}`);
-  }
-};
-
-const isEmail = prop => {
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(prop)) {
-    return false;
-  }
-  return true;
-};
-
-function isPhone(prop) {
+const isZip = zip => (/^\d{5}(?:[-\s]\d{4})?$/.test(zip));
+const isCountry = userCountry => !!countryJs.name(userCountry);
+const minLength = (qty, prop) => !(prop.length < qty);
+const maxLength = (qty, prop) => !(prop.length > qty);
+const isEmail = prop => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(prop));
+const isPhone = prop => {
   try {
     const number = phoneUtil.parseAndKeepRawInput(prop);
     phoneUtil.isValidNumber(number);
@@ -44,35 +14,14 @@ function isPhone(prop) {
   } catch (err) {
     return false;
   }
-}
-
-function isZip(zip) {
-  if (!/^\d{5}(?:[-\s]\d{4})?$/.test(zip)) {
-    return false;
-  }
-  return true;
-}
-
-const isCountry = userCountry => {
-  const countryExists = countryJs.name(userCountry);
-  if (!countryExists) {
-    return false
-  }
-  return true;
 };
-
 const stateInCountry = (state, country) => {
   const states = countryJs.states(country);
-  const found = !!states.find(x => x === state);
-  if (!found) {
-    return false;
-  }
-  return true;
+  return !!states.find(x => x === state);
 };
 
 // Validate properties for the User Model
 // All of these properties have access to the model properties via `this`
-
 const phone = [
   {
     validator: isPhone,
