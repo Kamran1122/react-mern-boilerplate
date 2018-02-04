@@ -1,3 +1,4 @@
+const R = require('ramda');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 
@@ -48,11 +49,17 @@ const decodeToken = token => {
   return jwt.decode(token, JWT_TOKEN_SECRET_KEY);
 };
 
+const userWithToken = (id, user) => {
+  const token = createToken(id);
+  return R.omit(['password'], { ...user, token: token });
+};
+
 module.exports = {
   createUser,
   createChars,
   hashPassword,
   createToken,
   decodeToken,
+  userWithToken,
   JWT_TOKEN_SECRET_KEY,
 };

@@ -1,18 +1,21 @@
 const User = require('../model/User');
+const { userWithToken } = require('../model/User/utils');
 
 const register = (req, res) => {
   new User(req.body)
     .save()
     .then(user => {
-      res.send(user);
-    })
-    .catch(err => {
-      res
-        .status(400)
-        .send({ error: err })
+      res.json(userWithToken(user._id, user.toObject()));
     });
 };
 
+const login = (req, res) => {
+  const { user } = req;
+  res.json(userWithToken(user._id, user.toObject()));
+};
+
+
 module.exports = {
   register,
+  login,
 };

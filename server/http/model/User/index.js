@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 const validation = require('./validation');
 const uniqueValidator = require('mongoose-unique-validator');
-const { hashPassword, createToken, decodeToken } = require('./utils');
+const { hashPassword } = require('./utils');
 
 const UserSchema = Schema({
   username: {
@@ -66,8 +67,9 @@ const UserSchema = Schema({
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
 
 // Middleware
-UserSchema.pre('save', function () {
+UserSchema.pre('save', function (next) {
   hashPassword.call(this);
+  next();
 });
 
 // Virtual properties
@@ -78,14 +80,12 @@ UserSchema
     return now.getFullYear() - this.birthday.getFullYear();
   });
 
-
 // Model methods
-UserSchema.methods.createToken = function () {
-  return createToken(this._id.toString());
-};
-
-UserSchema.methods.decodeToken = function (token) {
-  return decodeToken(token);
+UserSchema.methods.comparePassword = function (password, callback) {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
+    if (err) return callback(err);
+    callback(null, isMatch);
+  });
 };
 
 const User = mongoose.model('user', UserSchema);
