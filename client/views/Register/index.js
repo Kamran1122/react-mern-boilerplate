@@ -51,7 +51,7 @@ const Register = props => {
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
-  history.push('/login');
+  history.push('/');
 };
 
 export default withRouter(reduxForm({

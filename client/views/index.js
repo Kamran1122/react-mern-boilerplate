@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import ForgetPassword from './ForgetPassword';
 import ResetPassword from './ResetPassword';
+import Home from './Home';
 
 const App = props => {
   return (
@@ -11,7 +12,7 @@ const App = props => {
       <div className="app">
         {/* switch used to be able to render only the 404 page if no route match */}
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/reset-password" component={ResetPassword} />

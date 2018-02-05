@@ -9,12 +9,12 @@ import { actions as userActions } from '../../reducers/user';
 // [x] initial values
 // [x] validation
 // [x] sync errors
-// [ ] api call
-// [ ] async errors
-// [ ] routing
-// [ ] redux-dispatch action
-// [ ] token setting
-// [ ] Add register link
+// [x] api call
+// [x] async errors
+// [x] routing
+// [x] redux-dispatch action
+// [x] token setting
+// [x] Add register link
 
 const Login = props => {
   const { handleSubmit, onSubmit } = props;
@@ -44,7 +44,7 @@ const Login = props => {
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
-  history.push('/login');
+  history.push('/');
 };
 
 export default withRouter(reduxForm({
