@@ -13,7 +13,13 @@ const api = axios.create({
 const register = data => {
   return api
     .post('/api/register', data)
-    .catch(err => throwReduxAsyncErrors(err));
+    .catch(throwReduxAsyncErrors);
+};
+
+const login = data => {
+  return api
+    .post('/api/login', data)
+    .catch(throwReduxAsyncErrors);
 };
 
 const refreshToken = () => {
@@ -26,6 +32,7 @@ const refreshToken = () => {
 };
 
 export {
+  login,
   register,
   refreshToken,
 }

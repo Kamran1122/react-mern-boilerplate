@@ -1,45 +1,22 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { validateRegistration } from '../../utils/form/validation';
-import { register } from '../../api';
+import { reduxForm } from 'redux-form';
+import { Link, withRouter } from 'react-router-dom';
+import { login } from '../../api';
+import InputField from '../../components/InputField';
+import { validateLogin } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
 
 // [x] initial values
 // [x] validation
 // [x] sync errors
-// [x] api call
-// [x] async errors
-// [x] routing
-// [x] redux-dispatch action
-// [x] token setting
+// [ ] api call
+// [ ] async errors
+// [ ] routing
+// [ ] redux-dispatch action
+// [ ] token setting
 // [ ] Add register link
 
-const Input = ({ input, meta, ...rest }) => {
-  const { touched, error } = meta;
-  return (
-    <div>
-      <input
-        {...input}
-        {...rest}
-      />
-      {touched && error ? <span>{error}</span> : null}
-    </div>
-  )
-};
-
-const InputField = props => {
-  return (
-    <Field
-      component={Input}
-      type="text"
-      {...props}
-    />
-  );
-};
-
-const Register = props => {
+const Login = props => {
   const { handleSubmit, onSubmit } = props;
 
   return (
@@ -58,15 +35,8 @@ const Register = props => {
           type="password"
         />
       </div>
-      <div>
-        <label>Confirm password:</label>
-        <InputField
-          name="confirmPassword"
-          type="password"
-        />
-      </div>
       <input type="submit" />
-      <Link to="/login">Login</Link>
+      <Link to="/register">Register</Link>
     </form>
   );
 };
@@ -78,13 +48,13 @@ const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
 };
 
 export default withRouter(reduxForm({
-  form: 'register',
-  onSubmit: register,
-  validate: validateRegistration,
+  form: 'login',
+  onSubmit: login,
+  validate: validateLogin,
   onSubmitSuccess: handleOnSubmitSuccess,
   initialValues: {
-    email: Math.floor(Math.random() * 101) + 'developer@gmail.com',
-    password: '123qwe',
-    confirmPassword: '123qwe',
+    email: 'webdeveloper@gmail.com',
+    password: '123qweQWE',
+    confirmPassword: '123qweQWE',
   }
-})(Register));
+})(Login));

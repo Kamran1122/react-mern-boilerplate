@@ -70,13 +70,44 @@ const refreshUserToken = (req, res) => {
 };
 
 /**
- * Logs in a user
+ * Logs in a user, we are using this instead of passport so that we can send back custom
+ * errors back to the client.
  * @param req - req.user is a property passed on by the passport service
  * @param res
  */
 const login = (req, res) => {
-  const { user } = req;
-  res.json(userWithToken(user._id, user.toObject()));
+  const { email, password } = req.body;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ errors: { email: 'Email is empty' } });
+  }
+
+  if (!password) {
+    return res
+      .status(400)
+      .json({ errors: { email: 'Password is empty' } });
+  }
+
+  User
+    .findOne({ email })
+    .then(user => {
+      if (!user) {
+        return res.status(400).send({ errors: { email: 'Email does not exist' } });
+      }
+
+      user.comparePassword(password, (err, isMatch) => {
+        isMatch
+          ? res.status(200).send(userWithToken(user._id, user.toObject()))
+          : res.status(400).send({ errors: { password: 'Passwords do not match' } })
+      });
+
+    }).catch(err => {
+    res
+      .status(400)
+      .json({ errors: { email: 'Unknown error' } });
+  });
 };
 
 // TODO: [] Test

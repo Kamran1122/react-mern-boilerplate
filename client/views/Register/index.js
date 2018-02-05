@@ -1,10 +1,10 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { validateRegistration } from '../../utils/form/validation';
+import { reduxForm } from 'redux-form';
+import { withRouter, Link } from 'react-router-dom';
 import { register } from '../../api';
+import InputField from '../../components/InputField';
 import { actions as userActions } from '../../reducers/user';
+import { validateRegistration } from '../../utils/form/validation';
 
 // [x] initial values
 // [x] validation
@@ -14,30 +14,7 @@ import { actions as userActions } from '../../reducers/user';
 // [x] routing
 // [x] redux-dispatch action
 // [x] token setting
-// [ ] Add register link
-
-const Input = ({ input, meta, ...rest }) => {
-  const { touched, error } = meta;
-  return (
-    <div>
-      <input
-        {...input}
-        {...rest}
-      />
-      {touched && error ? <span>{error}</span> : null}
-    </div>
-  )
-};
-
-const InputField = props => {
-  return (
-    <Field
-      component={Input}
-      type="text"
-      {...props}
-    />
-  );
-};
+// [x] Add register link
 
 const Register = props => {
   const { handleSubmit, onSubmit } = props;
