@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const JWT_TOKEN_SECRET_KEY = process.env.JWT_TOKEN_SECRET_KEY;
 
-// Creates a valid user
+// Creates a valid user.
 const createUser = (props = {}) => ({
   email: 'hello@world.com',
   password: '123456',
@@ -19,6 +19,12 @@ const createUser = (props = {}) => ({
   ...props,
 });
 
+/**
+ * Creates strings of a character determined by the qty.
+ * @param qty
+ * @param start
+ * @returns {string}
+ */
 const createChars = (qty, start = 0) => {
   let chars = [];
   for (let i = start; i < qty; i++) {
@@ -37,6 +43,11 @@ function hashPassword() {
   });
 }
 
+/**
+ * Creates the JWT token used when logging in or registering the user.
+ * @param id
+ * @returns {*}
+ */
 const createToken = id => {
   const options = {
     expiresIn: Math.floor(Date.now() / 1000) + (60 * 60),
@@ -45,10 +56,21 @@ const createToken = id => {
   return jwt.sign({ id }, JWT_TOKEN_SECRET_KEY, options);
 };
 
+/**
+ * Decodes the JWT token
+ * @param token
+ * @returns {*}
+ */
 const decodeToken = token => {
   return jwt.decode(token, JWT_TOKEN_SECRET_KEY);
 };
 
+/**
+ * Creates a user with a JWT token and omits the password. This can be used
+ * to safely send a response back to the client.
+ * @param id
+ * @param user
+ */
 const userWithToken = (id, user) => {
   const token = createToken(id);
   return R.omit(['password'], { ...user, token: token });

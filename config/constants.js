@@ -2,12 +2,13 @@ const path = require('path');
 const DB_NAME = 'my-project';
 const TEST_DB_NAME = 'my-project-test';
 const DIST_DIR = path.join(__dirname, '../dist');
-const ENTRY_FILE = path.join(__dirname, '../client/src/index.js');
+const ENTRY_FILE = path.join(__dirname, '../client/index.js');
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 const DIST_DIR_INDEX_FILE = path.join(DIST_DIR, 'index.html');
 
 // templates
 const TEMPLATE_FILE = path.join(TEMPLATES_DIR, 'template.html');
+
 
 // database
 const DB_TEST = `mongodb://localhost/${TEST_DB_NAME}`;
