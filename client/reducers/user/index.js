@@ -28,7 +28,7 @@ const initialState = {
   updatedAt: '',
 };
 
-const mergeMatchingProps = (state, payload) => {
+const mergeMatchingProps = (state = {}, payload = {}) => {
   const keys = R.keys(state);
   const matchingPayloadProps = R.pick(keys, payload);
   return R.mergeDeepLeft(matchingPayloadProps, state);

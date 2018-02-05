@@ -1,30 +1,31 @@
 import axios from 'axios';
 import { throwReduxAsyncErrors } from './utils';
-import jwt from 'jsonwebtoken';
 
-const getToken = () => {
-  return localStorage.getItem('token');
-};
+const getToken = () => localStorage.getItem('token');
+
+const api = axios.create({
+  timeout: 1000,
+  headers: {
+    'Authorization': getToken(),
+  }
+});
 
 const register = data => {
-  return axios
+  return api
     .post('/api/register', data)
     .catch(err => throwReduxAsyncErrors(err));
 };
 
-const findUserWithToken = data => {
+const refreshToken = () => {
   // Somehow check if a token is expired
-  const token = getToken();
-  if (!token) return Promise.reject();
-  const decodedToken = jwt.decode(getToken(), process.env.JWT_TOKEN_SECRET_KEY);
-  if (!decodedToken) Promise.reject();
-  const { id } = decodedToken;
-  return axios
-    .get(`/api/users/${id}`, data)
-    .catch(err => throwReduxAsyncErrors(err));
+  return api
+    .get('/api/refresh-token')
+    .catch(err => {
+      console.log('error');
+    });
 };
 
 export {
   register,
-  findUserWithToken,
+  refreshToken,
 }

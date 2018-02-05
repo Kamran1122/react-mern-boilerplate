@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom';
 import App from './views';
 import reducers from './reducers';
-import { findUserWithToken } from './api';
+import { refreshToken } from './api';
 import { actions as userActions } from './reducers/user';
 // If token exists try to fetch the users information so it's available in the reducer
 
@@ -15,7 +15,7 @@ const devTools = process.env.NODE_ENV === 'development'
 const store = createStore(reducers, {}, devTools);
 
 if (localStorage.token) {
-  findUserWithToken()
+  refreshToken()
     .then(({ data }) => {
       store.dispatch(userActions.userLogin(data));
     });

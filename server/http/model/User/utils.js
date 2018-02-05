@@ -83,7 +83,7 @@ const verifyToken = (token) => {
 
 /**
  * Refreshes a JWT token if it is valid.
- * @param token
+ * @param oldToken
  * @returns {*}
  */
 const refreshToken = (oldToken) => {

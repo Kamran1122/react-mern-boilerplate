@@ -1,5 +1,8 @@
 const User = require('../model/User');
-const { userWithToken, formatValidationError } = require('../model/User/utils');
+const {
+  userWithToken,
+  formatValidationError, refreshToken, decodeToken
+} = require('../model/User/utils');
 
 /**
  * Fetches all of the users from the database.
@@ -34,14 +37,35 @@ const register = (req, res) => {
     });
 };
 
-const verifyToken = () => {
-  const { id } = req.params;
+/**
+ * Refreshes a users token if the iat is within valid range, and sends
+ * back the user
+ * @param req
+ * @param res
+ */
+const refreshUserToken = (req, res) => {
+  const token = req.header('authorization');
+  if (!token) {
+    res
+      .status(400)
+      .send({ error: { token: 'could not generate token' } })
+  }
+
+  const newToken = refreshToken(token);
+  const { id } = decodeToken(newToken);
+
   User
     .findById(id)
     .select('-password')
-    .then(user => res.send(user))
+    .then(user => {
+      res
+        .status(200)
+        .send(user)
+    })
     .catch(err => {
-      res.send({ error: { _id: '_id was not found' } })
+      res
+        .status(400)
+        .send({ error: { token: 'could not generate token' } })
     });
 };
 
@@ -77,4 +101,5 @@ module.exports = {
   login,
   index,
   findById,
+  refreshUserToken,
 };

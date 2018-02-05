@@ -14,6 +14,7 @@ const protectedRoutes = [
 const authRoutes = app => {
   app.post('/api/register', UserController.register);
   app.post('/api/login', localSignIn, UserController.login);
+  app.get('/api/refresh-token', UserController.refreshUserToken);
 };
 
 const userRoutes = app => {

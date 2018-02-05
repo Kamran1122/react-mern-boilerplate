@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../app');
-const { createUser, decodeToken, } = require('../model/User/utils');
+const { createUser, decodeToken } = require('../model/User/utils');
 
 describe('test', () => {
   it('should POST to /api/register', done => {
@@ -67,6 +67,25 @@ describe('test', () => {
         const { _id } = res.body;
         request(app)
           .get(`/api/users/${_id}`)
+          .send(user)
+          .end((err, res) => {
+            expect(res.body._id).to.equal(_id);
+            done();
+          });
+      });
+  });
+
+  it('should GET to /api/refresh-token', done => {
+    const user = createUser();
+
+    request(app)
+      .post('/api/register')
+      .send(user)
+      .end((err, res) => {
+        const { token, _id } = res.body;
+        request(app)
+          .get(`/api/refresh-token`)
+          .set({ Authorization: token })
           .send(user)
           .end((err, res) => {
             expect(res.body._id).to.equal(_id);
