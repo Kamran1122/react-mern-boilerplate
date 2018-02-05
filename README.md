@@ -30,4 +30,4 @@ It also includes authentication routes and logic included.
 ## Testing
 
 `npm run test-server` - Runs the backend tests
-`
+`# react-mern-boilerplate
