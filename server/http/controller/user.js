@@ -1,5 +1,5 @@
 const User = require('../model/User');
-const { userWithToken } = require('../model/User/utils');
+const { userWithToken, formatValidationError } = require('../model/User/utils');
 
 /**
  * Fetches all of the users from the database.
@@ -17,6 +17,7 @@ const index = (req, res) => {
 
 /**
  * Creates a new user and returns the user without password and the JKT token
+ * API call should fail if the email is already in use.
  * @param req
  * @param res
  */
@@ -25,6 +26,11 @@ const register = (req, res) => {
     .save()
     .then(user => {
       res.json(userWithToken(user._id, user.toObject()));
+    })
+    .catch(err => {
+      res
+        .status(422)
+        .send(formatValidationError(err, 'Error creating user'));
     });
 };
 
@@ -38,8 +44,26 @@ const login = (req, res) => {
   res.json(userWithToken(user._id, user.toObject()));
 };
 
+// TODO: [] Test
+/**
+ * finds a user in the database
+ * @param req - req.user is a property passed on by the passport service
+ * @param res
+ */
+const findById = (req, res) => {
+  const { id } = req.params;
+  User
+    .findById(id)
+    .select('-password')
+    .then(user => res.send(user))
+    .catch(err => {
+      res.send({ error: { _id: '_id was not found' } })
+    });
+};
+
 module.exports = {
   register,
   login,
   index,
+  findById,
 };

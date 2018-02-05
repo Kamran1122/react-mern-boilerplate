@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // middlewares
+
 app.use(bodyParser.json());
 app.use(passport.initialize());
 

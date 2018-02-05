@@ -57,4 +57,21 @@ describe('test', () => {
           });
       });
   });
+
+  it('should GET to /api/users/:id', done => {
+    const user = createUser();
+    request(app)
+      .post('/api/register')
+      .send(user)
+      .end((err, res) => {
+        const { _id } = res.body;
+        request(app)
+          .get(`/api/users/${_id}`)
+          .send(user)
+          .end((err, res) => {
+            expect(res.body._id).to.equal(_id);
+            done();
+          });
+      });
+  });
 });

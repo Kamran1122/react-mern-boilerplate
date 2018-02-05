@@ -76,6 +76,23 @@ const userWithToken = (id, user) => {
   return R.omit(['password'], { ...user, token: token });
 };
 
+/**
+ * API calls sent when using redux-form expect async formatted like
+ * error[prop] = 'error message here'
+ * @param err - object with errors
+ * @param _error - error message used by redux-form
+ */
+const formatValidationError = (err, _error = '') => {
+  const errors = R.pathOr({}, ['errors'], err);
+  const validationErrors = Object
+    .keys(errors)
+    .reduce((acc, prop) => ({ ...acc, ...{ [prop]: errors[prop].message } }), {});
+
+  return {
+    errors: { ...validationErrors, ...{ _error } },
+  }
+};
+
 module.exports = {
   createUser,
   createChars,
@@ -83,5 +100,6 @@ module.exports = {
   createToken,
   decodeToken,
   userWithToken,
+  formatValidationError,
   JWT_TOKEN_SECRET_KEY,
 };

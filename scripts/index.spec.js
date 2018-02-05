@@ -8,6 +8,7 @@ import reducer, {
 
 describe('initialState', () => {
   it('should have the correct initial state', () => {
+
     expect(initialState).toEqual({ count: 0 });
   });
 });

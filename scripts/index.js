@@ -3,7 +3,7 @@ const types = {
 };
 
 const actions = {
-  addCount: payload => ({ type: types.ADD_COUNT, payload }),
+  addCount: () => ({ type: types.ADD_COUNT, payload: 1 }),
 };
 
 const selectors = {
@@ -17,7 +17,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
 
-    case types.DEFAULT: {
+    case types.ADD_COUNT: {
       state.count++;
       return state;
     }
@@ -32,6 +32,7 @@ export {
   types,
   actions,
   selectors,
+  initialState,
 };
 
 export default reducer;
