@@ -34,6 +34,17 @@ const register = (req, res) => {
     });
 };
 
+const verifyToken = () => {
+  const { id } = req.params;
+  User
+    .findById(id)
+    .select('-password')
+    .then(user => res.send(user))
+    .catch(err => {
+      res.send({ error: { _id: '_id was not found' } })
+    });
+};
+
 /**
  * Logs in a user
  * @param req - req.user is a property passed on by the passport service

@@ -1,4 +1,10 @@
-const { createToken, decodeToken, formatValidationError } = require('./utils');
+const {
+  createToken,
+  decodeToken,
+  verifyToken,
+  refreshToken,
+  formatValidationError
+} = require('./utils');
 const mongoose = require('mongoose');
 const MongooseError = mongoose.Error;
 
@@ -7,6 +13,35 @@ describe('creates a JWT', () => {
     const token = createToken('123');
     const { id } = decodeToken(token);
     expect(id).to.equal('123');
+  });
+
+  it('verify an invalid token', () => {
+    const token = createToken('123', { expiresIn: 0 });
+    const result = verifyToken(token);
+    expect(result).to.equal(null);
+  });
+
+  it('verify a valid token', () => {
+    const token = createToken('123');
+    const decodedToken = decodeToken(token);
+    const result = verifyToken(token);
+    expect(result).to.deep.equal(decodedToken);
+  });
+
+  it('refreshes a token', done => {
+    const time = 1000; // 1 sec
+    const oldToken = createToken('123');
+    const { iat: oldIat } = decodeToken(oldToken);
+
+    setTimeout(() => {
+        const newToken = refreshToken(oldToken);
+        const { iat: newIat } = decodeToken(newToken);
+        expect(oldIat).to.not.equal(newIat);
+        expect(typeof oldIat === 'number');
+        expect(typeof newIat === 'number');
+        done();
+      },
+      time);
   });
 
   it('should format redux form errors', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { validateRegistration } from '../../utils/form/validation';
 import { register } from '../../api';
 import { actions as userActions } from '../../reducers/user';
@@ -13,6 +14,7 @@ import { actions as userActions } from '../../reducers/user';
 // [x] routing
 // [x] redux-dispatch action
 // [x] token setting
+// [ ] Add register link
 
 const Input = ({ input, meta, ...rest }) => {
   const { touched, error } = meta;
@@ -64,6 +66,7 @@ const Register = props => {
         />
       </div>
       <input type="submit" />
+      <Link to="/login">Login</Link>
     </form>
   );
 };

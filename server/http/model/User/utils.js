@@ -46,14 +46,16 @@ function hashPassword() {
 /**
  * Creates the JWT token used when logging in or registering the user.
  * @param id
+ * @param options
  * @returns {*}
  */
-const createToken = id => {
-  const options = {
+const createToken = (id, options = {}) => {
+  const tokenOptions = {
     expiresIn: Math.floor(Date.now() / 1000) + (60 * 60),
+    ...options,
   };
 
-  return jwt.sign({ id }, JWT_TOKEN_SECRET_KEY, options);
+  return jwt.sign({ id }, JWT_TOKEN_SECRET_KEY, tokenOptions);
 };
 
 /**
@@ -63,6 +65,40 @@ const createToken = id => {
  */
 const decodeToken = token => {
   return jwt.decode(token, JWT_TOKEN_SECRET_KEY);
+};
+
+/**
+ * Verifies a token and makes sure that it is still valid
+ * For now we just check that the token is not expired.
+ * @param token
+ * @returns {*}
+ */
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, JWT_TOKEN_SECRET_KEY);
+  } catch (err) {
+    return null;
+  }
+};
+
+/**
+ * Refreshes a JWT token if it is valid.
+ * @param token
+ * @returns {*}
+ */
+const refreshToken = (oldToken) => {
+  const token = verifyToken(oldToken);
+  if (!token) {
+    console.log('invalid token');
+    return null;
+  }
+
+  if (!token.id) {
+    console.log('Token does not have an id property');
+    return null;
+  }
+
+  return createToken(token.id);
 };
 
 /**
@@ -100,6 +136,8 @@ module.exports = {
   createToken,
   decodeToken,
   userWithToken,
+  verifyToken,
+  refreshToken,
   formatValidationError,
   JWT_TOKEN_SECRET_KEY,
 };
