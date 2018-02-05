@@ -60,7 +60,7 @@ const refreshUserToken = (req, res) => {
     .then(user => {
       res
         .status(200)
-        .send(user)
+        .json(userWithToken(user._id, user.toObject()));
     })
     .catch(err => {
       res

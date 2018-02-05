@@ -21,7 +21,7 @@ const refreshToken = () => {
   return api
     .get('/api/refresh-token')
     .catch(err => {
-      console.log('error');
+      throw new Error(err);
     });
 };
 

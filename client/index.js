@@ -18,6 +18,10 @@ if (localStorage.token) {
   refreshToken()
     .then(({ data }) => {
       store.dispatch(userActions.userLogin(data));
+    })
+    .catch(err => {
+      localStorage.removeItem('token');
+      store.dispatch(userActions.userLogin({}));
     });
 }
 
