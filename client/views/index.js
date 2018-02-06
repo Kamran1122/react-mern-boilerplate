@@ -1,28 +1,30 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React, { Component } from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom'
+import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import ForgetPassword from './ForgetPassword';
 import ResetPassword from './ResetPassword';
-import Home from './Home';
+import AuthRoute from '../components/AuthRoute';
+import UnauthRoute from '../components/UnauthRoute';
 
-const App = props => {
-  return (
-    <BrowserRouter>
-      <div className="app">
-        {/* switch used to be able to render only the 404 page if no route match */}
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/reset-password" component={ResetPassword} />
-          <Route path="/forget-password" component={ForgetPassword} />
-          {/* 404 */}
-          <Route component={Login} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
-};
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div className="app">
+          {/* switch used to be able to render only the 404 page if no route match */}
+          <Switch>
+            <AuthRoute exact path="/" component={Home} />
+            <UnauthRoute path="/login" component={Login} />
+            <UnauthRoute path="/register" component={Register} />
+            <UnauthRoute path="/reset-password" component={ResetPassword} />
+            <UnauthRoute path="/forget-password" component={ForgetPassword} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  };
+}
 
 export default App;

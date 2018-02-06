@@ -33,6 +33,7 @@
     "mongoose-unique-validator": "2.0.0",
     "passport": "0.4.0",
     "passport-jwt": "3.0.1",
+    "prop-types": "15.6.0",
     "ramda": "0.25.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
