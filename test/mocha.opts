@@ -1,4 +1,4 @@
-./server/http/
+./server/**/*.spec.js
 --file ./test/test-setup.js
 --recursive
 -R min
