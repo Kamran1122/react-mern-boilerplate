@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Home from './Home';
 import Login from './Login';
+import Logout from './Logout';
 import Register from './Register';
 import NotFound from '../components/NotFound';
 import ResetPassword from './ResetPassword';
@@ -16,7 +17,7 @@ class App extends Component {
         {/* switch used to be able to render only the 404 page if no route match */}
         <Switch>
           <AuthRoute exact path="/" component={Home} />
-          <AuthRoute path="/path1" component={() => <h2>Path1</h2>} />
+          <AuthRoute path="/logout" component={Logout} />
           <UnauthRoute path="/login" component={Login} />
           <UnauthRoute path="/register" component={Register} />
           <UnauthRoute path="/reset-password" component={ResetPassword} />

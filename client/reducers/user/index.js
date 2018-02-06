@@ -1,18 +1,6 @@
 import * as R from 'ramda';
 
-const types = {
-  USER_LOGIN: 'USER_LOGIN'
-};
-
-const actions = {
-  userLogin: payload => ({ type: types.USER_LOGIN, payload }),
-};
-
-const selectors = {
-  user: state => state.user,
-};
-
-const initialState = {
+const createInitialState = props => ({
   _id: '',
   city: '',
   state: '',
@@ -26,7 +14,8 @@ const initialState = {
   firstName: '',
   createdAt: '',
   updatedAt: '',
-};
+  ...props,
+});
 
 const mergeMatchingProps = (state = {}, payload = {}) => {
   const keys = R.keys(state);
@@ -34,11 +23,31 @@ const mergeMatchingProps = (state = {}, payload = {}) => {
   return R.mergeDeepLeft(matchingPayloadProps, state);
 };
 
+const types = {
+  USER_LOGIN: 'USER_LOGIN',
+  USER_RESET: 'USER_RESET'
+};
+
+const actions = {
+  userLogin: payload => ({ type: types.USER_LOGIN, payload }),
+  reset: () => ({ type: types.USER_RESET, payload: createInitialState() }),
+};
+
+const selectors = {
+  user: state => state.user,
+};
+
+const initialState = createInitialState();
+
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
 
     case types.USER_LOGIN: {
       return mergeMatchingProps(state, payload);
+    }
+
+    case types.USER_RESET: {
+      return payload;
     }
 
     default: {
@@ -51,7 +60,7 @@ export {
   types,
   actions,
   selectors,
-  initialState,
+  createInitialState,
 };
 
 export default reducer;

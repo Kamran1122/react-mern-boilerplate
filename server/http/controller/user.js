@@ -74,7 +74,7 @@ const refreshUserToken = (req, res) => {
 /**
  * Logs in a user, we are using this instead of passport so that we can send back custom
  * errors back to the client.
- * @param req - req.user is a property passed on by the passport service
+ * @param req
  * @param res
  */
 const login = (req, res) => {
