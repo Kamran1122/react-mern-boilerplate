@@ -45,3 +45,9 @@ export const validateLogin = values => {
     password({ value: values.password, name: 'password' }),
   ].reduce((errors, fn) => fn(errors), {});
 };
+
+export const validateForgetPassword = values => {
+  return [
+    email({ value: values.email, name: 'email' }),
+  ].reduce((errors, fn) => fn(errors), {});
+};

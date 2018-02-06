@@ -22,6 +22,12 @@ const login = data => {
     .catch(throwReduxAsyncErrors);
 };
 
+const resetPassword = data => {
+  return api
+    .post('/api/reset-password', data)
+    .catch(throwReduxAsyncErrors);
+};
+
 const refreshToken = () => {
   // Somehow check if a token is expired
   return api
@@ -35,4 +41,5 @@ export {
   login,
   register,
   refreshToken,
+  resetPassword,
 }

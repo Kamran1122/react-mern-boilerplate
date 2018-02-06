@@ -39,6 +39,7 @@ const Login = props => {
       </div>
       <input type="submit" />
       <Link to="/register">Register</Link>
+      <Link to="/forget-password">Forget password?</Link>
     </form>
   );
 };

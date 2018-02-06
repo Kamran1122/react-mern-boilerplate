@@ -5,7 +5,6 @@ import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
 import NotFound from '../components/NotFound';
-import ResetPassword from './ResetPassword';
 import ForgetPassword from './ForgetPassword';
 import AuthRoute from '../components/AuthRoute';
 import UnauthRoute from '../components/UnauthRoute';
@@ -20,9 +19,8 @@ class App extends Component {
           <AuthRoute path="/logout" component={Logout} />
           <UnauthRoute path="/login" component={Login} />
           <UnauthRoute path="/register" component={Register} />
-          <UnauthRoute path="/reset-password" component={ResetPassword} />
           <UnauthRoute path="/forget-password" component={ForgetPassword} />
-          <Route path="/blog" component={() => <h2>Blog</h2>}/>
+          <Route path="/blog" component={() => <h2>Blog</h2>} />
           <NotFound to="/" />
         </Switch>
       </div>
