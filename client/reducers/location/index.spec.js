@@ -8,39 +8,23 @@ import reducer, {
 
 describe('initialState', () => {
   it('should have the correct initial state', () => {
-    expect(initialState).toEqual({
-      city: '',
-      state: '',
-      email: '',
-      phone: '',
-      country: '',
-      zipCode: '',
-      birthday: '',
-      lastName: '',
-      username: '',
-      firstName: '',
-    });
+    expect(initialState).toEqual({ referrer: '', });
   });
 });
 
 describe('selectors', () => {
   it('should return the correct state', () => {
-    const state = {
-      user: initialState
-    };
-    expect(selectors.user(state)).toEqual(initialState);
+    const state = { location: initialState };
+    expect(selectors.location(state)).toEqual(initialState);
   });
 });
 
 describe('actions', () => {
   it('should return the correct payload', () => {
-    const payload = {
-      email: 'webdeveloperpr@gmail.com',
-      password: '123qweasd',
-    };
-    const result = actions.userLogin(payload);
+    const payload = '/hello';
+    const result = actions.setReferrer(payload);
     expect(result).toEqual({
-      type: types.USER_LOGIN,
+      type: types.SET_REFERRER,
       payload
     })
   });
@@ -53,25 +37,9 @@ describe('reducer', () => {
   });
 
   it('should return the correct state and not include the password', () => {
-    const payload = {
-      email: 'webdeveloperpr@gmail.com',
-      password: '123qweasd',
-    };
-    const state = reducer(initialState, actions.userLogin(payload));
-    expect(state).toEqual(
-      {
-        birthday: '',
-        city: '',
-        country: '',
-        email: 'webdeveloperpr@gmail.com',
-        firstName: '',
-        lastName: '',
-        phone: '',
-        state: '',
-        username: '',
-        zipCode: ''
-      }
-    );
+    const payload = 'hello-world';
+    const state = reducer(initialState, actions.setReferrer(payload));
+    expect(state).toEqual({ referrer: 'hello-world' });
   });
 });
 
