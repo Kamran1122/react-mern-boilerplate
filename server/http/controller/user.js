@@ -1,7 +1,9 @@
 const User = require('../model/User');
 const {
+  decodeToken,
+  refreshToken,
   userWithToken,
-  formatValidationError, refreshToken, decodeToken
+  formatValidationError,
 } = require('../model/User/utils');
 
 /**
