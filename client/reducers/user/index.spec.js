@@ -9,6 +9,9 @@ import reducer, {
 describe('initialState', () => {
   it('should have the correct initial state', () => {
     expect(initialState).toEqual({
+      _id: '',
+      createdAt: '',
+      updatedAt: '',
       city: '',
       state: '',
       email: '',
@@ -60,7 +63,10 @@ describe('reducer', () => {
     const state = reducer(initialState, actions.userLogin(payload));
     expect(state).toEqual(
       {
+        _id: '',
         birthday: '',
+        updatedAt: '',
+        createdAt: '',
         city: '',
         country: '',
         email: 'webdeveloperpr@gmail.com',
