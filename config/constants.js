@@ -9,7 +9,6 @@ const DIST_DIR_INDEX_FILE = path.join(DIST_DIR, 'index.html');
 // templates
 const TEMPLATE_FILE = path.join(TEMPLATES_DIR, 'template.html');
 
-
 // database
 const DB_TEST = `mongodb://localhost/${TEST_DB_NAME}`;
 const DB = `mongodb://localhost/${DB_NAME}`;

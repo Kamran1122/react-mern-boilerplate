@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   // make these files public
   app.use(express.static(DIST_DIR));
-  app.get('*', (req, res) => res.send(DIST_DIR_INDEX_FILE));
+  app.get('*', (req, res) => res.sendFile(DIST_DIR_INDEX_FILE));
 }
 
 module.exports = app;

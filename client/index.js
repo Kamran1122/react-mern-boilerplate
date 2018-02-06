@@ -8,11 +8,10 @@ import reducers from './reducers';
 import RefreshToken from './components/RefreshToken';
 import { actions as locationActions } from './reducers/location';
 
-const devTools = process.env.NODE_ENV === 'development'
-  && window.__REDUX_DEVTOOLS_EXTENSION__
-  && window.__REDUX_DEVTOOLS_EXTENSION__();
+const store = process.env.NODE_ENV === 'production'
+  ? createStore(reducers, {})
+  : createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const store = createStore(reducers, {}, devTools);
 const referrer = location.pathname;
 store.dispatch(locationActions.setReferrer(referrer));
 
