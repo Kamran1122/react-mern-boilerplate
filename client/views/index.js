@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
@@ -21,6 +21,7 @@ class App extends Component {
           <UnauthRoute path="/register" component={Register} />
           <UnauthRoute path="/reset-password" component={ResetPassword} />
           <UnauthRoute path="/forget-password" component={ForgetPassword} />
+          <Route path="/blog" component={() => <h2>Blog</h2>}/>
           <NotFound to="/" />
         </Switch>
       </div>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { refreshToken } from '../../api';
-import { actions as userActions } from '../../reducers/user';
-import { actions as authActions } from '../../reducers/auth';
+import { refreshToken } from '../../api/index';
+import { actions as userActions } from '../../reducers/user/index';
+import { actions as authActions } from '../../reducers/auth/index';
 
 class RefreshToken extends React.Component {
-  shouldComponentUpdate() {
-    return false;
-  }
+  state = {
+    tokenVerified: false,
+  };
 
   componentWillMount() {
     const {
@@ -24,19 +24,25 @@ class RefreshToken extends React.Component {
         .then(({ data }) => {
           userLogin(data);
           authUser();
-          history.push(referrer);
+          this.setState({ tokenVerified: true });
+          history.push(referrer)
         })
         .catch(err => {
           console.log(err, 'error removing token');
           localStorage.removeItem('token');
           userLogin();
           unauthUser();
+          this.setState({ tokenVerified: true });
         });
+    } else {
+      this.setState({ tokenVerified: true });
     }
   }
 
   render() {
-    return null;
+    return !this.state.tokenVerified
+      ? null
+      : this.props.children
   }
 }
 
