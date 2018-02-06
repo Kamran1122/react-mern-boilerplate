@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
-AuthRoute.propTypes = {
+AuthRoute.defaultProps = {
   authenticated: false,
 };
 
