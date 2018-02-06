@@ -5,6 +5,7 @@ import { login } from '../../api';
 import InputField from '../../components/InputField';
 import { validateLogin } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
+import { actions as authActions, actions as auth } from '../../reducers/auth';
 
 // [x] initial values
 // [x] validation
@@ -44,6 +45,7 @@ const Login = props => {
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
+  dispatch(authActions.authUser());
   history.push('/');
 };
 

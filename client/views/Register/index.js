@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { register } from '../../api';
 import InputField from '../../components/InputField';
 import { actions as userActions } from '../../reducers/user';
+import { actions as authActions } from '../../reducers/auth';
 import { validateRegistration } from '../../utils/form/validation';
 
 // [x] initial values
@@ -51,6 +52,7 @@ const Register = props => {
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
+  dispatch(authActions.authUser());
   history.push('/');
 };
 

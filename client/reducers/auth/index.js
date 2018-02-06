@@ -20,11 +20,11 @@ const reducer = (state = initialState, { type }) => {
   switch (type) {
 
     case types.AUTH_USER: {
-      return state.authenticated = true;
+      return { ...state, ...{ authenticated: true } };
     }
 
     case types.UNAUTH_USER: {
-      return state.authenticated = false;
+      return { ...state, ...{ authenticated: false } };
     }
 
     default: {
