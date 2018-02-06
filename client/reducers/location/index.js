@@ -2,6 +2,7 @@ const types = {
   SET_REFERRER: 'SET_REFERRER'
 };
 
+
 const actions = {
   setReferrer: payload => ({ type: types.SET_REFERRER, payload }),
 };

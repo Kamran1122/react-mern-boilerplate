@@ -12,7 +12,7 @@ const store = process.env.NODE_ENV === 'production'
   ? createStore(reducers, {})
   : createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const referrer = location.pathname;
+const referrer = location.pathname === '/logout' ? '/' : location.pathname;
 store.dispatch(locationActions.setReferrer(referrer));
 
 ReactDOM.render(

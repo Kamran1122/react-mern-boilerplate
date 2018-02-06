@@ -57,4 +57,3 @@ describe('reducer', () => {
     expect(state).toEqual(createInitialState());
   });
 });
-
