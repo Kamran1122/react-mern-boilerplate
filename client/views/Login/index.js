@@ -63,6 +63,5 @@ export default withRouter(
     initialValues: {
       email: 'webdeveloper@gmail.com',
       password: '123qweQWE',
-      confirmPassword: '123qweQWE',
     }
   })(Login)));

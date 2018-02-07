@@ -149,19 +149,22 @@ describe.only('POST /apy/reset-password', () => {
       .post('/api/register')
       .send(user)
       .end((err, res) => {
-        const { token } = res.body;
-        const password = '1234qwe';
-        const confirmPassword = password;
+        const { email } = res.body;
         request(app)
-          .post(`/api/reset-password`)
-          .send({ token, password, confirmPassword })
+          .post(`/api/forget-password`)
+          .send({ email, mailerOff: true })
           .end((err, res) => {
-            console.log(res.body);
-            // const errors = res.body.errors;
-            // expect(errors.email).to.equal('Email was not found');
-            done();
+            const { token } = res.body;
+            const newPassword = 'new-password';
+            request(app)
+              .post('/api/reset-password')
+              .send({ token, password: newPassword, confirmPassword: newPassword })
+              .end((err, res) => {
+                const { id: userIdInToken } = decodeToken(res.body.token);
+                expect(userIdInToken).to.equal(res.body._id);
+                done();
+              });
           });
       });
   });
-
 });

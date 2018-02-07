@@ -43,6 +43,16 @@ function hashPassword() {
   });
 }
 
+const hashPasswordP = password => new Promise((resolve, reject) => {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) reject({ success: false, password: null });
+    bcrypt.hash(password, salt, null, (err, hashedPassword) => {
+      if (err) reject({ success: false, password: null });
+      resolve({ success: true, password: hashedPassword });
+    })
+  });
+});
+
 /**
  * Creates the JWT token used when logging in or registering the user.
  * @param id
@@ -139,5 +149,6 @@ module.exports = {
   verifyToken,
   refreshToken,
   formatValidationError,
+  hashPasswordP,
   JWT_TOKEN_SECRET_KEY,
 };

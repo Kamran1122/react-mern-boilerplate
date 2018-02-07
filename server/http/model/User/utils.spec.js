@@ -3,7 +3,8 @@ const {
   decodeToken,
   verifyToken,
   refreshToken,
-  formatValidationError
+  formatValidationError,
+  hashPasswordP
 } = require('./utils');
 const mongoose = require('mongoose');
 const MongooseError = mongoose.Error;
@@ -71,5 +72,13 @@ describe('creates a JWT', () => {
         password: 'Invalid password',
       }
     })
+  });
+
+  it('should hash a password using promise API', done => {
+    hashPasswordP('hello')
+      .then(({ success }) => {
+        expect(success).to.equal(true);
+        done()
+      })
   });
 });

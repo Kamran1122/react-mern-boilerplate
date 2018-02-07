@@ -4,9 +4,10 @@ const {
   createToken,
   refreshToken,
   userWithToken,
+  hashPasswordP,
   formatValidationError,
 } = require('../model/User/utils');
-const { sendEmail } = require('../services/mailer');
+
 /**
  * Fetches all of the users from the database.
  * @param req
@@ -93,11 +94,14 @@ const login = (req, res) => {
       .json({ errors: { email: 'Password is empty' } });
   }
 
+  console.log('email', email);
   User
     .findOne({ email })
     .then(user => {
       if (!user) {
-        return res.status(400).send({ errors: { email: 'Email does not exist' } });
+        return res
+          .status(400)
+          .send({ errors: { email: 'Email does not exist' } });
       }
 
       user.comparePassword(password, (err, isMatch) => {
@@ -136,7 +140,7 @@ const findById = (req, res) => {
 // - [x] Send the token as an email.
 // - Crete redux-form errors if something fails.
 const forgetPassword = (req, res, next) => {
-  const { email } = req.body;
+  const { email, mailerOff } = req.body;
   User
     .findOne({ email })
     .then(user => {
@@ -147,10 +151,17 @@ const forgetPassword = (req, res, next) => {
       // create and save the token
       const { _id } = user;
       const token = createToken(_id);
+
       User
         .findByIdAndUpdate(_id, { token }, { new: true })
         .then(updatedUser => {
           // send the email
+          if (mailerOff) {
+            return res
+              .status(200)
+              .send(updatedUser)
+          }
+
           next(updatedUser, req, res);
         })
     })
@@ -171,30 +182,39 @@ const resetPassword = (req, res) => {
   User
     .findOne({ token })
     .then(user => {
-      if (user.token === token) {
-        const { _id } = decodeToken(token);
-        User
-          .update(_id, { token: '', password: password }, { new: true })
-          .then(updatedUser => {
-            res.send(userWithToken(updatedUser._id), user);
-          });
+      if (!user.token === token) {
+        throw Error({ token: 'Tokens to not match' })
       }
+
+      const { id } = decodeToken(token);
+
+      // I need to hash the passsword here
+      hashPasswordP(password)
+        .then(({ password, success }) => {
+          if (!success) {
+            res.status(400).send({ errors: { password: 'Error hashing password' } })
+          }
+
+          User
+            .findByIdAndUpdate(id, { token: '', password: password }, {
+              new: true,
+            })
+            .then(updatedUser => {
+              res.send(userWithToken(updatedUser._id, updatedUser.toObject()));
+            });
+        })
     })
     .catch(err => {
-      res.send({
-        errors: {
-          token: 'Invalid Token',
-          password: 'Failed to reset password, try resetting the password again',
-        }
-      })
+      res.send({ errors: err })
     })
 };
 
 module.exports = {
-  register,
-  login,
   index,
+  login,
+  register,
   findById,
+  resetPassword,
+  forgetPassword,
   refreshUserToken,
-  forgetPassword
 };
