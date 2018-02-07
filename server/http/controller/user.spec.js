@@ -96,7 +96,7 @@ describe('UsersController', () => {
   });
 });
 
-describe('GET /api/forget-password', () => {
+describe('POST /api/forget-password', () => {
   it('should return error when user is not found', done => {
     const user = createUser();
     request(app)
@@ -104,7 +104,7 @@ describe('GET /api/forget-password', () => {
       .send(user)
       .end((err, res) => {
         request(app)
-          .get(`/api/forget-password`)
+          .post(`/api/forget-password`)
           .send({ email: '' })
           .end((err, res) => {
             const errors = res.body.errors;
@@ -115,27 +115,53 @@ describe('GET /api/forget-password', () => {
   });
 
   // Disabled so that the email does not get sent.
-  xit('should return a success message when the user is found and send an e-mail', done => {
+  xit('should return a success message when the user is found and send an e-mail',
+    done => {
+      const user = createUser();
+      request(app)
+        .post('/api/register')
+        .send(user)
+        .end((err, res) => {
+          const { _id } = res.body;
+          request(app)
+            .get(`/api/forget-password`)
+            .send({ email: user.email })
+            .end((err, res) => {
+              const updatedUser = res.body;
+              expect(updatedUser).to.deep.equal({ success: 'Email Sent!' });
+              User
+                .findOne({ _id })
+                .then(updatedUser => {
+                  const decodedToken = decodeToken(updatedUser.token);
+                  expect(decodedToken.id).to.equal(_id);
+                  done();
+                });
+            });
+        });
+    });
+});
+
+describe.only('POST /apy/reset-password', () => {
+  it('should reset the user password and return a new user with token', done => {
     const user = createUser();
+    // create the user
     request(app)
       .post('/api/register')
       .send(user)
       .end((err, res) => {
-        const { _id } = res.body;
+        const { token } = res.body;
+        const password = '1234qwe';
+        const confirmPassword = password;
         request(app)
-          .get(`/api/forget-password`)
-          .send({ email: user.email })
+          .post(`/api/reset-password`)
+          .send({ token, password, confirmPassword })
           .end((err, res) => {
-            const updatedUser = res.body;
-            expect(updatedUser).to.deep.equal({ success: 'Email Sent!' });
-            User
-              .findOne({ _id })
-              .then(updatedUser => {
-                const decodedToken = decodeToken(updatedUser.token);
-                expect(decodedToken.id).to.equal(_id);
-                done();
-              });
+            console.log(res.body);
+            // const errors = res.body.errors;
+            // expect(errors.email).to.equal('Email was not found');
+            done();
           });
       });
   });
+
 });

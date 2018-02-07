@@ -131,9 +131,9 @@ const findById = (req, res) => {
 };
 
 // - [x] Check of the email exists.
-// - [ ] Add reset token to the user model.
-// - If the email exists then create a token and save it on the db.
-// - Send the token as an email.
+// - [x] Add reset token to the user model.
+// - [x] If the email exists then create a token and save it on the db.
+// - [x] Send the token as an email.
 // - Crete redux-form errors if something fails.
 const forgetPassword = (req, res, next) => {
   const { email } = req.body;
@@ -156,6 +156,37 @@ const forgetPassword = (req, res, next) => {
     })
     .catch(err => {
       res.send(err);
+    })
+};
+
+// find in the database the token
+const resetPassword = (req, res) => {
+  const { token, password, confirmPassword } = req.body;
+
+  // validate passwords
+  if (password !== confirmPassword) {
+    return res.send({ errors: { password: 'Passwords do not match' } });
+  }
+
+  User
+    .findOne({ token })
+    .then(user => {
+      if (user.token === token) {
+        const { _id } = decodeToken(token);
+        User
+          .update(_id, { token: '', password: password }, { new: true })
+          .then(updatedUser => {
+            res.send(userWithToken(updatedUser._id), user);
+          });
+      }
+    })
+    .catch(err => {
+      res.send({
+        errors: {
+          token: 'Invalid Token',
+          password: 'Failed to reset password, try resetting the password again',
+        }
+      })
     })
 };
 

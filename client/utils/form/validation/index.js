@@ -39,6 +39,13 @@ export const validateRegistration = values => {
   ].reduce((errors, fn) => fn(errors), {});
 };
 
+export const validateResetPassword = values => {
+  return [
+    password({ value: values.confirmPassword, name: 'confirmPassword' }),
+    confirmPassword(values.password, values.confirmPassword, ['password', 'confirmPassword'])
+  ].reduce((errors, fn) => fn(errors), {});
+};
+
 export const validateLogin = values => {
   return [
     email({ value: values.email, name: 'email' }),

@@ -22,9 +22,9 @@ const login = data => {
     .catch(throwReduxAsyncErrors);
 };
 
-const resetPassword = data => {
+const forgetPassword = data => {
   return api
-    .post('/api/reset-password', data)
+    .post('/api/forget-password', data)
     .catch(throwReduxAsyncErrors);
 };
 
@@ -41,5 +41,5 @@ export {
   login,
   register,
   refreshToken,
-  resetPassword,
+  forgetPassword,
 }

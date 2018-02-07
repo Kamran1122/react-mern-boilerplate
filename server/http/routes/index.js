@@ -13,7 +13,8 @@ const authRoutes = app => {
   app.post('/api/login', UserController.login);
   app.post('/api/register', UserController.register);
   app.get('/api/refresh-token', UserController.refreshUserToken);
-  app.get('/api/forget-password', UserController.forgetPassword, sendEmail);
+  app.post('/api/forget-password', UserController.forgetPassword, sendEmail);
+  app.post('/api/reset-password', UserController.resetPassword);
 };
 
 const userRoutes = app => {

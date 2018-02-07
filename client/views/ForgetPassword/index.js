@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
-import { resetPassword } from '../../api';
+import { forgetPassword } from '../../api';
 import InputField from '../../components/InputField';
 import { validateForgetPassword } from '../../utils/form/validation';
 
@@ -31,8 +31,8 @@ const ForgetPassword = props => {
 };
 
 export default withRouter(reduxForm({
-  form: 'reset-password',
-  onSubmit: resetPassword,
+  form: 'forgetPassword',
+  onSubmit: forgetPassword,
   validate: validateForgetPassword,
   onSubmitSuccess: () => {},
   initialValues: {
