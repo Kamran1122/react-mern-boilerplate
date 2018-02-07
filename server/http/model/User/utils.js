@@ -48,7 +48,7 @@ const hashPasswordP = password => new Promise((resolve, reject) => {
     if (err) reject({ success: false, password: null });
     bcrypt.hash(password, salt, null, (err, hashedPassword) => {
       if (err) reject({ success: false, password: null });
-      resolve({ success: true, password: hashedPassword });
+      resolve({ success: true, password: hash });
     })
   });
 });
@@ -61,7 +61,7 @@ const hashPasswordP = password => new Promise((resolve, reject) => {
  */
 const createToken = (id, options = {}) => {
   const tokenOptions = {
-    expiresIn: Math.floor(Date.now() / 1000) + (60 * 60),
+    expiresIn: '30m', // minutes
     ...options,
   };
 

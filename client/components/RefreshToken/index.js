@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { refreshToken } from '../../api/index';
 import { actions as userActions } from '../../reducers/user/index';
 import { actions as authActions } from '../../reducers/auth/index';
 
-class RefreshToken extends React.Component {
+class RefreshToken extends Component {
   state = {
     tokenVerified: false,
   };
@@ -22,6 +22,8 @@ class RefreshToken extends React.Component {
     if (localStorage.token) {
       refreshToken()
         .then(({ data }) => {
+          const { token } = data;
+          localStorage.setItem('token', token);
           userLogin(data);
           authUser();
           this.setState({ tokenVerified: true });

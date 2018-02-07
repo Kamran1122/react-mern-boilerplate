@@ -7,16 +7,6 @@ import { actions as userActions } from '../../reducers/user';
 import { actions as authActions } from '../../reducers/auth';
 import { validateRegistration } from '../../utils/form/validation';
 
-// [x] initial values
-// [x] validation
-// [x] sync errors
-// [x] api call
-// [x] async errors
-// [x] routing
-// [x] redux-dispatch action
-// [x] token setting
-// [x] Add register link
-
 const Register = props => {
   const { handleSubmit, onSubmit } = props;
 
@@ -62,8 +52,8 @@ export default withRouter(reduxForm({
   validate: validateRegistration,
   onSubmitSuccess: handleOnSubmitSuccess,
   initialValues: {
-    email: Math.floor(Math.random() * 101) + 'developer@gmail.com',
-    password: '123qwe',
-    confirmPassword: '123qwe',
+    email: '',
+    password: '',
+    confirmPassword: '',
   }
 })(Register));

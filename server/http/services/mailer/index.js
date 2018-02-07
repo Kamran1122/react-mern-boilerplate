@@ -86,7 +86,7 @@ function sendEmail(user, req, res, next) {
   transporter.sendMail(mailOptions, function (error) {
     if (!error) {
       console.log('Email Sent!: ');
-      return res.json({ message: 'Email Sent!' });
+      return res.status(200).send({ message: 'Email Sent!' });
     }
 
     console.log('Email Failed to send!: ', error);

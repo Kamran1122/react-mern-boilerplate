@@ -7,21 +7,21 @@ import { validateResetPassword } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
 import { actions as authActions } from '../../reducers/auth';
 
-// [ ] initial values
-// [ ] validation
-// [ ] sync errors
-// [ ] api call
+// [x] initial values
+// [x] validation
+// [x] sync errors
+// [x] api call
 // [ ] async errors
-// [ ] routing
+// [x] routing
 
 const ForgetPassword = props => {
   const { handleSubmit, onSubmit, match } = props;
   const { token } = match.params;
 
   // [x] Send the password along with the token
-  // [ ] If the token the response is ok reset the password.
-  // [ ] set the new token.
-  // [ ] and login the user.
+  // [x] If the token the response is ok reset the password.
+  // [x] set the new token.
+  // [x] and login the user.
 
   const _onSubmit = props => onSubmit({ ...props, token });
 

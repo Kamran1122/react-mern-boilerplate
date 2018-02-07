@@ -8,16 +8,6 @@ import { validateLogin } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
 import { actions as authActions } from '../../reducers/auth';
 
-// [x] initial values
-// [x] validation
-// [x] sync errors
-// [x] api call
-// [x] async errors
-// [x] routing
-// [x] redux-dispatch action
-// [x] token setting
-// [x] Add register link
-
 const Login = props => {
   const { handleSubmit, onSubmit } = props;
 
@@ -61,7 +51,7 @@ export default withRouter(
     validate: validateLogin,
     onSubmitSuccess: handleOnSubmitSuccess,
     initialValues: {
-      email: 'webdeveloper@gmail.com',
-      password: '123qweQWE',
+      email: '',
+      password: '',
     }
   })(Login)));
