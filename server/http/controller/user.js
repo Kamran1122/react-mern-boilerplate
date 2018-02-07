@@ -1,11 +1,12 @@
 const User = require('../model/User');
 const {
   decodeToken,
+  createToken,
   refreshToken,
   userWithToken,
   formatValidationError,
 } = require('../model/User/utils');
-
+const { sendEmail } = require('../services/mailer');
 /**
  * Fetches all of the users from the database.
  * @param req
@@ -50,7 +51,7 @@ const refreshUserToken = (req, res) => {
   if (!token) {
     res
       .status(400)
-      .send({ error: { token: 'could not generate token' } })
+      .send({ errors: { token: 'could not generate token' } })
   }
 
   const newToken = refreshToken(token);
@@ -67,7 +68,7 @@ const refreshUserToken = (req, res) => {
     .catch(err => {
       res
         .status(400)
-        .send({ error: { token: 'could not generate token' } })
+        .send({ errors: { token: 'could not generate token' } })
     });
 };
 
@@ -114,8 +115,8 @@ const login = (req, res) => {
 
 // TODO: [] Test
 /**
- * finds a user in the database
- * @param req - req.user is a property passed on by the passport service
+ * Finds a user in the database.
+ * @param req
  * @param res
  */
 const findById = (req, res) => {
@@ -125,8 +126,37 @@ const findById = (req, res) => {
     .select('-password')
     .then(user => res.send(user))
     .catch(err => {
-      res.send({ error: { _id: '_id was not found' } })
+      res.send({ errors: { _id: '_id was not found' } })
     });
+};
+
+// - [x] Check of the email exists.
+// - [ ] Add reset token to the user model.
+// - If the email exists then create a token and save it on the db.
+// - Send the token as an email.
+// - Crete redux-form errors if something fails.
+const forgetPassword = (req, res, next) => {
+  const { email } = req.body;
+  User
+    .findOne({ email })
+    .then(user => {
+      if (!user) {
+        return res.status(400).send({ errors: { email: 'Email was not found' } })
+      }
+
+      // create and save the token
+      const { _id } = user;
+      const token = createToken(_id);
+      User
+        .findByIdAndUpdate(_id, { token }, { new: true })
+        .then(updatedUser => {
+          // send the email
+          next(updatedUser, req, res);
+        })
+    })
+    .catch(err => {
+      res.send(err);
+    })
 };
 
 module.exports = {
@@ -135,4 +165,5 @@ module.exports = {
   index,
   findById,
   refreshUserToken,
+  forgetPassword
 };

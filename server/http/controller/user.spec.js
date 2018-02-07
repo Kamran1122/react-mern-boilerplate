@@ -1,8 +1,9 @@
 const request = require('supertest');
+const User = require('../model/User');
 const app = require('../../app');
 const { createUser, decodeToken } = require('../model/User/utils');
 
-describe('test', () => {
+describe('UsersController', () => {
   it('should POST to /api/register', done => {
     const user = createUser();
     request(app)
@@ -90,6 +91,50 @@ describe('test', () => {
           .end((err, res) => {
             expect(res.body._id).to.equal(_id);
             done();
+          });
+      });
+  });
+});
+
+describe('GET /api/forget-password', () => {
+  it('should return error when user is not found', done => {
+    const user = createUser();
+    request(app)
+      .post('/api/register')
+      .send(user)
+      .end((err, res) => {
+        request(app)
+          .get(`/api/forget-password`)
+          .send({ email: '' })
+          .end((err, res) => {
+            const errors = res.body.errors;
+            expect(errors.email).to.equal('Email was not found');
+            done();
+          });
+      });
+  });
+
+  // Disabled so that the email does not get sent.
+  xit('should return a success message when the user is found and send an e-mail', done => {
+    const user = createUser();
+    request(app)
+      .post('/api/register')
+      .send(user)
+      .end((err, res) => {
+        const { _id } = res.body;
+        request(app)
+          .get(`/api/forget-password`)
+          .send({ email: user.email })
+          .end((err, res) => {
+            const updatedUser = res.body;
+            expect(updatedUser).to.deep.equal({ success: 'Email Sent!' });
+            User
+              .findOne({ _id })
+              .then(updatedUser => {
+                const decodedToken = decodeToken(updatedUser.token);
+                expect(decodedToken.id).to.equal(_id);
+                done();
+              });
           });
       });
   });

@@ -62,6 +62,9 @@ const UserSchema = Schema({
     validate: validation.country,
     trim: true,
   },
+  token: {
+    type: String,
+  }
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });

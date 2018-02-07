@@ -1,7 +1,7 @@
 const UserController = require('../controller/user');
 const passport = require('passport');
 require('../middleware/jwtAuth');
-
+const { sendEmail } = require('../services/mailer');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // These routes require the user to be logged in and have a valid JWT token
@@ -13,7 +13,7 @@ const authRoutes = app => {
   app.post('/api/login', UserController.login);
   app.post('/api/register', UserController.register);
   app.get('/api/refresh-token', UserController.refreshUserToken);
-  app.get('/api/forget-password', UserController.forgetPassword);
+  app.get('/api/forget-password', UserController.forgetPassword, sendEmail);
 };
 
 const userRoutes = app => {
