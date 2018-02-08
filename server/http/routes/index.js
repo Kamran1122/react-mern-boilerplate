@@ -18,7 +18,7 @@ const authRoutes = app => {
 };
 
 const userRoutes = app => {
-  // app.use(protectedRoutes, jwtAuth, (err, req, res, next) => next(req));
+  app.use(protectedRoutes, jwtAuth, (err, req, res, next) => next(req));
   app.get('/api/users', UserController.index);
   app.get('/api/users/:id', UserController.findById);
 };

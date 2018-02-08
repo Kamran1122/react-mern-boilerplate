@@ -12,10 +12,16 @@ import RefreshToken from './components/RefreshToken';
 import { actions as locationActions } from './reducers/location';
 
 // Add middleware here
-const middleware = [thunk];
+const middleware = applyMiddleware(...[
+  thunk
+]);
+
+const enhancers = composeWithDevTools({
+  actionsBlacklist: ['SET_SESSION'],
+});
 
 // options like actionSanitizer, stateSanitizer
-const composeEnhancers = composeWithDevTools(applyMiddleware(...middleware));
+const composeEnhancers = enhancers(middleware);
 
 const store = createStore(reducers, composeEnhancers);
 

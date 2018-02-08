@@ -16,7 +16,6 @@ class RefreshToken extends Component {
   };
 
   componentWillMount() {
-    this.props.initializeSession();
     localStorage.getItem('token') && this.refresh();
     document.addEventListener('mousemove', this.handleMouseMove);
   }
@@ -57,22 +56,15 @@ class RefreshToken extends Component {
 const
   mapStateToProps = state => ({
     referrer: state.location.referrer,
-    sessionInitialized: state.session.sessionInitialized,
     life: state.session.life,
     expired: state.session.expired,
-    shouldRefreshToken: !state.session.expired && (state.session.life < state.session.duration - 5)
-  });
-
-const
-  mapDispatchToProps = (dispatch) => ({
-    initializeSession: () => dispatch(sessionActions.initializeSession()),
-    dispatch,
+    shouldRefreshToken: !state.session.expired && (state.session.life < state.session.duration - (60 * 1))
   });
 
 export default R
   .compose(
     withRouter,
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps),
     withLogout,
     withOnLoginSuccess,)
   (RefreshToken);

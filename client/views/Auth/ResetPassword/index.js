@@ -3,10 +3,10 @@ import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-import { resetPassword } from '../../api';
-import InputField from '../../components/InputField';
-import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
-import { validateResetPassword } from '../../utils/form/validation';
+import { resetPassword } from '../../../api/index';
+import InputField from '../../../components/InputField/index';
+import withOnLoginSuccess from '../../../hoc/withOnLoginSuccess/index';
+import { validateResetPassword } from '../../../utils/form/validation/index';
 
 // [x] initial values
 // [x] validation

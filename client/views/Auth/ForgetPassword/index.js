@@ -2,9 +2,9 @@ import React from 'react';
 import * as R from 'ramda';
 import { reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
-import { forgetPassword } from '../../api';
-import InputField from '../../components/InputField';
-import { validateForgetPassword } from '../../utils/form/validation';
+import { forgetPassword } from '../../../api/index';
+import InputField from '../../../components/InputField/index';
+import { validateForgetPassword } from '../../../utils/form/validation/index';
 
 // [x] initial values
 // [x] validation

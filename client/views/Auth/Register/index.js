@@ -2,10 +2,10 @@ import React from 'react';
 import * as R from 'ramda';
 import { reduxForm } from 'redux-form';
 import { withRouter, Link } from 'react-router-dom';
-import { register } from '../../api';
-import InputField from '../../components/InputField';
-import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
-import { validateRegistration } from '../../utils/form/validation';
+import { register } from '../../../api/index';
+import InputField from '../../../components/InputField/index';
+import withOnLoginSuccess from '../../../hoc/withOnLoginSuccess/index';
+import { validateRegistration } from '../../../utils/form/validation/index';
 
 const Register = props => {
   const { handleSubmit, onSubmit } = props;

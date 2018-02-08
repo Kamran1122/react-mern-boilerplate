@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Blog = () => {
+const EditPost = () => {
   return (
     <div>
-      <h2>Blog</h2>
-      <Link to="/">Home</Link>
+      Edit Post
+      <Link to="/posts">Post</Link>
     </div>
   );
 };
 
-export default Blog;
+export default EditPost;

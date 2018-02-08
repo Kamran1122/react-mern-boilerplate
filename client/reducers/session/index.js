@@ -6,7 +6,6 @@ const createInitialState = props => ({
   duration: 0,
   expired: true,
   authenticated: false,
-  sessionInitialized: false,
   ...props,
 });
 
@@ -15,14 +14,12 @@ const types = {
   AUTH_USER: 'SESSION_AUTH',
   UNAUTH_USER: 'SESSION_UNAUTH',
   RESET_SESSION: 'RESET_SESSION',
-  INITIALIZE_SESSION: 'INITIALIZE_SESSION',
 };
 
 const actions = {
   authUser: () => ({ type: types.AUTH_USER, payload: true }),
   setSession: payload => ({ type: types.SET_SESSION, payload }),
   unauthUser: () => ({ type: types.UNAUTH_USER, payload: false }),
-  initializeSession: () => ({ type: types.INITIALIZE_SESSION, payload: true }),
   resetSession: () => ({ type: types.RESET_SESSION, payload: createInitialState() }),
 };
 
@@ -45,10 +42,6 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case types.UNAUTH_USER: {
       return { ...state, ...{ authenticated: false } };
-    }
-
-    case types.INITIALIZE_SESSION: {
-      return { ...state, ...{ sessionInitialized: true } };
     }
 
     case types.RESET_SESSION: {
