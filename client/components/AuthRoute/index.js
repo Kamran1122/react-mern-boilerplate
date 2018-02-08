@@ -16,7 +16,7 @@ const AuthRoute = ({ authenticated, name, component: Component, ...rest }) => {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
+  authenticated: state.session.authenticated,
 });
 
 AuthRoute.defaultProps = {

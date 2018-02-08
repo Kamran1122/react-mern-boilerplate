@@ -35,7 +35,6 @@ const resetPassword = data => {
 };
 
 const refreshToken = () => {
-  // Somehow check if a token is expired
   return api
     .get('/api/refresh-token')
     .catch(err => {

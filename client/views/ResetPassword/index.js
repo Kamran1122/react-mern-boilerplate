@@ -5,7 +5,7 @@ import InputField from '../../components/InputField';
 import { resetPassword } from '../../api';
 import { validateResetPassword } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
-import { actions as authActions } from '../../reducers/auth';
+import { actions as sessionActions } from '../../reducers/session';
 
 // [x] initial values
 // [x] validation
@@ -46,10 +46,11 @@ const ForgetPassword = props => {
   );
 };
 
+// TODO: [] Move this function out
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
-  dispatch(authActions.authUser());
+  dispatch(sessionActions.authUser());
   history.push('/');
 };
 

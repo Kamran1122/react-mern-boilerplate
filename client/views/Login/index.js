@@ -6,7 +6,7 @@ import { login } from '../../api';
 import InputField from '../../components/InputField';
 import { validateLogin } from '../../utils/form/validation';
 import { actions as userActions } from '../../reducers/user';
-import { actions as authActions } from '../../reducers/auth';
+import { actions as sessionActions } from '../../reducers/session';
 
 const Login = props => {
   const { handleSubmit, onSubmit } = props;
@@ -34,10 +34,11 @@ const Login = props => {
   );
 };
 
+// TODO: [] Move this function out
 const handleOnSubmitSuccess = (payload, dispatch, { history, referrer }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
-  dispatch(authActions.authUser());
+  dispatch(sessionActions.authUser());
   history.push(referrer);
 };
 

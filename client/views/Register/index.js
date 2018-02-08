@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { register } from '../../api';
 import InputField from '../../components/InputField';
 import { actions as userActions } from '../../reducers/user';
-import { actions as authActions } from '../../reducers/auth';
+import { actions as sessionActions } from '../../reducers/session';
 import { validateRegistration } from '../../utils/form/validation';
 
 const Register = props => {
@@ -39,10 +39,11 @@ const Register = props => {
   );
 };
 
+// TODO: [] Move this function out
 const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
   localStorage.setItem('token', payload.data.token);
   dispatch(userActions.userLogin(payload.data));
-  dispatch(authActions.authUser());
+  dispatch(sessionActions.authUser());
   history.push('/');
 };
 

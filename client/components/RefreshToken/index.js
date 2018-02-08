@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { refreshToken } from '../../api/index';
 import { actions as userActions } from '../../reducers/user/index';
-import { actions as authActions } from '../../reducers/auth/index';
+import { actions as sessionActions } from '../../reducers/session/index';
 
+// The purpose of this file is to refresh the token when the browser refreshes.
 class RefreshToken extends Component {
   state = {
     tokenVerified: false,
@@ -20,6 +21,7 @@ class RefreshToken extends Component {
     } = this.props;
 
     if (localStorage.token) {
+      // TODO: [] Move this logic unto a thunk
       refreshToken()
         .then(({ data }) => {
           const { token } = data;
@@ -53,7 +55,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  ...authActions,
+  ...sessionActions,
   ...userActions,
 };
 

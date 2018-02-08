@@ -5,15 +5,22 @@ const createInitialState = props => ({
   life: 0,
   duration: 0,
   expired: true,
+  authenticated: false,
   ...props,
 });
 
 const types = {
   SET_SESSION: 'SET_SESSION',
+  AUTH_USER: 'SESSION_AUTH',
+  UNAUTH_USER: 'SESSION_UNAUTH',
 };
+
+const setAuth = payload => () => ({ type: types.AUTH_USER, payload });
 
 const actions = {
   setSession: payload => ({ type: types.SET_SESSION, payload }),
+  authUser: setAuth(true),
+  unauthUser: setAuth(false)
 };
 
 const selectors = {
@@ -26,7 +33,15 @@ const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
 
     case types.SET_SESSION: {
-      return payload;
+      return { ...state, ...payload };
+    }
+
+    case types.AUTH_USER: {
+      return { ...state, ...{ authenticated: true } };
+    }
+
+    case types.UNAUTH_USER: {
+      return { ...state, ...{ authenticated: false } };
     }
 
     default: {

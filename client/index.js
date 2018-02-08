@@ -15,11 +15,9 @@ import { actions as locationActions } from './reducers/location';
 const middleware = [thunk];
 
 // options like actionSanitizer, stateSanitizer
-const composeEnhancers = composeWithDevTools({
-  actionsBlacklist: ['SET_SESSION'],
-});
+const composeEnhancers = composeWithDevTools(applyMiddleware(...middleware));
 
-const store = createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
+const store = createStore(reducers, composeEnhancers);
 
 // Set the referrer so we can route the user after a login
 const referrer = location.pathname === '/logout' ? '/' : location.pathname;
