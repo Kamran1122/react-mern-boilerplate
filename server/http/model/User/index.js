@@ -5,7 +5,6 @@ const validation = require('./validation');
 const uniqueValidator = require('mongoose-unique-validator');
 const { hashPassword } = require('./utils');
 
-
 // TODO: [] Update schemas so that the validators do not use `this`
 // this will allow me to reuse validation. The mongoose validation
 // architecture has some re usability issues. It's better to create

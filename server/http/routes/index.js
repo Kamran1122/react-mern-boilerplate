@@ -21,13 +21,8 @@ const userRoutes = app => {
 };
 
 const postRoutes = app => {
-  // get all the posts or all of a users post.
   app.get('/api/posts', PostController.index);
-
-  // Create a new post, requires JWT
-  app.post('/api/posts/:id', PostController.create);
-
-  // Edit a new post, requires JWT
+  app.post('/api/posts', PostController.create);
   app.put('/api/posts/:id', PostController.update);
 
   // Remove a new post, requires JWT

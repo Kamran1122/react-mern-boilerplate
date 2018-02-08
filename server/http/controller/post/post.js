@@ -6,7 +6,10 @@ const Post = require('../../model/Post');
  * @param res
  */
 const index = (req, res) => {
-  res.send({ success: true });
+  Post
+    .find({})
+    .then(posts => res.send(posts))
+    .catch(() => ({ errors: { posts: 'Error fetching posts' } }));
 };
 
 /**
@@ -15,7 +18,10 @@ const index = (req, res) => {
  * @param res
  */
 const create = (req, res) => {
-  res.send({ success: true });
+  new Post(req.body)
+    .save()
+    .then(post => res.send(post))
+    .catch(() => ({ errors: { posts: 'Error creating post' } }));
 };
 
 /**
@@ -24,16 +30,28 @@ const create = (req, res) => {
  * @param res
  */
 const update = (req, res) => {
-  res.send({ success: true });
+  const { id } = req.params;
+
+  // TODO: [] validate on update
+
+  Post
+    .findByIdAndUpdate(id, req.body, { new: true })
+    .then(post => res.send(post))
+    .catch(() => ({ errors: { posts: 'Error updating post' } }));
 };
 
 /**
- * Update a post by Id
+ * Remove a post by Id
  * @param req
  * @param res
  */
 const remove = (req, res) => {
-  res.send({ success: true });
+  const { id } = req.params;
+
+  Post
+    .findByIdAndRemove(id)
+    .then(() => res.send({ success: true }))
+    .catch(() => res.send({ errors: { posts: 'Error removing post' } }));
 };
 
 module.exports = {

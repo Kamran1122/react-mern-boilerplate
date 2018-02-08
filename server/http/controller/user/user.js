@@ -93,7 +93,6 @@ const login = (req, res) => {
       .json({ errors: { email: 'Password is empty' } });
   }
 
-  console.log('email', email);
   User
     .findOne({ email })
     .then(user => {

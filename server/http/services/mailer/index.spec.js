@@ -138,7 +138,6 @@ describe('mailer', () => {
         html: 'This is the message',
       });
       const { errors } = validateEmailRequest(validEmail);
-      console.log(errors);
       // expect(errors).to.equal(true);
     });
     it('renders without crashing', () => {
