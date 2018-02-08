@@ -11,6 +11,7 @@ import { validateForgetPassword } from '../../utils/form/validation';
 // [x] api call
 // [ ] async errors
 // [ ] routing
+// [ ] handle onSubmit
 
 const ForgetPassword = props => {
   const { handleSubmit, onSubmit } = props;
@@ -36,6 +37,6 @@ export default withRouter(reduxForm({
   validate: validateForgetPassword,
   onSubmitSuccess: () => {},
   initialValues: {
-    email: 'webdeveloper@gmail.com',
+    email: '',
   }
 })(ForgetPassword));

@@ -188,7 +188,7 @@ const resetPassword = (req, res) => {
 
       const { id } = decodeToken(token);
 
-      // I need to hash the passsword here
+      // I need to hash the password here
       hashPasswordP(password)
         .then(({ password, success }) => {
           if (!success) {

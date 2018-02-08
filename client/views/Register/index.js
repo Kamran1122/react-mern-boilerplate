@@ -3,9 +3,8 @@ import { reduxForm } from 'redux-form';
 import { withRouter, Link } from 'react-router-dom';
 import { register } from '../../api';
 import InputField from '../../components/InputField';
-import { actions as userActions } from '../../reducers/user';
-import { actions as sessionActions } from '../../reducers/session';
 import { validateRegistration } from '../../utils/form/validation';
+import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
 
 const Register = props => {
   const { handleSubmit, onSubmit } = props;
@@ -39,22 +38,13 @@ const Register = props => {
   );
 };
 
-// TODO: [] Move this function out
-const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
-  localStorage.setItem('token', payload.data.token);
-  dispatch(userActions.userLogin(payload.data));
-  dispatch(sessionActions.authUser());
-  history.push('/');
-};
-
-export default withRouter(reduxForm({
+export default withRouter(withOnLoginSuccess(reduxForm({
   form: 'register',
   onSubmit: register,
   validate: validateRegistration,
-  onSubmitSuccess: handleOnSubmitSuccess,
   initialValues: {
     email: '',
     password: '',
     confirmPassword: '',
   }
-})(Register));
+})(Register)));

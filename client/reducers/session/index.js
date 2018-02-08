@@ -15,12 +15,10 @@ const types = {
   UNAUTH_USER: 'SESSION_UNAUTH',
 };
 
-const setAuth = payload => () => ({ type: types.AUTH_USER, payload });
-
 const actions = {
   setSession: payload => ({ type: types.SET_SESSION, payload }),
-  authUser: setAuth(true),
-  unauthUser: setAuth(false)
+  authUser: () => ({ type: types.AUTH_USER, payload: true }),
+  unauthUser: () => ({ type: types.UNAUTH_USER, payload: false }),
 };
 
 const selectors = {
