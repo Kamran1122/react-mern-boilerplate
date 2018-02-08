@@ -19,4 +19,5 @@ const withOnLoginSuccess = Component => props => {
   );
 };
 
+export { handleLoginSuccess };
 export default withOnLoginSuccess;

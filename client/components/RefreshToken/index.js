@@ -1,52 +1,39 @@
 import React, { Component } from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { refreshToken } from '../../api/index';
-import { actions as userActions } from '../../reducers/user/index';
-import { actions as sessionActions } from '../../reducers/session/index';
+import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
+import withLogout from '../../hoc/withLogout';
 
 // The purpose of this file is to refresh the token when the browser refreshes.
 class RefreshToken extends Component {
-  state = {
-    tokenVerified: false,
-  };
 
   componentWillMount() {
     const {
       history,
-      authUser,
       referrer,
-      userLogin,
-      unauthUser
+      logout,
+      dispatch,
+      onSubmitSuccess,
     } = this.props;
 
     if (localStorage.token) {
       // TODO: [] Move this logic unto a thunk
       refreshToken()
-        .then(({ data }) => {
-          const { token } = data;
-          localStorage.setItem('token', token);
-          userLogin(data);
-          authUser();
-          this.setState({ tokenVerified: true });
-          history.push(referrer)
+        .then((payload) => {
+          onSubmitSuccess(payload, dispatch, { history, referrer });
         })
         .catch(err => {
           console.log(err, 'error removing token');
-          localStorage.removeItem('token');
-          userLogin();
-          unauthUser();
-          this.setState({ tokenVerified: true });
+          logout(dispatch);
         });
     } else {
-      this.setState({ tokenVerified: true });
     }
   }
 
   render() {
-    return !this.state.tokenVerified
-      ? null
-      : this.props.children
+    return this.props.children
   }
 }
 
@@ -54,9 +41,9 @@ const mapStateToProps = state => ({
   referrer: state.location.referrer
 });
 
-const mapDispatchToProps = {
-  ...sessionActions,
-  ...userActions,
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RefreshToken));
+export default R.compose(
+  withRouter,
+  connect(mapStateToProps),
+  withLogout,
+  withOnLoginSuccess,
+)(RefreshToken);

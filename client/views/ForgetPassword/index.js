@@ -1,4 +1,5 @@
 import React from 'react';
+import * as R from 'ramda';
 import { reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
 import { forgetPassword } from '../../api';
@@ -31,12 +32,17 @@ const ForgetPassword = props => {
   );
 };
 
-export default withRouter(reduxForm({
+const formOptions = {
   form: 'forgetPassword',
   onSubmit: forgetPassword,
   validate: validateForgetPassword,
-  onSubmitSuccess: () => {},
   initialValues: {
     email: '',
   }
-})(ForgetPassword));
+};
+
+export default R.compose(
+  withRouter,
+  reduxForm(formOptions)
+)(ForgetPassword);
+

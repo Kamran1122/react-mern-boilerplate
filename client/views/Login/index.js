@@ -1,4 +1,5 @@
 import React from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
@@ -35,15 +36,19 @@ const Login = props => {
 
 const mapStateToProps = state => ({ referrer: state.location.referrer });
 
-export default withRouter(
-  withOnLoginSuccess(
-    connect(mapStateToProps)
-    (reduxForm({
-      form: 'login',
-      onSubmit: login,
-      validate: validateLogin,
-      initialValues: {
-        email: '',
-        password: '',
-      }
-    })(Login))));
+const formOptions = {
+  form: 'login',
+  onSubmit: login,
+  validate: validateLogin,
+  initialValues: {
+    email: '',
+    password: '',
+  }
+};
+
+export default R.compose(
+  withRouter,
+  connect(mapStateToProps),
+  withOnLoginSuccess,
+  reduxForm(formOptions),
+)(Login);

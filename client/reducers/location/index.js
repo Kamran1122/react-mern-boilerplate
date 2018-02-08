@@ -3,7 +3,13 @@ const types = {
 };
 
 const actions = {
-  setReferrer: payload => ({ type: types.SET_REFERRER, payload }),
+  setReferrer: payload => {
+    const referrer = ['/login', '/logout'].every(x => x !== payload)
+      ? payload
+      : '/';
+
+    return { type: types.SET_REFERRER, payload: referrer }
+  },
 };
 
 const selectors = {

@@ -1,11 +1,12 @@
 import React from 'react';
+import * as R from 'ramda';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-import InputField from '../../components/InputField';
 import { resetPassword } from '../../api';
+import InputField from '../../components/InputField';
+import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
 import { validateResetPassword } from '../../utils/form/validation';
-import { actions as userActions } from '../../reducers/user';
-import { actions as sessionActions } from '../../reducers/session';
 
 // [x] initial values
 // [x] validation
@@ -14,7 +15,7 @@ import { actions as sessionActions } from '../../reducers/session';
 // [ ] async errors
 // [x] routing
 
-const ForgetPassword = props => {
+const ResetPassword = props => {
   const { handleSubmit, onSubmit, match } = props;
   const { token } = match.params;
 
@@ -46,21 +47,19 @@ const ForgetPassword = props => {
   );
 };
 
-// TODO: [] Move this function out
-const handleOnSubmitSuccess = (payload, dispatch, { history }) => {
-  localStorage.setItem('token', payload.data.token);
-  dispatch(userActions.userLogin(payload.data));
-  dispatch(sessionActions.authUser());
-  history.push('/');
-};
-
-export default withRouter(reduxForm({
+const formOptions = {
   form: 'resetPassword',
   onSubmit: resetPassword,
   validate: validateResetPassword,
-  onSubmitSuccess: handleOnSubmitSuccess,
   initialValues: {
     password: '',
     confirmPassword: '',
   }
-})(ForgetPassword));
+};
+
+export default R.compose(
+  withRouter,
+  connect(null, null),
+  reduxForm(formOptions),
+  withOnLoginSuccess,
+)(ResetPassword);

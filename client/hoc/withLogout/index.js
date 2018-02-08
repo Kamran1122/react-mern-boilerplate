@@ -3,7 +3,6 @@ import { actions as userActions } from '../../reducers/user';
 import { actions as sessionActions } from '../../reducers/session';
 
 const logout = (dispatch) => {
-  console.log('fn called');
   localStorage.removeItem('token');
   dispatch(userActions.reset());
   dispatch(sessionActions.unauthUser());

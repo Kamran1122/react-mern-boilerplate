@@ -20,8 +20,7 @@ const composeEnhancers = composeWithDevTools(applyMiddleware(...middleware));
 const store = createStore(reducers, composeEnhancers);
 
 // Set the referrer so we can route the user after a login
-const referrer = location.pathname === '/logout' ? '/' : location.pathname;
-store.dispatch(locationActions.setReferrer(referrer));
+store.dispatch(locationActions.setReferrer(location.pathname));
 
 // Start scanning the JWT token and update redux store on changes.
 scanToken(store.dispatch, 1000);

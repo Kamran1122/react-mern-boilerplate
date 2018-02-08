@@ -1,10 +1,11 @@
 import React from 'react';
+import * as R from 'ramda';
 import { reduxForm } from 'redux-form';
 import { withRouter, Link } from 'react-router-dom';
 import { register } from '../../api';
 import InputField from '../../components/InputField';
-import { validateRegistration } from '../../utils/form/validation';
 import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
+import { validateRegistration } from '../../utils/form/validation';
 
 const Register = props => {
   const { handleSubmit, onSubmit } = props;
@@ -38,7 +39,7 @@ const Register = props => {
   );
 };
 
-export default withRouter(withOnLoginSuccess(reduxForm({
+const formOption = {
   form: 'register',
   onSubmit: register,
   validate: validateRegistration,
@@ -47,4 +48,10 @@ export default withRouter(withOnLoginSuccess(reduxForm({
     password: '',
     confirmPassword: '',
   }
-})(Register)));
+};
+
+export default R.compose(
+  withRouter,
+  withOnLoginSuccess,
+  reduxForm(formOption)
+)(Register);
