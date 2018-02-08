@@ -9,7 +9,10 @@ On the frontend it provides components to protect routes when a user is authoriz
 
 ## Installation
 - `npm i`
+
 - create an .env file  in the root dir and add required vars. See the env section in the documentation.
+
+- Install mongoDB if not installed.
 
 ## What is react-mern-boilerplate?
 
@@ -58,7 +61,7 @@ It is an opinionated starter repo for a react project using
 export JWT_TOKEN_SECRET_KEY=secret-key-to-sign-tokens
 
 \# Nodemailer
-export GMAIL_EMAIL=webdeveloperpr@gmail.com
-export GMAIL_PASSWORD=123qweQWE
+export GMAIL_EMAIL=email@gmail.com
+export GMAIL_PASSWORD=asdfasdfasdzxcv
 export EMAIL_SERVICE=gmail
 

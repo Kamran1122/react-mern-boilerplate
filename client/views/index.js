@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
+
 // Auth
 import Login from './Auth/Login';
 import Logout from './Auth/Logout';
@@ -23,7 +24,9 @@ class App extends Component {
     return (
       <div className="app">
         {/* Switch used to be able to render only the 404 page if no route match */}
-        {/* Do not use react fragments inside Switch Components it will mess up route matching */}
+        {/* Auth Routes used to render routes that require to be authorized */}
+        {/* Unauth Routes used to render routes that require to be user to not be authorized */}
+        {/* Do not use react fragments inside Switch components it will mess up route matching */}
         <Switch>
           {/* Auth Routes */}
           <AuthRoute path="/logout" component={Logout} />
@@ -35,9 +38,9 @@ class App extends Component {
           {/* Post routes */}
           <Route path="/" component={ViewPosts} exact />
           <Route path="/posts" component={ViewPosts} exact />
-          <Route path="/posts/new" component={NewPost} exact />
-          <Route path="/posts/view" component={MyPosts} exact />
-          <Route path="/posts/edit/:id" component={EditPost} />
+          <AuthRoute path="/posts/new" component={NewPost} exact />
+          <AuthRoute path="/posts/view" component={MyPosts} exact />
+          <AuthRoute path="/posts/edit/:id" component={EditPost} />
 
           {/* 404 */}
           <NotFound to="/" />
