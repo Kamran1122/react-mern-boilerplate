@@ -23,6 +23,7 @@ const RefreshToken = props => {
     return props.children;
   } else {
     initializeSession();
+
     if (localStorage.token) {
       refreshToken()
         .then((payload) => {

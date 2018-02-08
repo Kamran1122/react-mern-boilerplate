@@ -15,15 +15,16 @@ const types = {
   SET_SESSION: 'SET_SESSION',
   AUTH_USER: 'SESSION_AUTH',
   UNAUTH_USER: 'SESSION_UNAUTH',
+  RESET_SESSION: 'RESET_SESSION',
   INITIALIZE_SESSION: 'INITIALIZE_SESSION',
 };
 
 const actions = {
+  resetSession: () => ({ type: types.RESET_SESSION, payload: createInitialState() }),
   setSession: payload => ({ type: types.SET_SESSION, payload }),
-  initializeSession: () => ({ type: types.INITIALIZE_SESSION, payload: true }),
   authUser: () => ({ type: types.AUTH_USER, payload: true }),
   unauthUser: () => ({ type: types.UNAUTH_USER, payload: false }),
-  resetSession: () => createInitialState(),
+  initializeSession: () => ({ type: types.INITIALIZE_SESSION, payload: true }),
 };
 
 const selectors = {
@@ -49,6 +50,11 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case types.INITIALIZE_SESSION: {
       return { ...state, ...{ sessionInitialized: true } };
+    }
+
+    case types.RESET_SESSION: {
+      console.log('reset session fired', payload);
+      return payload;
     }
 
     default: {
@@ -83,7 +89,7 @@ const scanToken = (dispatch, milli) => {
       const { life, expired, duration } = getSessionTimeLeftInMs(token);
 
       if (expired) {
-        logout(dispatch);
+        return logout(dispatch);
       }
 
       dispatch(actions.setSession({ life: ms(life), expired, duration: ms(duration) }));

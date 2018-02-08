@@ -2,9 +2,12 @@ const types = {
   SET_REFERRER: 'SET_REFERRER'
 };
 
+// Routes to block
+const blackList = ['/login', '/logout'];
+
 const actions = {
   setReferrer: payload => {
-    const referrer = ['/login', '/logout'].every(x => x !== payload)
+    const referrer = blackList.every(x => x !== payload)
       ? payload
       : '/';
 
