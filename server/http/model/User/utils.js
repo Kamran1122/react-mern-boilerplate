@@ -61,7 +61,7 @@ const hashPasswordP = password => new Promise((resolve, reject) => {
  */
 const createToken = (id, options = {}) => {
   const tokenOptions = {
-    expiresIn: '8s', // minutes
+    expiresIn: '30m', // minutes
     ...options,
   };
 
