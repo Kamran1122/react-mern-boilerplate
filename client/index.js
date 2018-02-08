@@ -23,7 +23,7 @@ const store = createStore(reducers, composeEnhancers);
 store.dispatch(locationActions.setReferrer(location.pathname));
 
 // Start scanning the JWT token and update redux store on changes.
-scanToken(store.dispatch, 1000);
+scanToken(store.dispatch, store.getState, 1000);
 
 ReactDOM.render(
   <Provider store={store}>

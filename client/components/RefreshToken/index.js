@@ -1,57 +1,78 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as R from 'ramda';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import withLogout from '../../hoc/withLogout';
 import { refreshToken } from '../../api/index';
 import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
+import throttle from 'lodash.throttle';
+
 import { actions as sessionActions } from '../../reducers/session';
 
 // The purpose of this file is to refresh the token when the browser refreshes.
-const RefreshToken = props => {
-  const {
-    history,
-    referrer,
-    logout,
-    dispatch,
-    onSubmitSuccess,
-    initializeSession,
-    sessionInitialized,
-  } = props;
+class RefreshToken extends Component {
+  state = {
+    loading: false,
+  };
 
-  if (sessionInitialized) {
-    return props.children;
-  } else {
-    initializeSession();
-
-    if (localStorage.token) {
-      refreshToken()
-        .then((payload) => {
-          onSubmitSuccess(payload, dispatch, { history, referrer });
-        })
-        .catch(err => {
-          // log user out to clear old token
-          logout(dispatch)
-        });
-    }
+  componentWillMount() {
+    this.props.initializeSession();
+    localStorage.getItem('token') && this.refresh();
+    document.addEventListener('mousemove', this.handleMouseMove);
   }
 
-  return props.children
-};
+  refresh = () => {
+    const {
+      history,
+      referrer,
+      logout,
+      dispatch,
+      onSubmitSuccess,
+    } = this.props;
 
-const mapStateToProps = state => ({
-  referrer: state.location.referrer,
-  sessionInitialized: state.session.sessionInitialized
-});
+    return refreshToken()
+      .then((payload) => {
+        return onSubmitSuccess(payload, dispatch, { history, referrer });
+      })
+      .catch(err => {
+        console.log('err', err);
+        return logout(dispatch)
+      });
+  };
 
-const mapDispatchToProps = (dispatch) => ({
-  initializeSession: () => dispatch(sessionActions.initializeSession()),
-  dispatch,
-});
+  loading = false;
 
-export default R.compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-  withLogout,
-  withOnLoginSuccess,
-)(RefreshToken);
+  handleMouseMove = throttle(() => {
+    if (this.props.shouldRefreshToken && this.loading === false) {
+      this.loading = true;
+      this.refresh().then(() => this.loading = false);
+    }
+  }, 1000);
+
+  render() {
+    return this.props.children;
+  };
+}
+
+const
+  mapStateToProps = state => ({
+    referrer: state.location.referrer,
+    sessionInitialized: state.session.sessionInitialized,
+    life: state.session.life,
+    expired: state.session.expired,
+    shouldRefreshToken: !state.session.expired && (state.session.life < state.session.duration - 5)
+  });
+
+const
+  mapDispatchToProps = (dispatch) => ({
+    initializeSession: () => dispatch(sessionActions.initializeSession()),
+    dispatch,
+  });
+
+export default R
+  .compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps),
+    withLogout,
+    withOnLoginSuccess,)
+  (RefreshToken);

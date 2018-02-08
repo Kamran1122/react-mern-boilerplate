@@ -36,7 +36,7 @@ const resetPassword = data => {
 
 const refreshToken = () => {
   return api
-    .get('/api/refresh-token')
+    .post('/api/refresh-token', {}, { headers: { 'Authorization': getToken(), } })
     .catch(err => {
       throw new Error(err);
     });

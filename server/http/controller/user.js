@@ -49,14 +49,14 @@ const register = (req, res) => {
  */
 const refreshUserToken = (req, res) => {
   const token = req.header('authorization');
+
   if (!token) {
     res
       .status(400)
       .send({ errors: { token: 'could not generate token' } })
   }
 
-  const newToken = refreshToken(token);
-  const { id } = decodeToken(newToken);
+  const { id } = decodeToken(token);
 
   User
     .findById(id)

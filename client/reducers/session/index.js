@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import ms from 'ms';
 import { logout } from '../../hoc/withLogout';
 
 const createInitialState = props => ({
@@ -20,11 +19,11 @@ const types = {
 };
 
 const actions = {
-  resetSession: () => ({ type: types.RESET_SESSION, payload: createInitialState() }),
-  setSession: payload => ({ type: types.SET_SESSION, payload }),
   authUser: () => ({ type: types.AUTH_USER, payload: true }),
+  setSession: payload => ({ type: types.SET_SESSION, payload }),
   unauthUser: () => ({ type: types.UNAUTH_USER, payload: false }),
   initializeSession: () => ({ type: types.INITIALIZE_SESSION, payload: true }),
+  resetSession: () => ({ type: types.RESET_SESSION, payload: createInitialState() }),
 };
 
 const selectors = {
@@ -53,7 +52,6 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case types.RESET_SESSION: {
-      console.log('reset session fired', payload);
       return payload;
     }
 
@@ -82,7 +80,7 @@ const getSessionTimeLeftInMs = token => {
   }
 };
 
-const scanToken = (dispatch, milli) => {
+const scanToken = (dispatch, getState, milli) => {
   setInterval(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -92,7 +90,12 @@ const scanToken = (dispatch, milli) => {
         return logout(dispatch);
       }
 
-      dispatch(actions.setSession({ life: ms(life), expired, duration: ms(duration) }));
+      dispatch(actions.setSession({
+          life: life * .001,
+          expired,
+          duration: duration * .001
+        }
+      ));
     }
   }, milli);
 };
