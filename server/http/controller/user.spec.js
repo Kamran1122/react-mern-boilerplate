@@ -141,7 +141,7 @@ describe('POST /api/forget-password', () => {
     });
 });
 
-describe.only('POST /apy/reset-password', () => {
+describe('POST /apy/reset-password', () => {
   it('should reset the user password and return a new user with token', done => {
     const user = createUser();
     // create the user

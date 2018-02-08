@@ -1,49 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as R from 'ramda';
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import withLogout from '../../hoc/withLogout';
 import { refreshToken } from '../../api/index';
 import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
-import withLogout from '../../hoc/withLogout';
+import { actions as sessionActions } from '../../reducers/session';
 
 // The purpose of this file is to refresh the token when the browser refreshes.
-class RefreshToken extends Component {
+const RefreshToken = props => {
+  const {
+    history,
+    referrer,
+    logout,
+    dispatch,
+    onSubmitSuccess,
+    initializeSession,
+    sessionInitialized,
+  } = props;
 
-  componentWillMount() {
-    const {
-      history,
-      referrer,
-      logout,
-      dispatch,
-      onSubmitSuccess,
-    } = this.props;
-
+  if (sessionInitialized) {
+    return props.children;
+  } else {
+    initializeSession();
     if (localStorage.token) {
-      // TODO: [] Move this logic unto a thunk
       refreshToken()
         .then((payload) => {
           onSubmitSuccess(payload, dispatch, { history, referrer });
         })
         .catch(err => {
-          console.log(err, 'error removing token');
-          logout(dispatch);
+          // log user out to clear old token
+          logout(dispatch)
         });
-    } else {
     }
   }
 
-  render() {
-    return this.props.children
-  }
-}
+  return props.children
+};
 
 const mapStateToProps = state => ({
-  referrer: state.location.referrer
+  referrer: state.location.referrer,
+  sessionInitialized: state.session.sessionInitialized
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initializeSession: () => dispatch(sessionActions.initializeSession()),
+  dispatch,
 });
 
 export default R.compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withLogout,
   withOnLoginSuccess,
 )(RefreshToken);

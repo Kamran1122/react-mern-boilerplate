@@ -41,8 +41,8 @@ const formOptions = {
   onSubmit: login,
   validate: validateLogin,
   initialValues: {
-    email: '',
-    password: '',
+    email: 'webdeveloperpr@gmail.com',
+    password: '123qweQWE',
   }
 };
 

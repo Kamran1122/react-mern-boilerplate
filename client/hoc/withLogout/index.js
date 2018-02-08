@@ -6,6 +6,7 @@ const logout = (dispatch) => {
   localStorage.removeItem('token');
   dispatch(userActions.reset());
   dispatch(sessionActions.unauthUser());
+  dispatch(sessionActions.resetSession());
 };
 
 // To be used on a redux-form after a successful submit
