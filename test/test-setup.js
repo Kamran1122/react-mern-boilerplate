@@ -17,12 +17,12 @@ before(done => {
 
 // drop the mongoose collection before every test
 beforeEach(done => {
-  const { users } = mongoose
+  const { users, posts } = mongoose
     .connection
     .collections;
 
-  users
-    .drop()
+  Promise
+    .all([users.drop(), posts.drop()])
     .then(() => done())
-    .catch(() => done())
+    .catch(() => done());
 });

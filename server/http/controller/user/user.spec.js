@@ -1,7 +1,7 @@
 const request = require('supertest');
-const User = require('../model/User');
-const app = require('../../app');
-const { createUser, decodeToken } = require('../model/User/utils');
+const User = require('../../model/User/index');
+const app = require('../../../app');
+const { createUser, decodeToken } = require('../../model/User/utils');
 
 describe('UsersController', () => {
   it('should POST to /api/register', done => {
@@ -85,7 +85,7 @@ describe('UsersController', () => {
       .end((err, res) => {
         const { token, _id } = res.body;
         request(app)
-          .get(`/api/refresh-token`)
+          .post(`/api/refresh-token`)
           .set({ Authorization: token })
           .send(user)
           .end((err, res) => {

@@ -1,5 +1,6 @@
 const User = require('./index');
-const { createUser, createChars } = require('./utils');
+const { createUser } = require('./utils');
+const { createChars } = require('../../../validation/utils');
 
 describe('email', () => {
   it('unique', (done) => {

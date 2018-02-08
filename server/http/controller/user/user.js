@@ -1,12 +1,11 @@
-const User = require('../model/User');
+const User = require('../../model/User');
 const {
   decodeToken,
   createToken,
-  refreshToken,
   userWithToken,
   hashPasswordP,
   formatValidationError,
-} = require('../model/User/utils');
+} = require('../../model/User/utils');
 
 /**
  * Fetches all of the users from the database.
