@@ -28,15 +28,21 @@ const index = (req, res) => {
  * @param res
  */
 const register = (req, res) => {
-  new User(req.body)
-    .save()
-    .then(user => {
-      res.json(userWithToken(user._id, user.toObject()));
-    })
-    .catch(err => {
-      res
-        .status(422)
-        .send(formatValidationError(err, 'Error creating user'));
+
+  hashPasswordP(req.body.password)
+    .then(({ success, password }) => {
+      if (!success) throw new Error('Error hashing password');
+      const userWithHashedPassword = newBody = { ...req.body, ...{ password } };
+      new User(userWithHashedPassword)
+        .save()
+        .then(user => {
+          res.json(userWithToken(user._id, user.toObject()));
+        })
+        .catch(err => {
+          res
+            .status(422)
+            .send(formatValidationError(err, 'Error creating user'));
+        });
     });
 };
 
@@ -80,7 +86,7 @@ const refreshUserToken = (req, res) => {
  */
 const login = (req, res) => {
   const { email, password } = req.body;
-
+  console.log('login password', password);
   if (!email) {
     return res
       .status(400)
@@ -132,10 +138,6 @@ const findById = (req, res) => {
     });
 };
 
-// - [x] Check of the email exists.
-// - [x] Add reset token to the user model.
-// - [x] If the email exists then create a token and save it on the db.
-// - [x] Send the token as an email.
 // - Crete redux-form errors if something fails.
 const forgetPassword = (req, res, next) => {
   const { email, mailerOff } = req.body;

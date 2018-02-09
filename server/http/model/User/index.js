@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 const validation = require('./validation');
 const uniqueValidator = require('mongoose-unique-validator');
-const { hashPassword } = require('./utils');
 const types = require('../types');
 
 // TODO: [] Update schemas so that the validators do not use `this`
@@ -74,12 +73,6 @@ const UserSchema = Schema({
 }, { timestamps: true });
 
 UserSchema.plugin(uniqueValidator, { message: '{VALUE} is already taken.' });
-
-// Middleware
-UserSchema.pre('save', function (next) {
-  hashPassword.call(this);
-  next();
-});
 
 // Virtual properties
 UserSchema

@@ -65,7 +65,6 @@ const Post = (props) => {
 };
 
 const Posts = ({ posts = [], removePost }) => {
-  console.log(posts);
   return posts.map(post => {
     return (
       <Post
@@ -85,6 +84,9 @@ const ViewPosts = (props) => {
     <div>
       <Link to="/posts/new">
         New Post
+      </Link>
+      <Link to="/logout">
+        Log Out
       </Link>
       <Posts posts={posts} removePost={removePost} />
     </div>

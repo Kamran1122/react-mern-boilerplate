@@ -10,7 +10,7 @@ const Logout = props => {
 };
 
 export default R.compose(
-  connect(null, null),
+  connect(null),
   withLogout
 )(Logout);
 
