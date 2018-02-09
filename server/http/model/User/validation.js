@@ -48,10 +48,6 @@ const password = [
     validator: pwd => minLength(4, pwd),
     msg: 'Field must have more than 4 characters.'
   },
-  {
-    validator: pwd => maxLength(40, pwd),
-    msg: 'Field must have less than 40 characters.'
-  },
 ];
 
 const zipCode = [

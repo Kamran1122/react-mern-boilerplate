@@ -52,14 +52,6 @@ describe('password', () => {
         done();
       });
   });
-  it('maxLength', (done) => {
-    new User({ password: createChars(41) })
-      .save()
-      .catch(err => {
-        expect(err.errors.password.message).to.equal('Field must have less than 40 characters.');
-        done();
-      });
-  });
 });
 
 describe('username', () => {
