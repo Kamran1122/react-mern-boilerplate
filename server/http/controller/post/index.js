@@ -36,6 +36,7 @@ const create = (req, res, next) => {
  * @param req
  * @param res
  */
+
 const update = (req, res) => {
   const { id } = req.params;
 
@@ -52,7 +53,6 @@ const update = (req, res) => {
  * @param req
  * @param res
  */
-  // TODO: [] Find the user, then remove himi
 const remove = (req, res) => {
     const { postId } = req.params;
     const user = res.locals.user;
