@@ -55,12 +55,12 @@ const NewPost = (props) => {
 };
 
 const handleSubmitSuccess = (payload, dispatch, props) => {
-  console.log('Success');
+  console.log('Post saved');
   // dispatch a toast action maybe?
 };
 
 const handleSubmitFail = (payload, dispatch, props) => {
-  console.log('Fail');
+  console.log('Post did not save');
   // dispatch a toast action maybe?
 };
 

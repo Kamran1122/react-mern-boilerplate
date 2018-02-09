@@ -20,7 +20,7 @@ const postRoutes = app => {
   app.get('/api/posts', PostController.index);
   // TODO: [] Check if the user owns the post
   app.put('/api/posts/:id', PostController.update);
-  // TODO: [] Check if the user owns the post
+
   app.delete('/api/posts/:postId', jwtAuth, PostController.remove);
   app.post('/api/posts', jwtAuth, PostController.create, UserController.savePost);
 };

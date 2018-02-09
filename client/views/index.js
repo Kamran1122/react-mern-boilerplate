@@ -40,7 +40,7 @@ class App extends Component {
           <Route path="/posts" component={ViewPosts} exact />
           <AuthRoute path="/posts/new" component={NewPost} exact />
           <AuthRoute path="/posts/view" component={MyPosts} exact />
-          <AuthRoute path="/posts/edit/:id" component={EditPost} />
+          <AuthRoute path="/posts/edit/:postId" component={EditPost} />
 
           {/* 404 */}
           <NotFound to="/" />

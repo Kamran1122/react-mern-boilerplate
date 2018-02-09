@@ -66,6 +66,13 @@ const getPost = id => {
     .catch(throwReduxAsyncErrors);
 };
 
+const updatePost = data => {
+  console.log(data);
+  return api
+    .put(`/api/posts/${data._id}`, data)
+    .catch(throwReduxAsyncErrors);
+};
+
 export {
   // auth
   login,
@@ -78,4 +85,5 @@ export {
   getPosts,
   createPost,
   removePost,
+  updatePost,
 }

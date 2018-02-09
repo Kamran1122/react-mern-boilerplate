@@ -49,9 +49,6 @@ const create = (req, res, next) => {
 
 const update = (req, res) => {
   const { id } = req.params;
-
-  // TODO: [] validate on update
-
   Post
     .findByIdAndUpdate(id, req.body, { new: true })
     .then(post => res.send(post))

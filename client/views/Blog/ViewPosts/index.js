@@ -56,10 +56,12 @@ const Post = (props) => {
         <button onClick={props.removePost}>
           Delete
         </button>
-        <button>Edit</button>
+        <button>
+          <Link to={`posts/edit/${props._id}`}>Edit</Link>
+        </button>
       </div>
-      <h2>{props.title}</h2>
-      <p>{props.content}</p>
+      <h2>title: {props.title}</h2>
+      <p>content: {props.content}</p>
     </div>
   );
 };
@@ -70,6 +72,7 @@ const Posts = ({ posts = [], removePost }) => {
       <Post
         removePost={() => removePost(post._id)}
         title={post.title}
+        _id={post._id}
         content={post.content}
         key={post._id}
       />
