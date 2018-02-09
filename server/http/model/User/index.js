@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 const validation = require('./validation');
 const uniqueValidator = require('mongoose-unique-validator');
 const { hashPassword } = require('./utils');
+const types = require('../types');
 
 // TODO: [] Update schemas so that the validators do not use `this`
-// this will allow me to reuse validation. The mongoose validation
-// architecture has some re usability issues. It's better to create
-// wrapper functions for each validation that has to reach to `this`
 const UserSchema = Schema({
+  posts: [{
+    type: Schema.Types.ObjectId, // id references another collection
+    ref: types.post // model name being referenced
+  }],
   username: {
     type: String,
     validate: validation.username,
@@ -95,6 +97,6 @@ UserSchema.methods.comparePassword = function (password, callback) {
   });
 };
 
-const User = mongoose.model('user', UserSchema);
+const User = mongoose.model(types.user, UserSchema);
 
 module.exports = User;

@@ -15,7 +15,6 @@ describe('User Model', () => {
           })
       })
       .catch(err => {
-        console.log(err);
         done()
       })
   });

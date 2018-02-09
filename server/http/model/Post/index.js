@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validation = require('./validation');
+const types = require('../types');
 
 const statuses = [
   'draft',
@@ -46,7 +47,7 @@ const PostSchema = Schema({
   },
 }, { timestamps: true });
 
-const Post = mongoose.model('post', PostSchema);
+const Post = mongoose.model(types.post, PostSchema);
 
 module.exports = Post;
 
