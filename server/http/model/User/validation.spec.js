@@ -124,6 +124,7 @@ describe('phone', () => {
 
 describe('zip', () => {
   it('required', done => {
+    // noinspection JSAnnotator
     new User(createUser({ zipCode: 00927 }))
       .save()
       .catch(err => {

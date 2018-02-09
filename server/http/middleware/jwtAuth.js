@@ -33,6 +33,7 @@ const authFn = (payload, done) => {
 passport.use(new JWTStrategy(options, authFn));
 
 /**
+ * This is an ugly middleware but it gets the job done.
  * Middleware that validates the JWT and passes the user to the next routes.
  * @param req
  * @param res

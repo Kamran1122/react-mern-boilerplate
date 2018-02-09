@@ -7,8 +7,6 @@ import { refreshToken } from '../../api/index';
 import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
 import throttle from 'lodash.throttle';
 
-import { actions as sessionActions } from '../../reducers/session';
-
 // The purpose of this file is to refresh the token when the browser refreshes.
 class RefreshToken extends Component {
   state = {

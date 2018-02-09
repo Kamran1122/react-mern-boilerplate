@@ -15,7 +15,6 @@ const index = (req, res) => {
 /**
  * Creates the post and passes it to the next Controller.
  * Notice we don't save the post, we only create it.
- * @param user object from the User model
  * @param req
  * @param res
  * @param next
