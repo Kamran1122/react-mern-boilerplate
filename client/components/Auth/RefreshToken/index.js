@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import * as R from 'ramda';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import withLogout from '../../hoc/withLogout';
-import { refreshToken } from '../../api/index';
-import withOnLoginSuccess from '../../hoc/withOnLoginSuccess';
+import withLogout from '../../../hoc/withLogout/index';
+import { refreshToken } from '../../../api/index';
+import withOnLoginSuccess from '../../../hoc/withOnLoginSuccess/index';
 import throttle from 'lodash.throttle';
 
 // The purpose of this file is to refresh the token when the browser refreshes.

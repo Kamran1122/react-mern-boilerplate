@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProductio
 import App from './views';
 import reducers from './reducers';
 import { scanToken } from './reducers/session';
-import RefreshToken from './components/RefreshToken';
+import RefreshToken from './components/Auth/RefreshToken';
 import { actions as locationActions } from './reducers/location';
 
 // Add middleware here

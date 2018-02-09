@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import InputField from '../../../components/InputField';
 import { createPost } from '../../../api';
+import InputField from '../../../components/Form/InputField';
+import EditorField from '../../../components/Form/EditorField';
 
 // - [x] Api call
 // - [ ] Async errors
@@ -22,13 +23,14 @@ const NewPost = (props) => {
           type="text"
         />
       </div>
+
       <div>
-        <label>content</label>
-        <InputField
+        <label>Content</label>
+        <EditorField
           name="content"
-          type="text"
         />
       </div>
+
       <div>
         <label>Status</label>
         <InputField
@@ -43,6 +45,7 @@ const NewPost = (props) => {
           type="text"
         />
       </div>
+
       <div>
         <input
           value="submit"
@@ -65,13 +68,12 @@ const handleSubmitFail = (payload, dispatch, props) => {
 };
 
 export default reduxForm({
-  form: 'redux-form',
+  form: 'new-post',
   onSubmitSuccess: handleSubmitSuccess,
   onSubmitFail: handleSubmitFail,
   onSubmit: createPost,
   initialValues: {
     title: 'My Post',
-    content: ' This Is My Post!',
     status: 'draft',
     category: 'react',
   }

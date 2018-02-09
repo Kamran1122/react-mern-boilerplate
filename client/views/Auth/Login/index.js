@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
 import { login } from '../../../api/index';
-import InputField from '../../../components/InputField/index';
+import InputField from '../../../components/Form/InputField/index';
 import { validateLogin } from '../../../utils/form/validation/index';
 import withOnLoginSuccess from '../../../hoc/withOnLoginSuccess/index';
 

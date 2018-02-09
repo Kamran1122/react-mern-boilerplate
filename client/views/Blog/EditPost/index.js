@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import * as R from 'ramda';
 import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import InputField from '../../../components/InputField';
-import { getPost, updatePost } from '../../../api';
 import { withRouter } from 'react-router-dom';
-import * as R from 'ramda';
+import { getPost, updatePost } from '../../../api';
+import InputField from '../../../components/Form/InputField';
+import EditorField from '../../../components/Form/EditorField';
 
 // - [x] Api call
 // - [x] initial async values
@@ -54,13 +55,14 @@ const EditPost = (props) => {
           type="text"
         />
       </div>
+
       <div>
-        <label>content</label>
-        <InputField
+        <label>Content</label>
+        <EditorField
           name="content"
-          type="text"
         />
       </div>
+
       <div>
         <label>Status</label>
         <InputField

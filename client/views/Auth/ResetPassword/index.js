@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { resetPassword } from '../../../api/index';
-import InputField from '../../../components/InputField/index';
+import InputField from '../../../components/Form/InputField/index';
 import withOnLoginSuccess from '../../../hoc/withOnLoginSuccess/index';
 import { validateResetPassword } from '../../../utils/form/validation/index';
 

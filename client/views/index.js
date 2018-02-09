@@ -15,9 +15,9 @@ import EditPost from './Blog/EditPost';
 import ViewPosts from './Blog/ViewPosts';
 
 // Route components
-import NotFound from '../components/NotFound';
-import AuthRoute from '../components/AuthRoute';
-import UnauthRoute from '../components/UnauthRoute';
+import NotFound from '../components/Auth/NotFound';
+import AuthRoute from '../components/Auth/AuthRoute';
+import UnauthRoute from '../components/Auth/UnauthRoute';
 
 class App extends Component {
   render() {

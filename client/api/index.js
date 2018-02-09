@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { throwReduxAsyncErrors } from './utils';
-
 const getToken = () => localStorage.getItem('token');
 
 const api = axios.create({
@@ -67,7 +66,6 @@ const getPost = id => {
 };
 
 const updatePost = data => {
-  console.log(data);
   return api
     .put(`/api/posts/${data._id}`, data)
     .catch(throwReduxAsyncErrors);

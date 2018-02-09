@@ -25,6 +25,7 @@
     "axios": "0.17.1",
     "bcrypt-nodejs": "0.0.3",
     "countryjs": "1.8.0",
+    "draft-js": "0.10.5",
     "express": "4.16.2",
     "google-libphonenumber": "3.0.10",
     "history": "4.7.2",

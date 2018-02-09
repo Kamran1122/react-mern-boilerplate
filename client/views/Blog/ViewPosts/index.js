@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { getPosts } from '../../../api';
 import { Link } from 'react-router-dom';
 import { removePost } from '../../../api';
-// - [ ] Api call
-// - [ ] Async errors
-// - [ ] Sync errors
-// - [ ] Route on save
-// - [ ] initial values
 
 class ViewPostsContainer extends Component {
   state = {
