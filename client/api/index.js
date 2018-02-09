@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { throwReduxAsyncErrors } from './utils';
+
 const getToken = () => localStorage.getItem('token');
 
 const api = axios.create({
@@ -59,6 +60,12 @@ const getPosts = data => {
     .catch(throwReduxAsyncErrors);
 };
 
+const getPost = id => {
+  return api
+    .get(`/api/posts?id=${id}`)
+    .catch(throwReduxAsyncErrors);
+};
+
 export {
   // auth
   login,
@@ -67,6 +74,7 @@ export {
   resetPassword,
   forgetPassword,
   // posts
+  getPost,
   getPosts,
   createPost,
   removePost,
