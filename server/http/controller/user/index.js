@@ -207,19 +207,14 @@ const resetPassword = (req, res) => {
     })
 };
 
-const savePost = ({ user, post }, req, res) => {
-  User
-    .findById(user._id)
-    .then(userFound => {
-      userFound.addPost(post);
-      res
-        .status(200)
-        .send(post);
-    })
+const savePost = (req, res) => {
+  const { post, user } = res.locals;
+  user.posts.push(post);
+  Promise
+    .all([post.save(), user.save()])
+    .then(() => res.send(post))
     .catch(err => {
-      res
-        .status(400)
-        .send({ errors: { post: 'Error saving post' } })
+      res.status(400).send({ errors: { post: 'Error creating post' } })
     });
 };
 

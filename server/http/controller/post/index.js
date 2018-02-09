@@ -20,14 +20,14 @@ const index = (req, res) => {
  * @param res
  * @param next
  */
-const create = (user, req, res, next) => {
+const create = (req, res, next) => {
   Post
     .create(req.body)
     .then(post => {
-      // Passes the request to the User model. No User
-      // models allowed in this file.
-      next({ user, post }, req, res, next)
+      res.locals.post = post;
+      next()
     })
+
     .catch(() => ({ errors: { posts: 'Error creating post' } }));
 };
 
@@ -52,14 +52,15 @@ const update = (req, res) => {
  * @param req
  * @param res
  */
+  // TODO: [] Find the user, then remove himi
 const remove = (req, res) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  Post
-    .findByIdAndRemove(id)
-    .then(() => res.send({ success: true }))
-    .catch(() => res.send({ errors: { posts: 'Error removing post' } }));
-};
+    Post
+      .findByIdAndRemove(id)
+      .then(() => res.send({ success: true }))
+      .catch(() => res.send({ errors: { posts: 'Error removing post' } }));
+  };
 
 module.exports = {
   index,

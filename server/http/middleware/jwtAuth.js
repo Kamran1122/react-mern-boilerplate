@@ -41,7 +41,9 @@ passport.use(new JWTStrategy(options, authFn));
 const jwtAuth = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
     if (err) res.send({ errors: { jwt: err } });
-    next(user, req, res, next)
+    if (!user) res.send({ errors: { jwt: 'Invalid Token' } });
+    res.locals.user = user;
+    next()
   })(req, res);
 };
 

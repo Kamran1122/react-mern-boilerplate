@@ -38,13 +38,11 @@ describe('UsersController', () => {
             .set('Authorization', token)
             .send(newPost)
             .end((err, res) => {
-              console.log('response', res.body);
-              // expect(res.body.title).to.equal(newPost.title);
+              expect(res.body.title).to.equal(newPost.title);
               done();
             });
         })
         .catch(err => {
-          console.log(err);
         });
     });
   });

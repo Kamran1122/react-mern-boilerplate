@@ -1,7 +1,6 @@
-const UserController = require('../controller/user/user');
-const PostController = require('../controller/post/post');
+const UserController = require('../controller/user/index');
+const PostController = require('../controller/post/index');
 const jwtAuth = require('../middleware/jwtAuth');
-
 const { sendEmail } = require('../services/mailer');
 
 const authRoutes = app => {
