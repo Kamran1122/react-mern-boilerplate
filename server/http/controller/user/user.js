@@ -207,9 +207,26 @@ const resetPassword = (req, res) => {
     })
 };
 
+const savePost = ({ user, post }, req, res) => {
+  User
+    .findById(user._id)
+    .then(userFound => {
+      userFound.addPost(post);
+      res
+        .status(200)
+        .send(post);
+    })
+    .catch(err => {
+      res
+        .status(400)
+        .send({ errors: { post: 'Error saving post' } })
+    });
+};
+
 module.exports = {
   index,
   login,
+  savePost,
   register,
   findById,
   resetPassword,

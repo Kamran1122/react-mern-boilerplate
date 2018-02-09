@@ -1,7 +1,9 @@
 const request = require('supertest');
 const Post = require('../../model/Post');
+const User = require('../../model/User');
 const app = require('../../../app');
 const { createPost } = require('../../model/Post/utils');
+const { createUser, userWithToken } = require('../../model/User/utils');
 
 describe('UsersController', () => {
   describe('GET /api/index', () => {
@@ -23,15 +25,26 @@ describe('UsersController', () => {
   });
 
   describe('POST /api/posts', () => {
-    it('should create a new post', done => {
+    it.only('should create a new post and have the user save it.', done => {
       const newPost = createPost({ title: 'read my blog' });
+      const user = new User(createUser());
 
-      request(app)
-        .post('/api/posts')
-        .send(newPost)
-        .end((err, res) => {
-          expect(res.body.title).to.equal(newPost.title);
-          done();
+      new User(user)
+        .save()
+        .then(newUser => {
+          const { token } = userWithToken(newUser._id, newUser.toObject());
+          request(app)
+            .post('/api/posts')
+            .set('Authorization', token)
+            .send(newPost)
+            .end((err, res) => {
+              console.log('response', res.body);
+              // expect(res.body.title).to.equal(newPost.title);
+              done();
+            });
+        })
+        .catch(err => {
+          console.log(err);
         });
     });
   });

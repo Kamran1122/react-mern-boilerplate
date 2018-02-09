@@ -19,10 +19,30 @@ const authFn = (payload, done) => {
   const userId = payload.id;
   // We want to see if the userID in the payload exists in our database.
   User.findById(userId, (err, user, info) => {
-    if (err) return done(err, false);
-    if (user) return done(null, user);
-    return done(null, false);
+    if (err) {
+      return done(err, null);
+    }
+    if (!user) {
+      return done(null, null);
+    }
+
+    return done(null, user);
   });
 };
 
 passport.use(new JWTStrategy(options, authFn));
+
+/**
+ * Middleware that validates the JWT and passes the user to the next routes.
+ * @param req
+ * @param res
+ * @param next
+ */
+const jwtAuth = (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user) => {
+    if (err) res.send({ errors: { jwt: err } });
+    next(user, req, res, next)
+  })(req, res);
+};
+
+module.exports = jwtAuth;

@@ -97,6 +97,12 @@ UserSchema.methods.comparePassword = function (password, callback) {
   });
 };
 
+UserSchema.methods.addPost = function (post) {
+  this.posts.push(post);
+  this.save();
+  return true;
+};
+
 const User = mongoose.model(types.user, UserSchema);
 
 module.exports = User;

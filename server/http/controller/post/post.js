@@ -13,14 +13,21 @@ const index = (req, res) => {
 };
 
 /**
- * Creates a new post
+ * Creates the post and passes it to the next Controller.
+ * Notice we don't save the post, we only create it.
+ * @param user object from the User model
  * @param req
  * @param res
+ * @param next
  */
-const create = (req, res) => {
-  new Post(req.body)
-    .save()
-    .then(post => res.send(post))
+const create = (user, req, res, next) => {
+  Post
+    .create(req.body)
+    .then(post => {
+      // Passes the request to the User model. No User
+      // models allowed in this file.
+      next({ user, post }, req, res, next)
+    })
     .catch(() => ({ errors: { posts: 'Error creating post' } }));
 };
 
