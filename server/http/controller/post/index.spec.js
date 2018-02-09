@@ -12,7 +12,7 @@ describe('UsersController', () => {
 
       new Post(newPost)
         .save()
-        .then(res => {
+        .then(() => {
           request(app)
             .get('/api/posts')
             .send()
@@ -25,7 +25,7 @@ describe('UsersController', () => {
   });
 
   describe('POST /api/posts', () => {
-    it.only('should create a new post and have the user save it.', done => {
+    it('should create a new post and have the user save it.', done => {
       const newPost = createPost({ title: 'read my blog' });
       const user = new User(createUser());
 
@@ -69,23 +69,38 @@ describe('UsersController', () => {
   });
 
   describe('DELETE /api/remove/:id', () => {
-    it('should update a post', done => {
-      const newPost = createPost();
-      new Post(newPost)
+    it('should delete a post', done => {
+      const newPost = createPost({ title: 'read my blog' });
+      const user = new User(createUser());
+
+      new User(user)
         .save()
-        .then(post => {
+        .then(newUser => {
+          const { token } = userWithToken(newUser._id, newUser.toObject());
           request(app)
-            .delete(`/api/posts/${post._id}`)
-            .send()
+            .post('/api/posts')
+            .set('Authorization', token)
+            .send(newPost)
             .end((err, res) => {
-              expect(res.body).to.deep.equal({ success: true });
-              Post
-                .find({})
-                .then(posts => {
-                  expect(posts.length).to.equal(0);
-                  done();
+              const { _id: postId } = res.body;
+              request(app)
+                .delete(`/api/posts/${postId}`)
+                .set('Authorization', token)
+                .send(newPost)
+                .end((err, res) => {
+                  User
+                    .findById(newUser._id)
+                    .then(({ posts }) => {
+                      expect(posts.length).to.equal(0);
+                      Post
+                        .find({})
+                        .then((posts) => {
+                          expect(posts.length).to.equal(0);
+                          done();
+                        })
+                    })
                 });
-            })
+            });
         })
     });
   });

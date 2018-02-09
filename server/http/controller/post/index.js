@@ -54,12 +54,17 @@ const update = (req, res) => {
  */
   // TODO: [] Find the user, then remove himi
 const remove = (req, res) => {
-    const { id } = req.params;
+    const { postId } = req.params;
+    const user = res.locals.user;
 
-    Post
-      .findByIdAndRemove(id)
+    user
+      .posts
+      .remove(postId);
+
+    Promise
+      .all([Post.remove({ _id: postId }), user.save()])
       .then(() => res.send({ success: true }))
-      .catch(() => res.send({ errors: { posts: 'Error removing post' } }));
+      .catch(() => res.send({ errors: { post: 'Failed to remove post' } }))
   };
 
 module.exports = {

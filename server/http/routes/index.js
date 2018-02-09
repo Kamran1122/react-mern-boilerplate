@@ -19,7 +19,7 @@ const userRoutes = app => {
 const postRoutes = app => {
   app.get('/api/posts', PostController.index);
   app.put('/api/posts/:id', PostController.update);
-  app.delete('/api/posts/:id', PostController.remove);
+  app.delete('/api/posts/:postId', jwtAuth, PostController.remove);
   app.post('/api/posts', jwtAuth, PostController.create, UserController.savePost);
 };
 
