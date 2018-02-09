@@ -10,9 +10,9 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 const authRoutes = app => {
   app.post('/api/login', UserController.login);
   app.post('/api/register', UserController.register);
+  app.post('/api/reset-password', UserController.resetPassword);
   app.post('/api/refresh-token', UserController.refreshUserToken);
   app.post('/api/forget-password', UserController.forgetPassword, sendEmail);
-  app.post('/api/reset-password', UserController.resetPassword);
 };
 
 const userRoutes = app => {
@@ -24,8 +24,6 @@ const postRoutes = app => {
   app.get('/api/posts', PostController.index);
   app.post('/api/posts', PostController.create);
   app.put('/api/posts/:id', PostController.update);
-
-  // Remove a new post, requires JWT
   app.delete('/api/posts/:id', PostController.remove);
 };
 
