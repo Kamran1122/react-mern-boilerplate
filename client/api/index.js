@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { throwReduxAsyncErrors } from './utils';
-
 const getToken = () => localStorage.getItem('token');
 
 const api = axios.create({
@@ -36,16 +35,39 @@ const resetPassword = data => {
 
 const refreshToken = () => {
   return api
-    .post('/api/refresh-token', {}, { headers: { 'Authorization': getToken(), } })
+    .post('/api/refresh-token', {})
     .catch(err => {
       throw new Error(err);
     });
 };
 
+const createPost = data => {
+  return api
+    .post('/api/posts', data)
+    .catch(throwReduxAsyncErrors);
+};
+
+const removePost = id => {
+  return api
+    .delete(`/api/posts/${id}`)
+    .catch(throwReduxAsyncErrors);
+};
+
+const getPosts = data => {
+  return api
+    .get('/api/posts', data)
+    .catch(throwReduxAsyncErrors);
+};
+
 export {
+  // auth
   login,
   register,
   refreshToken,
   resetPassword,
   forgetPassword,
+  // posts
+  getPosts,
+  createPost,
+  removePost,
 }
