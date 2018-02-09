@@ -6,10 +6,21 @@ const Post = require('../../model/Post');
  * @param res
  */
 const index = (req, res) => {
-  Post
-    .find({})
-    .then(posts => res.send(posts))
-    .catch(() => ({ errors: { posts: 'Error fetching posts' } }));
+  const { id: _id } = req.query;
+
+  // 1 post
+  if (_id || _id === 0) {
+    Post
+      .findById(_id)
+      .then(post => res.send(post))
+      .catch(err => res.send({ errors: { post: 'Error fetching post.' } }))
+  } else {
+    // All posts
+    Post
+      .find({})
+      .then(posts => res.send(posts))
+      .catch(() => ({ errors: { posts: 'Error fetching posts.' } }));
+  }
 };
 
 /**
@@ -53,18 +64,18 @@ const update = (req, res) => {
  * @param res
  */
 const remove = (req, res) => {
-    const { postId } = req.params;
-    const user = res.locals.user;
+  const { postId } = req.params;
+  const user = res.locals.user;
 
-    user
-      .posts
-      .remove(postId);
+  user
+    .posts
+    .remove(postId);
 
-    Promise
-      .all([Post.remove({ _id: postId }), user.save()])
-      .then(() => res.send({ success: true }))
-      .catch(() => res.send({ errors: { post: 'Failed to remove post' } }))
-  };
+  Promise
+    .all([Post.remove({ _id: postId }), user.save()])
+    .then(() => res.send({ success: true }))
+    .catch(() => res.send({ errors: { post: 'Failed to remove post' } }))
+};
 
 module.exports = {
   index,

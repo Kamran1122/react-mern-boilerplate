@@ -22,6 +22,22 @@ describe('UsersController', () => {
             });
         })
     });
+
+    it('should fetch 1 postById', (done) => {
+      const newPost = createPost();
+
+      new Post(newPost)
+        .save()
+        .then(({ _id }) => {
+          request(app)
+            .get(`/api/posts?id=${_id}`)
+            .send()
+            .end((err, res) => {
+              expect(res.body._id).to.equal(_id.toString());
+              done();
+            });
+        })
+    });
   });
 
   describe('POST /api/posts', () => {
@@ -68,6 +84,8 @@ describe('UsersController', () => {
     });
   });
 
+  // TODO: [] Only deletion of users own posts
+  // TODO: [] I can' figure out how to make this query
   describe('DELETE /api/remove/:id', () => {
     it('should delete a post', done => {
       const newPost = createPost({ title: 'read my blog' });
