@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Editor as DraftJsEditor, EditorState } from 'draft-js';
+import blockStyleFn from './blockStyleFn';
+import './styles.scss';
 
 class Editor extends Component {
   static defaultProps = {
@@ -29,12 +31,15 @@ class Editor extends Component {
 
   render() {
     return (
-      <DraftJsEditor
-        editorState={this.state.editorState}
-        onChange={this.updateEditorState}
-        onBlur={this.updateEditorState}
-        readOnly={this.props.readOnly}
-      />
+      <div className="editor">
+        <DraftJsEditor
+          blockStyleFn={blockStyleFn}
+          editorState={this.state.editorState}
+          onChange={this.updateEditorState}
+          onBlur={this.updateEditorState}
+          readOnly={this.props.readOnly}
+        />
+      </div>
     );
   }
 }

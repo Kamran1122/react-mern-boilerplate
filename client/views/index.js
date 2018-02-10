@@ -24,6 +24,8 @@ import NotFound from '../components/Auth/NotFound';
 import AuthRoute from '../components/Auth/AuthRoute';
 import UnauthRoute from '../components/Auth/UnauthRoute';
 
+import Header from './Blog/components/Header';
+
 class App extends Component {
   render() {
     return (
@@ -46,9 +48,8 @@ class App extends Component {
             <Route path="/posts" component={ViewPosts} exact />
             <AuthRoute path="/posts/new" component={NewPost} exact />
             <AuthRoute path="/posts/view" component={MyPosts} exact />
-            <Route path="/posts/:postId" component={ViewPost} exact/>
+            <Route path="/posts/:postId" component={ViewPost} exact />
             <AuthRoute path="/posts/edit/:postId" component={EditPost} />
-
             {/* 404 */}
             <NotFound to="/" />
           </Switch>

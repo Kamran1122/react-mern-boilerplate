@@ -6,6 +6,7 @@ import { createPost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
 import { Col, Row } from 'react-flexbox-grids';
 import EditorField, { serializeEditorState } from '../../../components/Form/EditorField';
+import BlogWrapper from '../components/BlogWrapper';
 
 // - [x] Api call
 // - [ ] Async errors
@@ -16,48 +17,50 @@ const NewPost = props => {
   const { handleSubmit, onSubmit } = props;
 
   return (
-    <Row>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Col xs={12}>
-          <label>Title</label>
-          <InputField
-            name="title"
-            type="text"
-          />
-        </Col>
+    <BlogWrapper>
+      <Row>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Col xs={12}>
+            <label>Title</label>
+            <InputField
+              name="title"
+              type="text"
+            />
+          </Col>
 
-        <Col xs={12}>
-          <label>Content</label>
-          <EditorField
-            name="content"
-          />
-        </Col>
+          <Col xs={12}>
+            <label>Content</label>
+            <EditorField
+              name="content"
+            />
+          </Col>
 
-        <Col xs={12}>
-          <label>Status</label>
-          <InputField
-            name="status"
-            type="text"
-          />
-        </Col>
+          <Col xs={12}>
+            <label>Status</label>
+            <InputField
+              name="status"
+              type="text"
+            />
+          </Col>
 
-        <Col xs={12}>
-          <label>Category</label>
-          <InputField
-            name="category"
-            type="text"
-          />
-        </Col>
+          <Col xs={12}>
+            <label>Category</label>
+            <InputField
+              name="category"
+              type="text"
+            />
+          </Col>
 
-        <Col xs={12}>
-          <input
-            value="submit"
-            type="submit"
-          />
-        </Col>
-        <Link to="/posts">Post</Link>
-      </form>
-    </Row>
+          <Col xs={12}>
+            <input
+              value="submit"
+              type="submit"
+            />
+          </Col>
+          <Link to="/posts">Post</Link>
+        </form>
+      </Row>
+    </BlogWrapper>
   );
 };
 
