@@ -39,9 +39,11 @@
 - [x] Create the edit post view.
 
 // Feb 10
-- [ ] Add draft-js to render posts.
+- [x] Add draft-js to render posts.
+- [x] Serialize/Deserialize draft-js data.
+- [x] Create a draft-js-redux input component.
 - [ ] Verify areas where Sync and Async validation need to be implemented.
 - [ ] Make sure only post owners can delete their posts.
 - [ ] Research and implement a reusable Error handling solution, so the backend and frontend can sync.
 - [ ] Add socket.io for real time blog updates.
-- [ ] Find a nice Design on Uplabs or behance and work on the frontend 
+- [ ] Find a nice Design on Uplabs or Behance and work on the frontend 
