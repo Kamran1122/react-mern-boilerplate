@@ -1,17 +1,17 @@
 import React from 'react';
+import * as R from 'ramda';
 import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
-import EditorField from '../../../components/Form/EditorField';
+import EditorField, { serializeEditorState } from '../../../components/Form/EditorField';
 
 // - [x] Api call
 // - [ ] Async errors
 // - [ ] Sync errors
 // - [ ] Route on save
 // - [ ] initial values
-
-const NewPost = (props) => {
+const NewPost = props => {
   const { handleSubmit, onSubmit } = props;
 
   return (
@@ -57,9 +57,9 @@ const NewPost = (props) => {
   );
 };
 
-const handleSubmitSuccess = (payload, dispatch, props) => {
+const handleSubmitSuccess = ({ data }, dispatch, { history }) => {
   console.log('Post saved');
-  // dispatch a toast action maybe?
+  history.push(`/posts/edit/${data._id}`);
 };
 
 const handleSubmitFail = (payload, dispatch, props) => {
@@ -67,14 +67,25 @@ const handleSubmitFail = (payload, dispatch, props) => {
   // dispatch a toast action maybe?
 };
 
-export default reduxForm({
+const onSubmit = values => {
+  const stringifiedContentState = serializeEditorState(values.content);
+  const newValues = { ...values, ...{ content: stringifiedContentState } };
+
+  return createPost(newValues);
+};
+
+const formOptions = {
   form: 'new-post',
   onSubmitSuccess: handleSubmitSuccess,
   onSubmitFail: handleSubmitFail,
-  onSubmit: createPost,
+  onSubmit: onSubmit,
   initialValues: {
     title: 'My Post',
     status: 'draft',
     category: 'react',
   }
-})(NewPost);
+};
+
+export default R.compose(
+  reduxForm(formOptions)
+)(NewPost);

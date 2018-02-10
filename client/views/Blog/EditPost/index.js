@@ -5,7 +5,10 @@ import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { getPost, updatePost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
-import EditorField from '../../../components/Form/EditorField';
+import EditorField, {
+  deserializeEditorState,
+  serializeEditorState
+} from '../../../components/Form/EditorField';
 
 // - [x] Api call
 // - [x] initial async values
@@ -28,7 +31,9 @@ const withPost = (ComponentClass) => {
       const { postId } = this.props.match.params;
       getPost(postId)
         .then(({ data }) => {
-          !this.unmounted && this.setState({ initialValues: data, })
+          const editorState = deserializeEditorState(data.content);
+          const newData = { ...data, ...{ content: editorState } };
+          !this.unmounted && this.setState({ initialValues: newData, })
         })
         .catch(err => {
           console.log(err);
@@ -94,12 +99,17 @@ const handleSubmitSuccess = (payload, dispatch, props) => {
 
 const handleSubmitFail = (payload, dispatch, props) => {
   console.log('Post did not update');
-  // dispatch a toast action maybe?
+};
+
+const onSubmit = values => {
+  const stringifiedContentState = serializeEditorState(values.content);
+  const newValues = { ...values, ...{ content: stringifiedContentState } };
+  return updatePost(newValues);
 };
 
 const formOptions = {
   form: 'edit-post',
-  onSubmit: updatePost,
+  onSubmit: onSubmit,
   onSubmitFail: handleSubmitFail,
   onSubmitSuccess: handleSubmitSuccess,
 };
