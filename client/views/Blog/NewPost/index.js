@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
+import { Col, Row } from 'react-flexbox-grids';
 import EditorField, { serializeEditorState } from '../../../components/Form/EditorField';
 
 // - [x] Api call
@@ -15,45 +16,48 @@ const NewPost = props => {
   const { handleSubmit, onSubmit } = props;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Title</label>
-        <InputField
-          name="title"
-          type="text"
-        />
-      </div>
+    <Row>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Col xs={12}>
+          <label>Title</label>
+          <InputField
+            name="title"
+            type="text"
+          />
+        </Col>
 
-      <div>
-        <label>Content</label>
-        <EditorField
-          name="content"
-        />
-      </div>
+        <Col xs={12}>
+          <label>Content</label>
+          <EditorField
+            name="content"
+          />
+        </Col>
 
-      <div>
-        <label>Status</label>
-        <InputField
-          name="status"
-          type="text"
-        />
-      </div>
-      <div>
-        <label>Category</label>
-        <InputField
-          name="category"
-          type="text"
-        />
-      </div>
+        <Col xs={12}>
+          <label>Status</label>
+          <InputField
+            name="status"
+            type="text"
+          />
+        </Col>
 
-      <div>
-        <input
-          value="submit"
-          type="submit"
-        />
-      </div>
-      <Link to="/posts">Post</Link>
-    </form>
+        <Col xs={12}>
+          <label>Category</label>
+          <InputField
+            name="category"
+            type="text"
+          />
+        </Col>
+
+        <Col xs={12}>
+          <input
+            value="submit"
+            type="submit"
+          />
+        </Col>
+        <Link to="/posts">Post</Link>
+      </form>
+    </Row>
   );
 };
 

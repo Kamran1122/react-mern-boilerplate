@@ -47,3 +47,4 @@
 - [ ] Research and implement a reusable Error handling solution, so the backend and frontend can sync.
 - [ ] Add socket.io for real time blog updates.
 - [ ] Find a nice Design on Uplabs or Behance and work on the frontend 
+- [ ] Rethink session regeneration logic.

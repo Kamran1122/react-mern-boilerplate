@@ -1,0 +1,51 @@
+// Reset
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i');
+
+h1, h2, h3, h4, h5, h6, p, label, span, input, select, textarea, a, ul, li, button {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, span, input, select, textarea, a, ul, li, button {
+  margin-bottom: 15px;
+}
+
+h1, h2, h3, h4, h5, h6, label {
+  font-weight: 600;
+}
+
+// Headers
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 34px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 21px;
+}
+
+h6 {
+  font-size: 19px;
+}
+
+p, span {
+  font-size: 16px;
+}
+
+label {
+  font-size: 14px;
+}
+

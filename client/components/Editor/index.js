@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Editor as DraftJsEditor } from 'draft-js';
+import { Editor as DraftJsEditor, EditorState } from 'draft-js';
 
 class Editor extends Component {
+  static defaultProps = {
+    editorState: EditorState.createEmpty()
+  };
+
   constructor(props) {
     super(props);
     this.state = {

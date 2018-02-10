@@ -37,15 +37,6 @@ class RefreshToken extends Component {
       });
   };
 
-  loading = false;
-
-  handleMouseMove = throttle(() => {
-    if (this.props.shouldRefreshToken && this.loading === false) {
-      this.loading = true;
-      this.refresh().then(() => this.loading = false);
-    }
-  }, 1000);
-
   render() {
     return this.props.children;
   };
@@ -56,7 +47,6 @@ const
     referrer: state.location.referrer,
     life: state.session.life,
     expired: state.session.expired,
-    shouldRefreshToken: !state.session.expired && (state.session.life < state.session.duration - (60 * 1))
   });
 
 export default R

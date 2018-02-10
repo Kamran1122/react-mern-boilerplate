@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { getPosts } from '../../../api';
 import { Link } from 'react-router-dom';
+import { getPosts } from '../../../api';
 import { removePost } from '../../../api';
+import { Row, Col } from 'react-flexbox-grids';
 
 class ViewPostsContainer extends Component {
   state = {
@@ -36,9 +37,9 @@ class ViewPostsContainer extends Component {
   render() {
     return (
       <ViewPosts
-        {...this.props}
         posts={this.state.posts}
         removePost={this.remove}
+        {...this.props}
       />
     );
   }
@@ -46,7 +47,7 @@ class ViewPostsContainer extends Component {
 
 const Post = (props) => {
   return (
-    <div>
+    <Col xs={12}>
       <div>
         <button onClick={props.removePost}>
           Delete
@@ -55,9 +56,9 @@ const Post = (props) => {
           <Link to={`posts/edit/${props._id}`}>Edit</Link>
         </button>
       </div>
-      <h2>title: {props.title}</h2>
+      <h2><Link to={`posts/${props._id}`}>{props.title}</Link></h2>
       <p>content: {props.content}</p>
-    </div>
+    </Col>
   );
 };
 
@@ -79,15 +80,17 @@ const ViewPosts = (props) => {
   const { posts, removePost } = props;
 
   return (
-    <div>
-      <Link to="/posts/new">
-        New Post
-      </Link>
-      <Link to="/logout">
-        Log Out
-      </Link>
+    <Row>
+      <Col xs={12}>
+        <Link to="/posts/new">
+          New Post
+        </Link>
+        <Link to="/logout">
+          Log Out
+        </Link>
+      </Col>
       <Posts posts={posts} removePost={removePost} />
-    </div>
+    </Row>
   );
 };
 
