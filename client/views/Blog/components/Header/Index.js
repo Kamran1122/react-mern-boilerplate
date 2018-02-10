@@ -5,7 +5,7 @@ const Header = props => {
   return (
     <Row>
       <Col xs={4}></Col>
-      <Col xs={4}><h2>WebDeveloperPR Blog</h2></Col>
+      <Col xs={4} className="text-center"><h4>WebDeveloperPR Blog</h4></Col>
       <Col xs={4}></Col>
     </Row>
   );

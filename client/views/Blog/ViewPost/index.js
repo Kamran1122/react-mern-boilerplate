@@ -4,12 +4,11 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'react-flexbox-grids';
 import { getPost, updatePost } from '../../../api';
-import Editor from '../../../components/Editor';
+import Editor from '../../../components/Draft';
 import {
   deserializeEditorState,
   serializeEditorState
 } from '../../../components/Form/EditorField';
-import BlogWrapper from '../components/BlogWrapper';
 
 const withPost = (ComponentClass) => {
   return class WithPost extends Component {
@@ -35,7 +34,6 @@ const withPost = (ComponentClass) => {
     }
 
     render() {
-      const initialValues = this.state.initialValues;
       return (
         <ComponentClass {...this.props} {...this.state} />
       );
@@ -45,21 +43,19 @@ const withPost = (ComponentClass) => {
 
 const EditPost = (props) => {
   return (
-    <BlogWrapper>
-      <Row>
-        <Col xs={12}>
-          <Link to="/posts">Post</Link>
-        </Col>
-        <Col xs={12}>
-          <h1>{props.title}</h1>
+    <Row>
+      <Col xs={12}>
+        <Link to="/posts">Post</Link>
+      </Col>
+      <Col xs={12}>
+        <h1>{props.title}</h1>
 
-          <Editor
-            editorState={props.content}
-            readOnly
-          />
-        </Col>
-      </Row>
-    </BlogWrapper>
+        <Editor
+          editorState={props.content}
+          readOnly
+        />
+      </Col>
+    </Row>
   );
 };
 

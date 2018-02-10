@@ -6,7 +6,7 @@ import { Route, Redirect } from 'react-router-dom';
 const AuthRoute = ({ authenticated, name, component: Component, ...rest }) => {
   return (
     <Route {...rest} render={props => {
-      const to = { pathname: '/login', state: { from: props.location } };
+      const to = { pathname: '/', state: { from: props.location } };
       return authenticated
         ? <Component {...props} />
         : <Redirect to={to} />;

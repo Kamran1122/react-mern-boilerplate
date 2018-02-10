@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import debounce from 'lodash.debounce';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import Editor from '../../Editor';
+import NewEditor from '../../Draft';
 
 // The purpose of this component is to map reduxStateToProps
 // using redux form.
@@ -26,7 +26,7 @@ class EditorFieldContainer extends Component {
       : EditorState.createEmpty();
 
     return (
-      <Editor
+      <NewEditor
         {...this.props}
         editorState={editorState}
         onChange={this.onChange}

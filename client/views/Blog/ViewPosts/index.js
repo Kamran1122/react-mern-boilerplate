@@ -60,6 +60,7 @@ const Post = (props) => {
       <p>content: {props.content}</p>
     </Col>
   );
+  x
 };
 
 const Posts = ({ posts = [], removePost }) => {

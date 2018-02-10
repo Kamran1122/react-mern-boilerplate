@@ -5,7 +5,6 @@ import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { getPost, updatePost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
-import BlogWrapper from '../components/BlogWrapper';
 import EditorField, {
   deserializeEditorState,
   serializeEditorState
@@ -53,46 +52,44 @@ const withPost = (ComponentClass) => {
 const EditPost = (props) => {
   const { handleSubmit, onSubmit } = props;
   return (
-    <BlogWrapper>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Title</label>
-          <InputField
-            name="title"
-            type="text"
-          />
-        </div>
+    <form className="col-xs-12" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label>Title</label>
+        <InputField
+          name="title"
+          type="text"
+        />
+      </div>
 
-        <div>
-          <label>Content</label>
-          <EditorField
-            name="content"
-          />
-        </div>
+      <div>
+        <label>Content</label>
+        <EditorField
+          name="content"
+        />
+      </div>
 
-        <div>
-          <label>Status</label>
-          <InputField
-            name="status"
-            type="text"
-          />
-        </div>
-        <div>
-          <label>Category</label>
-          <InputField
-            name="category"
-            type="text"
-          />
-        </div>
-        <div>
-          <input
-            value="Update"
-            type="submit"
-          />
-        </div>
-        <Link to="/posts">Post</Link>
-      </form>
-    </BlogWrapper>
+      <div>
+        <label>Status</label>
+        <InputField
+          name="status"
+          type="text"
+        />
+      </div>
+      <div>
+        <label>Category</label>
+        <InputField
+          name="category"
+          type="text"
+        />
+      </div>
+      <div>
+        <input
+          value="Update"
+          type="submit"
+        />
+      </div>
+      <Link to="/posts">Post</Link>
+    </form>
   );
 };
 
