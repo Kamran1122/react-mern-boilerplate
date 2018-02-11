@@ -1,6 +1,7 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 import Toolbar from './features/Toolbar';
 // core
 import {
@@ -38,6 +39,8 @@ class RichEditor extends React.Component {
       readOnly: false,
     };
     this.getEditorState = () => this.state.editorState;
+    this.setEditorRef = ref => this.editor = ref;
+    this.focusEditor = () => this.editor.focus();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -148,8 +151,9 @@ class RichEditor extends React.Component {
           toggleFontSize={this.toggleFontSize}
           toggleFontFamily={this.toggleFontFamily}
         />
-        <div className="text-editor">
+        <div className="text-editor" onClick={this.focusEditor}>
           <Editor
+            ref={this.setEditorRef}
             blockRendererFn={blockRendererFn(
               this.updateEditorState,
               this.getEditorState,
@@ -170,7 +174,6 @@ class RichEditor extends React.Component {
             onChange={this.updateEditorState}
             onTab={this.onTab}
             placeholder="Tell a story..."
-            ref="editor"
             readOnly={this.state.readOnly}
             spellCheck
           />

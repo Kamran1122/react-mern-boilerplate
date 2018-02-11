@@ -9,7 +9,6 @@ const INLINE_STYLES = [
   { icon: 'bold', style: inlineStyles.BOLD },
   { icon: 'italic', style: inlineStyles.ITALIC },
   { icon: 'underline', style: inlineStyles.UNDERLINE },
-  { icon: 'code', style: inlineStyles.CODE },
   { icon: 'strikethrough', style: inlineStyles.STRIKETHROUGH },
 ];
 
