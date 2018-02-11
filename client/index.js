@@ -3,26 +3,28 @@ import thunk from 'redux-thunk';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import App from './views';
 import reducers from './reducers';
 import { scanToken } from './reducers/session';
 import RefreshToken from './components/Auth/RefreshToken';
 import { actions as locationActions } from './reducers/location';
 
-// Add middleware here
+const history = createHistory();
+
+// Add middlewares here
 const middleware = applyMiddleware(...[
-  thunk
+  thunk,
+  routerMiddleware()
 ]);
 
 const enhancers = composeWithDevTools({
   actionsBlacklist: ['SET_SESSION'],
 });
 
-// options like actionSanitizer, stateSanitizer
 const composeEnhancers = enhancers(middleware);
-
 const store = createStore(reducers, composeEnhancers);
 
 // Set the referrer so we can route the user after a login
@@ -33,10 +35,10 @@ store.dispatch(locationActions.setReferrer(location.pathname));
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <RefreshToken>
         <App />
       </RefreshToken>
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>
   , document.querySelector('#root'));
