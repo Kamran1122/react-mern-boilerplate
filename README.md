@@ -7,6 +7,11 @@ Auto-login on browser refresh, and auto JWT refresh if the user is active. So us
 
 On the frontend it provides components to protect routes when a user is authorized or unauthorized.
 
+It also includes a blogging feature with discuss for comments
+
+![Alt text](client/assets/images/preview.png)
+
+
 ## Installation
 - `npm i`
 
