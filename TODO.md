@@ -48,3 +48,14 @@
 - [ ] Add socket.io for real time blog updates.
 - [ ] Find a nice Design on Uplabs or Behance and work on the frontend 
 - [ ] Rethink session regeneration logic.
+- [ ] Create the about page.
+- [x] Create and hook up Category sidebar.
+- [x] Create a Blog reducer and add thunk actions.
+- [x] Remove inline code button from the toolbar.
+- [x] Fetch posts by category.
+- [x] Finish the header.
+
+// Feb 11
+- [ ] Style the sign in page.
+- [ ] Integrate Discuss.    
+- [ ]  format the main post

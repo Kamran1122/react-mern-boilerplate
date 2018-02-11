@@ -1,0 +1,78 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-flexbox-grids';
+
+const Post = props => {
+  return (
+    <div className="blog-post-card">
+      <Row className="blog-post-header">
+        <Col xs className="blog-post-header-left-side">
+          <div className="blog-post-header-user-info">
+            <img className="blog-post-header-user-avatar" src="https://placehold.it/450x450" alt="" />
+            <div className="blog-post-header-user-text-wrapper">
+              <span className="blog-post-header-user-name">username</span>
+              <span className="blog-post-header-user-handle">@webdeveloperpr</span>
+            </div>
+          </div>
+        </Col>
+        <Col xs className="blog-post-header-right-side">
+          <button>
+            JavacScript +1
+          </button>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <h2>
+            Why are front-end JS dev's so afraid of the DOM? It's not like she's got a
+            whip!
+          </h2>
+          <p>
+            ignorance is more appropriate? I'm really asking because with a certain client
+            I
+            just dealt with a major XSS hole that was screwing them entirely because they
+            were using jQuery's html() to slop markup -- including user defined values --
+            into the page.
+          </p>
+        </Col>
+      </Row>
+      <Col xs={12} className="blog-post-footer">
+        <button className="btn blog-btn blog-btn-upvote">
+          Upvote 4
+        </button>
+        <button className="btn blog-btn blog-btn-follow">
+          Follow
+        </button>
+        <button className="btn blog-btn blog-btn-answer">
+          Answer
+        </button>
+      </Col>
+      {/*<div>*/}
+      {/*<button onClick={props.removePost}>*/}
+      {/*Delete*/}
+      {/*</button>*/}
+      {/*<button>*/}
+      {/*<Link to={`posts/edit/${props._id}`}>Edit</Link>*/}
+      {/*</button>*/}
+      {/*</div>*/}
+      {/*<h2><Link to={`posts/${props._id}`}>{props.title}</Link></h2>*/}
+      {/*<p className="ellipsis">content: {props.content}</p>*/}
+    </div>
+  );
+};
+
+const Posts = ({ posts = [], removePost }) => {
+  return posts.map(post => {
+    return (
+      <Post
+        removePost={() => removePost(post._id)}
+        title={post.title}
+        _id={post._id}
+        content={post.content}
+        key={post._id}
+      />
+    );
+  });
+};
+
+export default Posts;
