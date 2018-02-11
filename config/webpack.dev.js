@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // loaders
 const js = require('./loaders/js');
-const scss = require('./loaders/scss');
+const css = require('./loaders/css');
 const image = require('./loaders/image');
 const constants = require('./constants');
 
@@ -29,7 +29,7 @@ const config = {
   module: {
     rules: [
       js.loader,
-      scss.loader,
+      ...css.loader,
       image.loader,
     ]
   },
@@ -38,7 +38,8 @@ const config = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({ template: TEMPLATE_FILE, }),
     new webpack.optimize.CommonsChunkPlugin({ names: ['vendors', 'manifest'] }),
-    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) } })
+    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) } }),
+    css.extract
   ]
 };
 

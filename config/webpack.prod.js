@@ -28,7 +28,7 @@ const config = {
   module: {
     rules: [
       js.loader,
-      css.loader,
+      ...css.loader,
       image.loader,
     ]
   },
