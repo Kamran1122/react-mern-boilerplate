@@ -7,6 +7,7 @@ const Post = require('../../model/Post');
  */
 const index = (req, res) => {
   const { id: _id } = req.query;
+  const { category } = req.query;
 
   // 1 post
   if (_id || _id === 0) {
@@ -16,8 +17,12 @@ const index = (req, res) => {
       .catch(err => res.send({ errors: { post: 'Error fetching post.' } }))
   } else {
     // All posts
+    // TODO: [] Test this case
+    const query = category
+      ? { category }
+      : {};
     Post
-      .find({})
+      .find(query)
       .then(posts => res.send(posts))
       .catch(() => ({ errors: { posts: 'Error fetching posts.' } }));
   }

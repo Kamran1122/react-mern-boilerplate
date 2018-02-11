@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as R from 'ramda';
 import { Row } from 'react-flexbox-grids';
-import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { getPost, updatePost } from '../../../api';
@@ -90,7 +89,6 @@ const EditPost = (props) => {
             type="submit"
           />
         </div>
-        <Link to="/posts">Post</Link>
       </form>
     </Row>
   );

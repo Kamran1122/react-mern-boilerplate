@@ -9,10 +9,13 @@ const statuses = [
 ];
 
 const categories = [
+  'javascript',
   'react',
   'redux',
   'nodejs',
-  'webpack',
+  'mongoDB',
+  'css',
+  'html',
 ];
 
 const PostSchema = Schema({

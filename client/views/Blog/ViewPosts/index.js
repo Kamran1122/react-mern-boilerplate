@@ -1,49 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPosts } from '../../../api';
-import { removePost } from '../../../api';
 import { Row, Col } from 'react-flexbox-grids';
-
-class ViewPostsContainer extends Component {
-  state = {
-    posts: [],
-  };
-
-  componentWillUnmount() {
-    this.unmounted = true;
-  }
-
-  componentDidMount() {
-    getPosts()
-      .then(res => {
-        const posts = res.data || [];
-        !this.unmounted && this.setState({ posts })
-      })
-      .catch(err => {
-        console.log('Error fetching posts');
-      })
-  }
-
-  remove = (id) => {
-    removePost(id)
-      .then(res => {
-        console.log('removed');
-      })
-      .catch(err => {
-        console.log('failed to remove');
-      })
-  };
-
-  render() {
-    return (
-      <ViewPosts
-        posts={this.state.posts}
-        removePost={this.remove}
-        {...this.props}
-      />
-    );
-  }
-}
+import { actions as blogActions } from '../../../reducers/blog';
 
 const Post = (props) => {
   return (
@@ -84,4 +43,31 @@ const ViewPosts = (props) => {
   );
 };
 
-export default ViewPostsContainer
+class ViewPostsContainer extends Component {
+  componentWillUnmount() {
+    this.unmounted = true;
+  }
+
+  componentDidMount() {
+    this.props.fetchPosts();
+  }
+
+  render() {
+    return (
+      <ViewPosts{...this.props} />
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    posts: state.blog.posts,
+  }
+};
+
+const mapDispatchToProps = {
+  fetchPosts: blogActions.fetchPosts,
+  removePost: blogActions.removePost,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPostsContainer);

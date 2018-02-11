@@ -1,19 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import * as R from 'ramda';
 import PropTypes from 'prop-types';
-import { ListIcon, CategoryIcon } from '../../ListIcon';
-
-const ListItem = props => {
-  // blog-category-list-item--active
-  const { icon, children } = props;
-  return (
-    <li className="blog-category-list-item">
-      <ListIcon icon={icon} />
-      <span className="blog-category-list-item-text">
-        {children}
-      </span>
-    </li>
-  );
-};
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import ListItem from './ListItem';
+import { CategoryIcon } from '../../ListIcon';
+import { actions as blogActions } from '../../../../reducers/blog';
 
 const SidebarLeft = props => {
   return (
@@ -22,12 +14,12 @@ const SidebarLeft = props => {
         <CategoryIcon />
       </div>
       <ul className="blog-category-list">
-        <ListItem icon="js">Javascript</ListItem>
-        <ListItem icon="react">React</ListItem>
-        <ListItem icon="node">Node</ListItem>
-        <ListItem icon="mongodb">MongoDB</ListItem>
-        <ListItem icon="css">CSS</ListItem>
-        <ListItem icon="html">HTML</ListItem>
+        <ListItem onClick={props.handleClick('javascript')} icon="js">Javascript</ListItem>
+        <ListItem onClick={props.handleClick('react')} icon="react">React</ListItem>
+        <ListItem onClick={props.handleClick('node')} icon="node">Node</ListItem>
+        <ListItem onClick={props.handleClick('mongoDB')} icon="mongodb">MongoDB</ListItem>
+        <ListItem onClick={props.handleClick('css')} icon="css">CSS</ListItem>
+        <ListItem onClick={props.handleClick('html')} icon="html">HTML</ListItem>
       </ul>
     </div>
   );
@@ -39,4 +31,33 @@ SidebarLeft.propTypes = {
 
 SidebarLeft.defaultProps = {};
 
-export default SidebarLeft;
+class SidebarLeftContainer extends Component {
+  render() {
+    return (
+      <SidebarLeft {...this.props} />
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    category: state.blog.category,
+  }
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+  const handleClick = category => () => {
+    dispatch(blogActions.fetchPosts({ category }));
+    dispatch(blogActions.changeCategory(category));
+    props.history.push('/');
+  };
+
+  return {
+    handleClick,
+  };
+};
+
+export default R.compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(SidebarLeftContainer);

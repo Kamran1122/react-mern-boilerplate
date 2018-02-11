@@ -1,6 +1,5 @@
 import React from 'react';
 import * as R from 'ramda';
-import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../../../api';
 import InputField from '../../../components/Form/InputField';
@@ -55,7 +54,6 @@ const NewPost = props => {
             type="submit"
           />
         </Col>
-        <Link to="/posts">Post</Link>
       </form>
     </Row>
   );

@@ -1,6 +1,13 @@
 import axios from 'axios';
+import querystring from 'querystring';
 import { throwReduxAsyncErrors } from './utils';
+
 const getToken = () => localStorage.getItem('token');
+
+const queryfy = (data = {}) => {
+  const string = querystring.stringify(data);
+  return string.length ? '?'.concat(string) : '';
+};
 
 const api = axios.create({
   timeout: 1000,
@@ -55,7 +62,7 @@ const removePost = id => {
 
 const getPosts = data => {
   return api
-    .get('/api/posts', data)
+    .get('/api/posts'.concat(queryfy(data)))
     .catch(throwReduxAsyncErrors);
 };
 
