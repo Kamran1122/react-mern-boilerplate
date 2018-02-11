@@ -9,11 +9,10 @@ const Header = props => {
         <NavLink to="/" className="header-link">Webdeveloperpr</NavLink>
         <NavLink to="/posts/new" className="header-link">NewPost</NavLink>
         <NavLink to="/about" className="header-link">About</NavLink>
-        <NavLink to="/logout" className="header-link">Logout</NavLink>
-        <NavLink to="/" className="header-link"><input type="search" /></NavLink>
       </div>
       <div className="header-right-section">
-        <div>Menu</div>
+        <NavLink to="/" className="header-link"><input type="search" /></NavLink>
+        <NavLink to="/logout" className="header-link">Logout</NavLink>
       </div>
     </Col>
   );
