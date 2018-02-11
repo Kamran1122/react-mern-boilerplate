@@ -45,11 +45,7 @@ const EditPost = (props) => {
   return (
     <Row>
       <Col xs={12}>
-        <Link to="/posts">Post</Link>
-      </Col>
-      <Col xs={12}>
         <h1>{props.title}</h1>
-
         <Editor
           editorState={props.content}
           readOnly

@@ -47,7 +47,7 @@ class ViewPostsContainer extends Component {
 
 const Post = (props) => {
   return (
-    <Col xs={12}>
+    <>
       <div>
         <button onClick={props.removePost}>
           Delete
@@ -57,10 +57,9 @@ const Post = (props) => {
         </button>
       </div>
       <h2><Link to={`posts/${props._id}`}>{props.title}</Link></h2>
-      <p>content: {props.content}</p>
-    </Col>
+      <p className="ellipsis">content: {props.content}</p>
+    </>
   );
-  x
 };
 
 const Posts = ({ posts = [], removePost }) => {
@@ -81,17 +80,7 @@ const ViewPosts = (props) => {
   const { posts, removePost } = props;
 
   return (
-    <Row>
-      <Col xs={12}>
-        <Link to="/posts/new">
-          New Post
-        </Link>
-        <Link to="/logout">
-          Log Out
-        </Link>
-      </Col>
-      <Posts posts={posts} removePost={removePost} />
-    </Row>
+    <Posts posts={posts} removePost={removePost} />
   );
 };
 

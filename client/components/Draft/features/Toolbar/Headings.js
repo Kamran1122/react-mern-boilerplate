@@ -11,6 +11,7 @@ const BLOCK_TYPES = [
   { label: 'H4', style: blockTypes.H4 },
   { label: 'H5', style: blockTypes.H5 },
   { label: 'H6', style: blockTypes.H6 },
+  { label: '</>', style: blockTypes.CODE_BLOCK },
 ];
 
 const renderBlockTypes = props => {

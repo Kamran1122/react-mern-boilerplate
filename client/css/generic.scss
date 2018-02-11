@@ -3,6 +3,14 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i');
 
+.html {
+  font-size: 10px;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
 * {
   box-sizing: border-box !important;
 }
@@ -12,7 +20,7 @@ h1, h2, h3, h4, h5, h6, p, label, input, select, textarea, a, ul, li, button {
   font-weight: 400;
 }
 
-h1, h2, h3, h4, h5, h6, p, label, input, select, textarea, a, ul, li, button {
+h1, h2, h3, h4, h5, h6, p, label, ul, li {
   margin-bottom: 15px;
 }
 

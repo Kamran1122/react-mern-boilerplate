@@ -38,8 +38,8 @@ const Toolbar = props => {
       <Lists
         toggleBlockType={props.toggleBlockType}
       />
-      <Save/>
-      <Redo/>
+      <Save />
+      <Redo />
     </div>
   );
 };

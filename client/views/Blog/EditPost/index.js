@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as R from 'ramda';
+import { Row } from 'react-flexbox-grids';
 import { Link } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
@@ -52,44 +53,46 @@ const withPost = (ComponentClass) => {
 const EditPost = (props) => {
   const { handleSubmit, onSubmit } = props;
   return (
-    <form className="col-xs-12" onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Title</label>
-        <InputField
-          name="title"
-          type="text"
-        />
-      </div>
+    <Row>
+      <form className="col-xs-12" onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label>Title</label>
+          <InputField
+            name="title"
+            type="text"
+          />
+        </div>
 
-      <div>
-        <label>Content</label>
-        <EditorField
-          name="content"
-        />
-      </div>
+        <div>
+          <label>Content</label>
+          <EditorField
+            name="content"
+          />
+        </div>
 
-      <div>
-        <label>Status</label>
-        <InputField
-          name="status"
-          type="text"
-        />
-      </div>
-      <div>
-        <label>Category</label>
-        <InputField
-          name="category"
-          type="text"
-        />
-      </div>
-      <div>
-        <input
-          value="Update"
-          type="submit"
-        />
-      </div>
-      <Link to="/posts">Post</Link>
-    </form>
+        <div>
+          <label>Status</label>
+          <InputField
+            name="status"
+            type="text"
+          />
+        </div>
+        <div>
+          <label>Category</label>
+          <InputField
+            name="category"
+            type="text"
+          />
+        </div>
+        <div>
+          <input
+            value="Update"
+            type="submit"
+          />
+        </div>
+        <Link to="/posts">Post</Link>
+      </form>
+    </Row>
   );
 };
 

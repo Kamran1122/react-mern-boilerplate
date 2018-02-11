@@ -3,11 +3,11 @@ import { Col, Row } from 'react-flexbox-grids';
 
 const Footer = props => {
   return (
-    <Row>
+    <>
       <Col xs={12}></Col>
-      <Col xs={12}><h5>WebDeveloperPR Blog</h5></Col>
+      <Col xs={12}><h5>WebDeveloperPR Blog @ 2018</h5></Col>
       <Col xs={12}></Col>
-    </Row>
+    </>
   );
 };
 
