@@ -4,7 +4,6 @@ import Footer from '../Footer/Index';
 import SidebarLeft from '../ViewPosts/SidebarLeft';
 import SidebarRight from '../ViewPosts/SidebarRight';
 import { Col, Row, Container } from 'react-flexbox-grids';
-import '../styles.scss';
 
 const BlogWrapper = props => {
   return (
