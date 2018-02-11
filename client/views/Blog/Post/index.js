@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-flexbox-grids';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/fontawesome-free-solid'
+import { faThumbsUp, faComment } from '@fortawesome/fontawesome-free-regular';
 
 const Post = props => {
   return (
@@ -36,17 +39,22 @@ const Post = props => {
           </p>
         </Col>
       </Row>
-      <Col xs={12} className="blog-post-footer">
-        <button className="btn blog-btn blog-btn-upvote">
-          Upvote 4
-        </button>
-        <button className="btn blog-btn blog-btn-follow">
-          Follow
-        </button>
-        <button className="btn blog-btn blog-btn-answer">
-          Answer
-        </button>
-      </Col>
+      <Row>
+        <Col xs={12} className="blog-post-footer">
+          <button className="btn blog-btn blog-btn-upvote">
+            <FontAwesomeIcon className="blog-btn-icon blog-btn-icon-upvote" icon={faThumbsUp} />
+            Upvote 4
+          </button>
+          <button className="btn blog-btn blog-btn-follow">
+            <FontAwesomeIcon className="blog-btn-icon" icon={faPlusCircle} />
+            Follow
+          </button>
+          <button className="btn blog-btn blog-btn-answer">
+            <FontAwesomeIcon className="blog-btn-icon" icon={faComment} />
+            Answer
+          </button>
+        </Col>
+      </Row>
       {/*<div>*/}
       {/*<button onClick={props.removePost}>*/}
       {/*Delete*/}

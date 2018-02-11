@@ -110,8 +110,9 @@
 
 // Post card
 .blog-post-card {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
   border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  margin-bottom: 15px;
   padding: 20px;
   background: #fff;
 }
@@ -183,4 +184,14 @@
 
 .blog-post-footer .blog-btn {
   margin-right: 5px;
+}
+
+.blog-btn-icon {
+  margin-right: 5px;
+  font-size: 20px;
+  color: #555;
+}
+
+.blog-btn-icon-upvote {
+  color: inherit;
 }
