@@ -1,0 +1,34 @@
+.subscribe-form {
+  @include wrapperShadow();
+  padding: 20px;
+  background: #fff;
+}
+
+.subscribe-form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.subscribe-form-label {
+
+}
+
+.subscribe-form-text-input {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #e9e9e9;
+  margin-bottom: 15px;
+}
+
+.subscribe-form-submit-button {
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #1FC658;
+}
+
+.subscribe-form-title {
+  margin: 0;
+  margin-bottom: 15px;
+}

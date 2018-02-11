@@ -58,4 +58,7 @@
 // Feb 11
 - [ ] Style the sign in page.
 - [ ] Integrate Discuss.    
-- [ ]  format the main post
+- [x] format the main post
+- [x] Fix webpack image error messages.
+- [x] Fix style compilation order.
+ 

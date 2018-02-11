@@ -4,10 +4,12 @@ import { Row, Col } from 'react-flexbox-grids';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/fontawesome-free-solid'
 import { faThumbsUp, faComment } from '@fortawesome/fontawesome-free-regular';
+// `posts/${props._id}`
 
 const Post = props => {
   return (
-    <div className="blog-post-card">
+    <div
+      className="blog-post-card">
       <Row className="blog-post-header">
         <Col xs className="blog-post-header-left-side">
           <div className="blog-post-header-user-info">
@@ -60,10 +62,8 @@ const Post = props => {
       {/*Delete*/}
       {/*</button>*/}
       {/*<button>*/}
-      {/*<Link to={`posts/edit/${props._id}`}>Edit</Link>*/}
       {/*</button>*/}
       {/*</div>*/}
-      {/*<h2><Link to={`posts/${props._id}`}>{props.title}</Link></h2>*/}
       {/*<p className="ellipsis">content: {props.content}</p>*/}
     </div>
   );

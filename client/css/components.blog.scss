@@ -47,7 +47,6 @@
 // Category sidebar
 .blog-sidebar {
   flex: 0 0 200px;
-  width: 200px;
 }
 
 .blog-sidebar-2 {
@@ -103,15 +102,15 @@
   font-size: 17px;
 }
 
-.blog-category-sidebar {
+.blog-sidebar {
   position: sticky;
   top: 25px;
 }
 
 // Post card
 .blog-post-card {
+  @include wrapperShadow();
   border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
   margin-bottom: 15px;
   padding: 20px;
   background: #fff;

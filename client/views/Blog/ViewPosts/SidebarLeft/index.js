@@ -9,7 +9,7 @@ import { actions as blogActions } from '../../../../reducers/blog';
 
 const SidebarLeft = props => {
   return (
-    <div className="blog-category-sidebar">
+    <div className="blog-sidebar blog-category-sidebar">
       <div className="blog-category-topic-wrapper">
         <CategoryIcon />
       </div>
